@@ -21,7 +21,6 @@ class ApCorrectCerealesType extends AbstractType
             ])
             ->add('tank', IntegerType::class)
             ->add('eauAjouter', IntegerType::class)
-            ->add('matiere', IntegerType::class)
             ->add('produitFini', IntegerType::class)
             ->add('esTank', NumberType::class, [
                 'scale' => 2,
