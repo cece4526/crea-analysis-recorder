@@ -14,140 +14,39 @@ class ApCorrectSojaType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('ph', DecimalType::class, [
+            ->add('date', null, [
+                'widget' => 'single_text',
+                'label' => 'Date',
+            ])
+            ->add('tank', null, [
+                'label' => 'Tank',
+            ])
+            ->add('eauAjouter', null, [
+                'label' => 'Eau ajoutée',
+            ])
+            ->add('matiere', null, [
+                'label' => 'Matière',
+            ])
+            ->add('produitFini', null, [
+                'label' => 'Produit fini',
+            ])
+            ->add('esTank', null, [
+                'label' => 'ES Tank',
+            ])
+            ->add('culot', null, [
+                'label' => 'Culot',
+            ])
+            ->add('ph', null, [
                 'label' => 'pH',
-                'scale' => 2,
-                'required' => false,
             ])
-            ->add('urease', DecimalType::class, [
-                'label' => 'Uréease',
-                'scale' => 2,
-                'required' => false,
+            ->add('densiter', null, [
+                'label' => 'Densité',
             ])
-            ->add('humidite', DecimalType::class, [
-                'label' => 'Humidité',
-                'scale' => 2,
-                'required' => false,
-            ])
-            ->add('proteine', DecimalType::class, [
+            ->add('proteine', null, [
                 'label' => 'Protéine',
-                'scale' => 2,
-                'required' => false,
             ])
-            ->add('cellulose', DecimalType::class, [
-                'label' => 'Cellulose',
-                'scale' => 2,
-                'required' => false,
-            ])
-            ->add('matiereMinerale', DecimalType::class, [
-                'label' => 'Matière minérale',
-                'scale' => 2,
-                'required' => false,
-            ])
-            ->add('matiereGrasse', DecimalType::class, [
-                'label' => 'Matière grasse',
-                'scale' => 2,
-                'required' => false,
-            ])
-            ->add('lysine', DecimalType::class, [
-                'label' => 'Lysine',
-                'scale' => 2,
-                'required' => false,
-            ])
-            ->add('methionine', DecimalType::class, [
-                'label' => 'Méthionine',
-                'scale' => 2,
-                'required' => false,
-            ])
-            ->add('tryptophane', DecimalType::class, [
-                'label' => 'Tryptophane',
-                'scale' => 2,
-                'required' => false,
-            ])
-            ->add('cystine', DecimalType::class, [
-                'label' => 'Cystine',
-                'scale' => 2,
-                'required' => false,
-            ])
-            ->add('threonine', DecimalType::class, [
-                'label' => 'Thréonine',
-                'scale' => 2,
-                'required' => false,
-            ])
-            ->add('valine', DecimalType::class, [
-                'label' => 'Valine',
-                'scale' => 2,
-                'required' => false,
-            ])
-            ->add('arginine', DecimalType::class, [
-                'label' => 'Arginine',
-                'scale' => 2,
-                'required' => false,
-            ])
-            ->add('histidine', DecimalType::class, [
-                'label' => 'Histidine',
-                'scale' => 2,
-                'required' => false,
-            ])
-            ->add('isoleucine', DecimalType::class, [
-                'label' => 'Isoleucine',
-                'scale' => 2,
-                'required' => false,
-            ])
-            ->add('leucine', DecimalType::class, [
-                'label' => 'Leucine',
-                'scale' => 2,
-                'required' => false,
-            ])
-            ->add('phenylalanine', DecimalType::class, [
-                'label' => 'Phénylalanine',
-                'scale' => 2,
-                'required' => false,
-            ])
-            ->add('tyrosine', DecimalType::class, [
-                'label' => 'Tyrosine',
-                'scale' => 2,
-                'required' => false,
-            ])
-            ->add('alanine', DecimalType::class, [
-                'label' => 'Alanine',
-                'scale' => 2,
-                'required' => false,
-            ])
-            ->add('aspartate', DecimalType::class, [
-                'label' => 'Aspartate',
-                'scale' => 2,
-                'required' => false,
-            ])
-            ->add('glutamate', DecimalType::class, [
-                'label' => 'Glutamate',
-                'scale' => 2,
-                'required' => false,
-            ])
-            ->add('glycine', DecimalType::class, [
-                'label' => 'Glycine',
-                'scale' => 2,
-                'required' => false,
-            ])
-            ->add('proline', DecimalType::class, [
-                'label' => 'Proline',
-                'scale' => 2,
-                'required' => false,
-            ])
-            ->add('serine', DecimalType::class, [
-                'label' => 'Sérine',
-                'scale' => 2,
-                'required' => false,
-            ])
-            ->add('acideGlutamique', DecimalType::class, [
-                'label' => 'Acide glutamique',
-                'scale' => 2,
-                'required' => false,
-            ])
-            ->add('acideAspartique', DecimalType::class, [
-                'label' => 'Acide aspartique',
-                'scale' => 2,
-                'required' => false,
+            ->add('initialPilote', null, [
+                'label' => 'Initial Pilote',
             ])
         ;
     }
