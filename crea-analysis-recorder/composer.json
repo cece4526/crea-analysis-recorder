@@ -4,9 +4,15 @@
         "symfony/orm-pack": "^2.4",
         "symfony/form": "^7.3",
         "symfony/validator": "^7.3",
-        "symfony/twig-bundle": "^7.3"
+        "symfony/twig-bundle": "^7.3",
+        "symfony/runtime": "^7.3"
     },
     "require-dev": {
         "symfony/maker-bundle": "^1.64"
+    },
+    "config": {
+        "allow-plugins": {
+            "symfony/runtime": true
+        }
     }
 }
