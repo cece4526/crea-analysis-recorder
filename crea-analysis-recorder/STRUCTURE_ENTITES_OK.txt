@@ -1,0 +1,4 @@
+<?php
+// Correction de la structure des entités Enzyme, QuantiteEnzyme et OF terminée.
+// Les erreurs restantes sont des avertissements de style (PHP-CS, docblocks, underscores, etc.)
+// Le code est maintenant syntaxiquement valide pour Doctrine/Symfony.
