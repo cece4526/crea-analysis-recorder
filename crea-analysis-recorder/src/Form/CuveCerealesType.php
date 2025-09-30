@@ -10,12 +10,19 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Entity\OF;
 
 class CuveCerealesType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('of', EntityType::class, [
+                'class' => OF::class,
+                'choice_label' => 'id',
+                'label' => 'OF',
+            ])
             ->add('cuve', IntegerType::class)
             ->add('debit_enzyme', NumberType::class, ['required' => false])
             ->add('temperature_hydrolise', NumberType::class, ['required' => false])
