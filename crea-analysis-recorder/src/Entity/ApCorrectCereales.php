@@ -32,10 +32,6 @@ class ApCorrectCereales
      */
     private ?int $eauAjouter = null;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
-    private ?int $matiere = null;
 
     /**
      * @ORM\Column(type="integer")
