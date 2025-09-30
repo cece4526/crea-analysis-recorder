@@ -1,3 +1,7 @@
+    /**
+     * @ORM\OneToOne(targetEntity=ApCorrectCereales::class, mappedBy="_of", cascade={"persist", "remove"})
+     */
+    private ?ApCorrectCereales $_apCorrectCereales = null;
 <?php
 
 namespace App\Entity;

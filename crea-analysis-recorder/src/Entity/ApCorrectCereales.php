@@ -72,5 +72,11 @@ class ApCorrectCereales
      */
     private ?string $initialPilote = null;
 
+    /**
+     * @ORM\OneToOne(targetEntity=OF::class)
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private ?OF $_of = null;
+
     // Getters et setters à générer
 }
