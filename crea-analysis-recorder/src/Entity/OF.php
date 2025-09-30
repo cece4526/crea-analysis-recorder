@@ -4,6 +4,9 @@ namespace App\Entity;
 
 use App\Repository\OFRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use App\Entity\AnalyseSoja;
 
 /**
  * Entité OF
@@ -47,6 +50,15 @@ class OF
     private ?Production $production = null;
 
 
+    /**
+     * @ORM\OneToMany(targetEntity=AnalyseSoja::class, mappedBy="of", cascade={"persist", "remove"})
+     */
+    private Collection $analyseSojas;
+
+    public function __construct()
+    {
+        $this->analyseSojas = new ArrayCollection();
+    }
     public function getId(): ?int
     {
         return $this->_id;
@@ -118,6 +130,34 @@ class OF
     public function setHaccp(?HACCP $haccp): self
     {
         $this->haccp = $haccp;
+        return $this;
+    }
+
+
+    /**
+     * @return Collection<int, AnalyseSoja>
+     */
+    public function getAnalyseSojas(): Collection
+    {
+        return $this->analyseSojas;
+    }
+
+    public function addAnalyseSoja(AnalyseSoja $analyseSoja): self
+    {
+        if (!$this->analyseSojas->contains($analyseSoja)) {
+            $this->analyseSojas[] = $analyseSoja;
+            $analyseSoja->setOf($this);
+        }
+        return $this;
+    }
+
+    public function removeAnalyseSoja(AnalyseSoja $analyseSoja): self
+    {
+        if ($this->analyseSojas->removeElement($analyseSoja)) {
+            if ($analyseSoja->getOf() === $this) {
+                $analyseSoja->setOf(null);
+            }
+        }
         return $this;
     }
 

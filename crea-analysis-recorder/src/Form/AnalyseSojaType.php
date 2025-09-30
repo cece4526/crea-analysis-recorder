@@ -10,12 +10,19 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Entity\OF;
 
 class AnalyseSojaType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('of', EntityType::class, [
+                'class' => OF::class,
+                'choice_label' => 'id',
+                'label' => 'OF',
+            ])
             ->add('litrage_decan', IntegerType::class)
             ->add('temperature_broyage', NumberType::class, ['required' => false])
             ->add('eau', IntegerType::class)

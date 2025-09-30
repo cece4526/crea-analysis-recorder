@@ -1,6 +1,9 @@
+
 <?php
 
 namespace App\Entity;
+
+use App\Entity\OF;
 
 use App\Repository\AnalyseSojaRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -18,6 +21,22 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class AnalyseSoja
 {
+    /**
+     * @ORM\ManyToOne(targetEntity=OF::class, inversedBy="analyseSojas")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private ?OF $of = null;
+
+    public function getOf(): ?OF
+    {
+        return $this->of;
+    }
+
+    public function setOf(?OF $of): self
+    {
+        $this->of = $of;
+        return $this;
+    }
     /**
      * Identifiant unique
      *
