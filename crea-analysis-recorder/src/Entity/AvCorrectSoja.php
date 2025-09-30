@@ -58,5 +58,10 @@ class AvCorrectSoja
      */
     private ?OF $_of = null;
 
+    /**
+     * @ORM\Column(type="decimal", precision=10, scale=2, nullable=true)
+     */
+    private ?string $proteine = null;
+
     // Getters et setters à générer
 }
