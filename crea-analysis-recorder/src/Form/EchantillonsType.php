@@ -35,7 +35,11 @@ class EchantillonsType extends AbstractType
                 'choice_label' => 'id',
                 'label' => 'Okara associé',
             ])
-        ;
+            ->add('extrait_sec', NumberType::class, [
+                'required' => false,
+                'label' => 'Extrait sec',
+            ])
+            ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

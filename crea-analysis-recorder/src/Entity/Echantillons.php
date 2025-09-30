@@ -11,6 +11,21 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass=EchantillonsRepository::class)
  */
 class Echantillons
+    /**
+     * @ORM\Column(type="decimal", precision=10, scale=2, nullable=true)
+     */
+    private ?string $extrait_sec = null;
+
+    public function getExtraitSec(): ?string
+    {
+        return $this->extrait_sec;
+    }
+
+    public function setExtraitSec(?string $extrait_sec): self
+    {
+        $this->extrait_sec = $extrait_sec;
+        return $this;
+    }
 {
     /**
      * @ORM\Id
