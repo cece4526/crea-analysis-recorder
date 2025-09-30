@@ -1,6 +1,8 @@
+
 <?php
 
 namespace App\Entity;
+
 
 use App\Repository\CuveCerealesRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -12,6 +14,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class CuveCereales
 {
+    /**
+     * @ORM\ManyToOne(targetEntity=OF::class, inversedBy="cuveCereales")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private ?OF $of = null;
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -55,4 +62,15 @@ class CuveCereales
     private ?string $initial_pilote = null;
 
     // Getters et setters à générer ici
+
+    public function getOf(): ?OF
+    {
+        return $this->of;
+    }
+
+    public function setOf(?OF $of): self
+    {
+        $this->of = $of;
+        return $this;
+    }
 }

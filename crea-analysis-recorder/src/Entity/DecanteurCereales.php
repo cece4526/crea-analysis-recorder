@@ -1,6 +1,8 @@
+
 <?php
 
 namespace App\Entity;
+
 
 use App\Repository\DecanteurCerealesRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -12,6 +14,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class DecanteurCereales
 {
+    /**
+     * @ORM\ManyToOne(targetEntity=OF::class, inversedBy="decanteurCereales")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private ?OF $of = null;
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
@@ -50,4 +57,15 @@ class DecanteurCereales
     private ?string $contre_pression = null;
 
     // Getters et setters à générer ici
+
+    public function getOf(): ?OF
+    {
+        return $this->of;
+    }
+
+    public function setOf(?OF $of): self
+    {
+        $this->of = $of;
+        return $this;
+    }
 }

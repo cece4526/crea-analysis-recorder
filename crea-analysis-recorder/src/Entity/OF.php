@@ -1,4 +1,10 @@
+
 <?php
+use App\Entity\CuveCereales;
+use App\Entity\HeureEnzyme;
+use App\Entity\DecanteurCereales;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 namespace App\Entity;
 
@@ -14,6 +20,115 @@ use App\Entity\AnalyseSoja;
  * @ORM\Entity(repositoryClass=OFRepository::class)
  */
 class OF
+
+    /**
+     * @ORM\OneToMany(targetEntity=CuveCereales::class, mappedBy="of", cascade={"persist", "remove"})
+     */
+    private Collection $cuveCereales;
+
+    /**
+     * @ORM\OneToMany(targetEntity=HeureEnzyme::class, mappedBy="of", cascade={"persist", "remove"})
+     */
+    private Collection $heureEnzymes;
+
+    /**
+     * @ORM\OneToMany(targetEntity=DecanteurCereales::class, mappedBy="of", cascade={"persist", "remove"})
+     */
+    private Collection $decanteurCereales;
+
+    /**
+     * @ORM\OneToMany(targetEntity=AnalyseSoja::class, mappedBy="of", cascade={"persist", "remove"})
+     */
+    private Collection $analyseSojas;
+
+    public function __construct()
+    {
+        $this->cuveCereales = new ArrayCollection();
+        $this->heureEnzymes = new ArrayCollection();
+        $this->decanteurCereales = new ArrayCollection();
+        $this->analyseSojas = new ArrayCollection();
+    }
+
+    /**
+     * @return Collection<int, CuveCereales>
+     */
+    public function getCuveCereales(): Collection
+    {
+        return $this->cuveCereales;
+    }
+
+    public function addCuveCereale(CuveCereales $cuveCereale): self
+    {
+        if (!$this->cuveCereales->contains($cuveCereale)) {
+            $this->cuveCereales[] = $cuveCereale;
+            $cuveCereale->setOf($this);
+        }
+        return $this;
+    }
+
+    public function removeCuveCereale(CuveCereales $cuveCereale): self
+    {
+        if ($this->cuveCereales->removeElement($cuveCereale)) {
+            if ($cuveCereale->getOf() === $this) {
+                $cuveCereale->setOf(null);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, HeureEnzyme>
+     */
+    public function getHeureEnzymes(): Collection
+    {
+        return $this->heureEnzymes;
+    }
+
+    public function addHeureEnzyme(HeureEnzyme $heureEnzyme): self
+    {
+        if (!$this->heureEnzymes->contains($heureEnzyme)) {
+            $this->heureEnzymes[] = $heureEnzyme;
+            $heureEnzyme->setOf($this);
+        }
+        return $this;
+    }
+
+    public function removeHeureEnzyme(HeureEnzyme $heureEnzyme): self
+    {
+        if ($this->heureEnzymes->removeElement($heureEnzyme)) {
+            if ($heureEnzyme->getOf() === $this) {
+                $heureEnzyme->setOf(null);
+            }
+        }
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, DecanteurCereales>
+     */
+    public function getDecanteurCereales(): Collection
+    {
+        return $this->decanteurCereales;
+    }
+
+    public function addDecanteurCereale(DecanteurCereales $decanteurCereale): self
+    {
+        if (!$this->decanteurCereales->contains($decanteurCereale)) {
+            $this->decanteurCereales[] = $decanteurCereale;
+            $decanteurCereale->setOf($this);
+        }
+        return $this;
+    }
+
+    public function removeDecanteurCereale(DecanteurCereales $decanteurCereale): self
+    {
+        if ($this->decanteurCereales->removeElement($decanteurCereale)) {
+            if ($decanteurCereale->getOf() === $this) {
+                $decanteurCereale->setOf(null);
+            }
+        }
+        return $this;
+    }
 {
     /**
      * @ORM\Id
