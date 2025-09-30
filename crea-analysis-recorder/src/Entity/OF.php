@@ -94,6 +94,11 @@ class OF
      */
     private ?AvCorrectSoja $_avCorrectSoja = null;
 
+    /**
+     * @ORM\OneToOne(targetEntity=AvCorrectCereales::class, mappedBy="_of", cascade={"persist", "remove"})
+     */
+    private ?AvCorrectCereales $_avCorrectCereales = null;
+
     public function __construct()
     {
         $this->_quantiteEnzymes = new ArrayCollection();
