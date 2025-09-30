@@ -88,13 +88,19 @@ class OF
      */
     private ?HACCP $_haccp = null;
 
+
+    /**
+     * @ORM\OneToOne(targetEntity=AvCorrectSoja::class, mappedBy="_of", cascade={"persist", "remove"})
+     */
+    private ?AvCorrectSoja $_avCorrectSoja = null;
+
     public function __construct()
     {
-    $this->_quantiteEnzymes = new ArrayCollection();
-    $this->_cuveCereales = new ArrayCollection();
-    $this->_heureEnzymes = new ArrayCollection();
-    $this->_decanteurCereales = new ArrayCollection();
-    $this->_analyseSojas = new ArrayCollection();
+        $this->_quantiteEnzymes = new ArrayCollection();
+        $this->_cuveCereales = new ArrayCollection();
+        $this->_heureEnzymes = new ArrayCollection();
+        $this->_decanteurCereales = new ArrayCollection();
+        $this->_analyseSojas = new ArrayCollection();
     }
 
     // ... Générer les getters et setters pour toutes les propriétés, y compris les relations ...
