@@ -65,7 +65,12 @@ class ApCorrectCereales
     /**
      * @ORM\Column(type="decimal", precision=10, scale=2)
      */
-    private ?string $proteine = null;
+    private ?string $sucre = null;
+
+    /**
+     * @ORM\Column(type="decimal", precision=10, scale=2, nullable=true)
+     */
+    private ?string $cryoscopie = null;
 
     /**
      * @ORM\Column(type="string", length=255)
