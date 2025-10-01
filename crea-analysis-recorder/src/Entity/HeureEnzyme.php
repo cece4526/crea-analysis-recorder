@@ -31,13 +31,56 @@ class HeureEnzyme
      */
     private ?\DateTimeInterface $heure = null;
 
-    // Getters et setters à générer ici
+    /**
+     * Retourne l'identifiant de l'heure enzyme.
+     *
+     * @return int|null
+     */
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
+    /**
+     * Retourne l'heure associée.
+     *
+     * @return \DateTimeInterface|null
+     */
+    public function getHeure(): ?\DateTimeInterface
+    {
+        return $this->heure;
+    }
+
+    /**
+     * Définit l'heure associée.
+     *
+     * @param \DateTimeInterface|null $heure Heure à associer
+     *
+     * @return self
+     */
+    public function setHeure(?\DateTimeInterface $heure): self
+    {
+        $this->heure = $heure;
+        return $this;
+    }
+
+    /**
+     * Retourne l'OF associé.
+     *
+     * @return OF|null
+     */
     public function getOf(): ?OF
     {
         return $this->of;
     }
 
+    /**
+     * Définit l'OF associé.
+     *
+     * @param OF|null $of L'OF à associer
+     *
+     * @return self
+     */
     public function setOf(?OF $of): self
     {
         $this->of = $of;

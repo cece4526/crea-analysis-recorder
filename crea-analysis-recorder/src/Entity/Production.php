@@ -1,9 +1,9 @@
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 <?php
 
-
 namespace App\Entity;
+
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 
 use App\Repository\ProductionRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -50,19 +50,25 @@ class Production
     private ?string $_status = null;
 
     /**
-     * Get id
-     * @return int|null
+     * Constructeur : initialise la collection d'OF.
      */
     public function __construct()
     {
         $this->ofs = new ArrayCollection();
     }
 
+    /**
+     * Retourne l'identifiant de la production.
+     *
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->_id;
     }
     /**
+     * Retourne la collection des OF liés à cette production.
+     *
      * @return Collection<int, OF>
      */
     public function getOfs(): Collection
@@ -70,6 +76,13 @@ class Production
         return $this->ofs;
     }
 
+    /**
+     * Ajoute un OF à la production.
+     *
+     * @param OF $of L'OF à ajouter
+     *
+     * @return self
+     */
     public function addOf(OF $of): self
     {
         if (!$this->ofs->contains($of)) {
@@ -79,6 +92,13 @@ class Production
         return $this;
     }
 
+    /**
+     * Retire un OF de la production.
+     *
+     * @param OF $of L'OF à retirer
+     *
+     * @return self
+     */
     public function removeOf(OF $of): self
     {
         if ($this->ofs->removeElement($of)) {
@@ -91,7 +111,8 @@ class Production
     }
 
     /**
-     * Get name
+     * Retourne le nom de la production.
+     *
      * @return string|null
      */
     public function getName(): ?string
@@ -100,8 +121,10 @@ class Production
     }
 
     /**
-     * Set name
-     * @param string $name
+     * Définit le nom de la production.
+     *
+     * @param string $name Nom de la production
+     *
      * @return self
      */
     public function setName(string $name): self
@@ -111,7 +134,8 @@ class Production
     }
 
     /**
-     * Get quantity
+     * Retourne la quantité produite.
+     *
      * @return int
      */
     public function getQuantity(): int
@@ -120,8 +144,10 @@ class Production
     }
 
     /**
-     * Set quantity
-     * @param int $quantity
+     * Définit la quantité produite.
+     *
+     * @param int $quantity Quantité produite
+     *
      * @return self
      */
     public function setQuantity(int $quantity): self
@@ -131,7 +157,8 @@ class Production
     }
 
     /**
-     * Get status
+     * Retourne le statut de la production.
+     *
      * @return string|null
      */
     public function getStatus(): ?string
@@ -140,8 +167,10 @@ class Production
     }
 
     /**
-     * Set status
-     * @param string|null $status
+     * Définit le statut de la production.
+     *
+     * @param string|null $status Statut de la production
+     *
      * @return self
      */
     public function setStatus(?string $status): self

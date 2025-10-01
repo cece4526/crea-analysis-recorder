@@ -63,5 +63,107 @@ class AvCorrectSoja
      */
     private ?string $proteine = null;
 
-    // Getters et setters à générer
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getDate(): ?\DateTimeInterface
+    {
+        return $this->date;
+    }
+
+    public function setDate(?\DateTimeInterface $date): self
+    {
+        $this->date = $date;
+        return $this;
+    }
+
+    public function getTank(): ?int
+    {
+        return $this->tank;
+    }
+
+    public function setTank(?int $tank): self
+    {
+        $this->tank = $tank;
+        return $this;
+    }
+
+    public function getEau(): ?int
+    {
+        return $this->eau;
+    }
+
+    public function setEau(?int $eau): self
+    {
+        $this->eau = $eau;
+        return $this;
+    }
+
+    public function getMatiere(): ?int
+    {
+        return $this->matiere;
+    }
+
+    public function setMatiere(?int $matiere): self
+    {
+        $this->matiere = $matiere;
+        return $this;
+    }
+
+    public function getProduitFini(): ?int
+    {
+        return $this->produitFini;
+    }
+
+    public function setProduitFini(?int $produitFini): self
+    {
+        $this->produitFini = $produitFini;
+        return $this;
+    }
+
+    public function getEsTank(): ?string
+    {
+        return $this->esTank;
+    }
+
+    public function setEsTank(?string $esTank): self
+    {
+        $this->esTank = $esTank;
+        return $this;
+    }
+
+    public function getInitialPilote(): ?string
+    {
+        return $this->initialPilote;
+    }
+
+    public function setInitialPilote(?string $initialPilote): self
+    {
+        $this->initialPilote = $initialPilote;
+        return $this;
+    }
+
+    public function getOf(): ?OF
+    {
+        return $this->_of;
+    }
+
+    public function setOf(?OF $of): self
+    {
+        $this->_of = $of;
+        return $this;
+    }
+
+    public function getProteine(): ?string
+    {
+        return $this->proteine;
+    }
+
+    public function setProteine(?string $proteine): self
+    {
+        $this->proteine = $proteine;
+        return $this;
+    }
 }

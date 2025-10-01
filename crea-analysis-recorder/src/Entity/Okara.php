@@ -31,28 +31,50 @@ class Okara
      */
     private ?OF $of = null;
 
+    /**
+     * Constructeur : initialise la collection d'échantillons.
+     */
     public function __construct()
     {
         $this->echantillons = new ArrayCollection();
     }
 
+    /**
+     * Retourne l'OF associé à cet okara.
+     *
+     * @return OF|null
+     */
     public function getOf(): ?OF
     {
         return $this->of;
     }
 
+    /**
+     * Définit l'OF associé à cet okara.
+     *
+     * @param OF|null $of L'OF à associer
+     *
+     * @return self
+     */
     public function setOf(?OF $of): self
     {
         $this->of = $of;
         return $this;
     }
 
+    /**
+     * Retourne l'identifiant de l'okara.
+     *
+     * @return int|null
+     */
     public function getId(): ?int
     {
         return $this->_id;
     }
 
     /**
+     * Retourne la collection des échantillons liés à cet okara.
+     *
      * @return Collection<int, Echantillons>
      */
     public function getEchantillons(): Collection
@@ -60,6 +82,13 @@ class Okara
         return $this->echantillons;
     }
 
+    /**
+     * Ajoute un échantillon à l'okara.
+     *
+     * @param Echantillons $echantillon L'échantillon à ajouter
+     *
+     * @return self
+     */
     public function addEchantillon(Echantillons $echantillon): self
     {
         if (!$this->echantillons->contains($echantillon)) {
@@ -69,6 +98,13 @@ class Okara
         return $this;
     }
 
+    /**
+     * Retire un échantillon de l'okara.
+     *
+     * @param Echantillons $echantillon L'échantillon à retirer
+     *
+     * @return self
+     */
     public function removeEchantillon(Echantillons $echantillon): self
     {
         if ($this->echantillons->removeElement($echantillon)) {
