@@ -137,97 +137,238 @@ class AnalyseSoja
      */
     private ?string $_initial_pilote = null;
 
-    // Getters et setters
+    /**
+     * Date de l'analyse
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    /**
+     * Date de l'analyse
+     *
+     * @ORM\Column(type="datetime", nullable=true)
+     */
+    private ?\DateTimeInterface $_date = null;
 
-    public function getId(): ?int
+    /**
+     * Retourne la date de l'analyse.
+     *
+     * @return \DateTimeInterface|null
+     */
+    /**
+     * Retourne la date de l'analyse.
+     *
+     * @return \DateTimeInterface|null
+     */
+    public function getDate(): ?\DateTimeInterface
     {
-        return $this->_id;
+        return $this->_date;
     }
 
+    /**
+     * Définit la date de l'analyse.
+     *
+     *  @param \DateTimeInterface|null $date La date à définir pour l'analyse
+     *
+     *  @return self Retourne l'instance courante
+     */
+    public function setDate(?\DateTimeInterface $date): self
+    {
+        $this->_date = $date;
+        return $this;
+    }
+    /**
+     * Retourne le litrage décanté.
+     *
+     * @return int|null
+     */
     public function getLitrageDecan(): ?int
     {
         return $this->_litrage_decan;
     }
+
+    /**
+     * Définit le litrage décanté.
+     *
+     * @param int|null $litrage_decan Valeur du litrage décanté
+     * @return self Retourne l'instance courante
+     */
     public function setLitrageDecan(?int $litrage_decan): self
     {
         $this->_litrage_decan = $litrage_decan;
         return $this;
     }
 
+    /**
+     * Retourne la température de broyage.
+     *
+     * @return string|null
+     */
     public function getTemperatureBroyage(): ?string
     {
         return $this->_temperature_broyage;
     }
+
+    /**
+     * Définit la température de broyage.
+     *
+     * @param string|null $temperature_broyage Température de broyage à définir
+     * @return self Retourne l'instance courante
+     */
     public function setTemperatureBroyage(?string $temperature_broyage): self
     {
         $this->_temperature_broyage = $temperature_broyage;
         return $this;
     }
 
+    /**
+     * Retourne la quantité d'eau.
+     *
+     * @return int|null
+     */
     public function getEau(): ?int
     {
         return $this->_eau;
     }
+
+    /**
+     * Définit la quantité d'eau.
+     *
+     * @param int|null $eau Quantité d'eau à définir
+     * @return self Retourne l'instance courante
+     */
     public function setEau(?int $eau): self
     {
         $this->_eau = $eau;
         return $this;
     }
 
+    /**
+     * Retourne la quantité de matière.
+     *
+     * @return int|null
+     */
     public function getMatiere(): ?int
     {
         return $this->_matiere;
     }
+
+    /**
+     * Définit la quantité de matière.
+     *
+     * @param int|null $matiere Quantité de matière à définir
+     * @return self Retourne l'instance courante
+     */
     public function setMatiere(?int $matiere): self
     {
         $this->_matiere = $matiere;
         return $this;
     }
 
+    /**
+     * Retourne l'ES avant décantation.
+     *
+     * @return string|null
+     */
     public function getEsAvDecan(): ?string
     {
         return $this->_es_av_decan;
     }
+
+    /**
+     * Définit l'ES avant décantation.
+     *
+     * @param string|null $es_av_decan Valeur de l'ES avant décantation
+     * @return self Retourne l'instance courante
+     */
     public function setEsAvDecan(?string $es_av_decan): self
     {
         $this->_es_av_decan = $es_av_decan;
         return $this;
     }
 
+    /**
+     * Retourne l'ES après décantation.
+     *
+     * @return string|null
+     */
     public function getEsApDecan(): ?string
     {
         return $this->_es_ap_decan;
     }
+
+    /**
+     * Définit l'ES après décantation.
+     *
+     * @param string|null $es_ap_decan Valeur de l'ES après décantation
+     * @return self Retourne l'instance courante
+     */
     public function setEsApDecan(?string $es_ap_decan): self
     {
         $this->_es_ap_decan = $es_ap_decan;
         return $this;
     }
+    {
+        $this->_es_ap_decan = $es_ap_decan;
+        return $this;
+    }
 
+    /**
+     * Indique si le contrôle visuel a été effectué.
+     *
+     * @return bool|null
+     */
     public function isControlVisuel(): ?bool
     {
         return $this->_control_visuel;
     }
+    /**
+     * Définit si le contrôle visuel a été effectué.
+     *
+     * @param bool|null $control_visuel
+     * @return self
+     */
     public function setControlVisuel(?bool $control_visuel): self
     {
         $this->_control_visuel = $control_visuel;
         return $this;
     }
 
+    /**
+     * Retourne le débit de bicarbonate.
+     *
+     * @return string|null
+     */
     public function getDebitBicar(): ?string
     {
         return $this->_debit_bicar;
     }
+    /**
+     * Définit le débit de bicarbonate.
+     *
+     * @param string|null $debit_bicar
+     * @return self
+     */
     public function setDebitBicar(?string $debit_bicar): self
     {
         $this->_debit_bicar = $debit_bicar;
         return $this;
     }
 
+    /**
+     * Retourne la vitesse de diffusion.
+     *
+     * @return string|null
+     */
     public function getVitesseDiff(): ?string
     {
         return $this->_vitesse_diff;
     }
+    /**
+     * Définit la vitesse de diffusion.
+     *
+     * @param string|null $vitesse_diff
+     * @return self
+     */
     public function setVitesseDiff(?string $vitesse_diff): self
     {
         $this->_vitesse_diff = $vitesse_diff;
