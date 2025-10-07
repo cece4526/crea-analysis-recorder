@@ -1,10 +1,29 @@
 
-###> symfony/framework-bundle ###
-/.env.local
-/.env.local.php
-/.env.*.local
+# Symfony
+.env.local
+.env.local.php
+.env.*.local
 /config/secrets/prod/prod.decrypt.private.php
 /public/bundles/
 /var/
 /vendor/
-###< symfony/framework-bundle ###
+
+# PHPUnit
+/phpunit.xml
+.phpunit.result.cache
+
+# IDE et système
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Node (si applicable)
+/node_modules/
+
+# Logs
+*.log
+
+
+#Ignore vscode AI rules
+.github\instructions\codacy.instructions.md
