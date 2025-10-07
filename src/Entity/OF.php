@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\OFRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Entity\QuantiteEnzyme;
@@ -14,37 +15,42 @@ use App\Entity\AnalyseSoja;
 
 /**
  * Entité OF
- *
- * @ORM\Entity(repositoryClass=OFRepository::class)
  */
+#[ORM\Entity(repositoryClass: OFRepository::class)]
+#[ORM\Table(name: '`of`')]
 class OF
 {
     /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
+     * Identifiant unique
      */
-    private ?int $_id = null;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * Nom de l'OF
      */
-    private ?string $_name = null;
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $name = null;
 
     /**
-     * @ORM\Column(type="integer")
+     * Numéro de l'OF
      */
-    private ?int $_numero = null;
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $numero = null;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * Nature du produit
      */
-    private ?string $_nature = null;
+    #[ORM\Column(type: Types::STRING, length: 255)]
+    private ?string $nature = null;
 
     /**
-     * @ORM\Column(type="datetime")
+     * Date de l'OF
      */
-    private ?\DateTimeInterface $_date = null;
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $date = null;
 
     /**
      * @ORM\ManyToOne(targetEntity=Production::class, inversedBy="ofs")
@@ -110,99 +116,77 @@ class OF
 
         /**
          * Retourne l'identifiant de l'OF.
-         *
-         * @return int|null
          */
         public function getId(): ?int
         {
-            return $this->_id;
+            return $this->id;
         }
 
         /**
          * Retourne le nom de l'OF.
-         *
-         * @return string|null
          */
         public function getName(): ?string
         {
-            return $this->_name;
+            return $this->name;
         }
 
         /**
          * Définit le nom de l'OF.
-         *
-         * @param string|null $name Nom de l'OF
-         * @return self
          */
         public function setName(?string $name): self
         {
-            $this->_name = $name;
+            $this->name = $name;
             return $this;
         }
 
         /**
          * Retourne le numéro de l'OF.
-         *
-         * @return int|null
          */
         public function getNumero(): ?int
         {
-            return $this->_numero;
+            return $this->numero;
         }
 
         /**
          * Définit le numéro de l'OF.
-         *
-         * @param int|null $numero Numéro de l'OF
-         * @return self
          */
         public function setNumero(?int $numero): self
         {
-            $this->_numero = $numero;
+            $this->numero = $numero;
             return $this;
         }
 
         /**
          * Retourne la nature de l'OF.
-         *
-         * @return string|null
          */
         public function getNature(): ?string
         {
-            return $this->_nature;
+            return $this->nature;
         }
 
         /**
          * Définit la nature de l'OF.
-         *
-         * @param string|null $nature Nature de l'OF
-         * @return self
          */
         public function setNature(?string $nature): self
         {
-            $this->_nature = $nature;
+            $this->nature = $nature;
             return $this;
         }
 
         /**
          * Retourne la date de l'OF.
-         *
-         * @return \DateTimeInterface|null
          */
         public function getDate(): ?\DateTimeInterface
         {
-            return $this->_date;
+            return $this->date;
         }
 
         /**
          * Définit la date de l'OF.
-         *
-         * @param \DateTimeInterface|null $date Date de l'OF
-         * @return self
          */
         public function setDate(?\DateTimeInterface $date): self
         {
-            $this->_date = $date;
+            $this->date = $date;
             return $this;
         }
 

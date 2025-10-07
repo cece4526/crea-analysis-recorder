@@ -3,29 +3,117 @@
 namespace App\Entity;
 
 use App\Entity\OF;
-
 use App\Repository\AnalyseSojaRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 
 /**
- * Class AnalyseSoja
- *
- * @category Entity
- * @package  App\Entity
- * @author   VotreNom <votre@email.com>
- * @license  MIT
- * @link     https://votreprojet.com
- *
- * @ORM\Entity(repositoryClass=AnalyseSojaRepository::class)
+ * Entité AnalyseSoja - Analyse qualité du soja
  */
+#[ORM\Entity(repositoryClass: AnalyseSojaRepository::class)]
+#[ORM\Table(name: 'analyse_soja')]
 class AnalyseSoja
 {
     /**
-     * @ORM\ManyToOne(targetEntity=OF::class, inversedBy="analyseSojas")
-     * @ORM\JoinColumn(nullable=false)
+     * Identifiant unique
      */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $id = null;
+
+    /**
+     * Ordre de fabrication associé
+     */
+    #[ORM\ManyToOne(targetEntity: OF::class, inversedBy: 'analyseSojas')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?OF $of = null;
 
+    /**
+     * Litrage décantation
+     */
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $litrageDecan = null;
+
+    /**
+     * Température broyage
+     */
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
+    private ?string $temperatureBroyage = null;
+
+    /**
+     * Quantité d'eau
+     */
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $eau = null;
+
+    /**
+     * Quantité de matière
+     */
+    #[ORM\Column(type: Types::INTEGER)]
+    private ?int $matiere = null;
+
+    /**
+     * ES avant décantation
+     */
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
+    private ?string $esAvDecan = null;
+
+    /**
+     * ES après décantation
+     */
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
+    private ?string $esApDecan = null;
+
+    /**
+     * Contrôle visuel effectué
+     */
+    #[ORM\Column(type: Types::BOOLEAN, nullable: true)]
+    private ?bool $controlVisuel = null;
+
+    /**
+     * Débit bicarbonate
+     */
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
+    private ?string $debitBicar = null;
+
+    /**
+     * Vitesse différencielle
+     */
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
+    private ?string $vitesseDiff = null;
+
+    /**
+     * Couple
+     */
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
+    private ?string $couple = null;
+
+    /**
+     * Variponds
+     */
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
+    private ?string $variponds = null;
+
+    /**
+     * Contre pression
+     */
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
+    private ?string $contrePression = null;
+
+    /**
+     * Initiales du pilote
+     */
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $initialPilote = null;
+
+    /**
+     * Date de l'analyse
+     */
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $date = null;
+
+    // Méthodes pour OF
     public function getOf(): ?OF
     {
         return $this->of;
@@ -36,377 +124,224 @@ class AnalyseSoja
         $this->of = $of;
         return $this;
     }
-    /**
-     * Identifiant unique
-     *
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
-    private ?int $_id = null;
 
-    /**
-     * Litrage décantation
-     *
-     * @ORM\Column(type="integer")
-     */
-    private ?int $_litrage_decan = null;
-
-    /**
-     * Température broyage
-     *
-     * @ORM\Column(type="decimal", precision=10, scale=2, nullable=true)
-     */
-    private ?string $_temperature_broyage = null;
-
-    /**
-     * Eau
-     *
-     * @ORM\Column(type="integer")
-     */
-    private ?int $_eau = null;
-
-    /**
-     * Matière
-     *
-     * @ORM\Column(type="integer")
-     */
-    private ?int $_matiere = null;
-
-    /**
-     * ES avant décantation
-     *
-     * @ORM\Column(type="decimal", precision=10, scale=2, nullable=true)
-     */
-    private ?string $_es_av_decan = null;
-
-    /**
-     * ES après décantation
-     *
-     * @ORM\Column(type="decimal", precision=10, scale=2, nullable=true)
-     */
-    private ?string $_es_ap_decan = null;
-
-    /**
-     * Contrôle visuel
-     *
-     * @ORM\Column(type="boolean")
-     */
-    private ?bool $_control_visuel = null;
-
-    /**
-     * Débit bicarbonate
-     *
-     * @ORM\Column(type="decimal", precision=10, scale=2, nullable=true)
-     */
-    private ?string $_debit_bicar = null;
-
-    /**
-     * Vitesse différencielle
-     *
-     * @ORM\Column(type="decimal", precision=10, scale=2, nullable=true)
-     */
-    private ?string $_vitesse_diff = null;
-
-    /**
-     * Couple
-     *
-     * @ORM\Column(type="decimal", precision=10, scale=2, nullable=true)
-     */
-    private ?string $_couple = null;
-
-    /**
-     * Variponds
-     *
-     * @ORM\Column(type="decimal", precision=10, scale=2, nullable=true)
-     */
-    private ?string $_variponds = null;
-
-    /**
-     * Contre pression
-     *
-     * @ORM\Column(type="decimal", precision=10, scale=2, nullable=true)
-     */
-    private ?string $_contre_pression = null;
-
-    /**
-     * Initial pilote
-     *
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private ?string $_initial_pilote = null;
-
-    /**
-     * Date de l'analyse
-     *
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    /**
-     * Date de l'analyse
-     *
-     * @ORM\Column(type="datetime", nullable=true)
-     */
-    private ?\DateTimeInterface $_date = null;
+    // Méthodes ID
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
     /**
      * Retourne la date de l'analyse.
-     *
-     * @return \DateTimeInterface|null
-     */
-    /**
-     * Retourne la date de l'analyse.
-     *
-     * @return \DateTimeInterface|null
      */
     public function getDate(): ?\DateTimeInterface
     {
-        return $this->_date;
+        return $this->date;
     }
 
     /**
      * Définit la date de l'analyse.
-     *
-     *  @param \DateTimeInterface|null $date La date à définir pour l'analyse
-     *
-     *  @return self Retourne l'instance courante
      */
     public function setDate(?\DateTimeInterface $date): self
     {
-        $this->_date = $date;
+        $this->date = $date;
         return $this;
     }
+
     /**
      * Retourne le litrage décanté.
-     *
-     * @return int|null
      */
     public function getLitrageDecan(): ?int
     {
-        return $this->_litrage_decan;
+        return $this->litrageDecan;
     }
 
     /**
      * Définit le litrage décanté.
-     *
-     * @param int|null $litrage_decan Valeur du litrage décanté
-     * @return self Retourne l'instance courante
      */
-    public function setLitrageDecan(?int $litrage_decan): self
+    public function setLitrageDecan(?int $litrageDecan): self
     {
-        $this->_litrage_decan = $litrage_decan;
+        $this->litrageDecan = $litrageDecan;
         return $this;
     }
 
     /**
      * Retourne la température de broyage.
-     *
-     * @return string|null
      */
     public function getTemperatureBroyage(): ?string
     {
-        return $this->_temperature_broyage;
+        return $this->temperatureBroyage;
     }
 
     /**
      * Définit la température de broyage.
-     *
-     * @param string|null $temperature_broyage Température de broyage à définir
-     * @return self Retourne l'instance courante
      */
-    public function setTemperatureBroyage(?string $temperature_broyage): self
+    public function setTemperatureBroyage(?string $temperatureBroyage): self
     {
-        $this->_temperature_broyage = $temperature_broyage;
+        $this->temperatureBroyage = $temperatureBroyage;
         return $this;
     }
 
     /**
      * Retourne la quantité d'eau.
-     *
-     * @return int|null
      */
     public function getEau(): ?int
     {
-        return $this->_eau;
+        return $this->eau;
     }
 
     /**
      * Définit la quantité d'eau.
-     *
-     * @param int|null $eau Quantité d'eau à définir
-     * @return self Retourne l'instance courante
      */
     public function setEau(?int $eau): self
     {
-        $this->_eau = $eau;
+        $this->eau = $eau;
         return $this;
     }
 
     /**
      * Retourne la quantité de matière.
-     *
-     * @return int|null
      */
     public function getMatiere(): ?int
     {
-        return $this->_matiere;
+        return $this->matiere;
     }
 
     /**
      * Définit la quantité de matière.
-     *
-     * @param int|null $matiere Quantité de matière à définir
-     * @return self Retourne l'instance courante
      */
     public function setMatiere(?int $matiere): self
     {
-        $this->_matiere = $matiere;
+        $this->matiere = $matiere;
         return $this;
     }
 
     /**
      * Retourne l'ES avant décantation.
-     *
-     * @return string|null
      */
     public function getEsAvDecan(): ?string
     {
-        return $this->_es_av_decan;
+        return $this->esAvDecan;
     }
 
     /**
      * Définit l'ES avant décantation.
-     *
-     * @param string|null $es_av_decan Valeur de l'ES avant décantation
-     * @return self Retourne l'instance courante
      */
-    public function setEsAvDecan(?string $es_av_decan): self
+    public function setEsAvDecan(?string $esAvDecan): self
     {
-        $this->_es_av_decan = $es_av_decan;
+        $this->esAvDecan = $esAvDecan;
         return $this;
     }
 
     /**
      * Retourne l'ES après décantation.
-     *
-     * @return string|null
      */
     public function getEsApDecan(): ?string
     {
-        return $this->_es_ap_decan;
+        return $this->esApDecan;
     }
 
     /**
      * Définit l'ES après décantation.
-     *
-     * @param string|null $es_ap_decan Valeur de l'ES après décantation
-     * @return self Retourne l'instance courante
      */
-    public function setEsApDecan(?string $es_ap_decan): self
+    public function setEsApDecan(?string $esApDecan): self
     {
-        $this->_es_ap_decan = $es_ap_decan;
+        $this->esApDecan = $esApDecan;
         return $this;
     }
 
     /**
      * Indique si le contrôle visuel a été effectué.
-     *
-     * @return bool|null
      */
     public function isControlVisuel(): ?bool
     {
-        return $this->_control_visuel;
+        return $this->controlVisuel;
     }
+
     /**
      * Définit si le contrôle visuel a été effectué.
-     *
-     * @param bool|null $control_visuel
-     * @return self
      */
-    public function setControlVisuel(?bool $control_visuel): self
+    public function setControlVisuel(?bool $controlVisuel): self
     {
-        $this->_control_visuel = $control_visuel;
+        $this->controlVisuel = $controlVisuel;
         return $this;
     }
 
     /**
      * Retourne le débit de bicarbonate.
-     *
-     * @return string|null
      */
     public function getDebitBicar(): ?string
     {
-        return $this->_debit_bicar;
+        return $this->debitBicar;
     }
+
     /**
      * Définit le débit de bicarbonate.
-     *
-     * @param string|null $debit_bicar
-     * @return self
      */
-    public function setDebitBicar(?string $debit_bicar): self
+    public function setDebitBicar(?string $debitBicar): self
     {
-        $this->_debit_bicar = $debit_bicar;
+        $this->debitBicar = $debitBicar;
         return $this;
     }
 
     /**
      * Retourne la vitesse de diffusion.
-     *
-     * @return string|null
      */
     public function getVitesseDiff(): ?string
     {
-        return $this->_vitesse_diff;
+        return $this->vitesseDiff;
     }
+
     /**
      * Définit la vitesse de diffusion.
-     *
-     * @param string|null $vitesse_diff
-     * @return self
      */
-    public function setVitesseDiff(?string $vitesse_diff): self
+    public function setVitesseDiff(?string $vitesseDiff): self
     {
-        $this->_vitesse_diff = $vitesse_diff;
+        $this->vitesseDiff = $vitesseDiff;
         return $this;
     }
 
     public function getCouple(): ?string
     {
-        return $this->_couple;
+        return $this->couple;
     }
+
     public function setCouple(?string $couple): self
     {
-        $this->_couple = $couple;
+        $this->couple = $couple;
         return $this;
     }
 
     public function getVariponds(): ?string
     {
-        return $this->_variponds;
+        return $this->variponds;
     }
+
     public function setVariponds(?string $variponds): self
     {
-        $this->_variponds = $variponds;
+        $this->variponds = $variponds;
         return $this;
     }
 
     public function getContrePression(): ?string
     {
-        return $this->_contre_pression;
+        return $this->contrePression;
     }
-    public function setContrePression(?string $contre_pression): self
+
+    public function setContrePression(?string $contrePression): self
     {
-        $this->_contre_pression = $contre_pression;
+        $this->contrePression = $contrePression;
         return $this;
     }
 
     public function getInitialPilote(): ?string
     {
-        return $this->_initial_pilote;
+        return $this->initialPilote;
     }
-    public function setInitialPilote(?string $initial_pilote): self
+
+    public function setInitialPilote(?string $initialPilote): self
     {
-        $this->_initial_pilote = $initial_pilote;
+        $this->initialPilote = $initialPilote;
         return $this;
     }
 }
