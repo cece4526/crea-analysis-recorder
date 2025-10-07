@@ -1,0 +1,106 @@
+/* 
+ * CRÉA Analysis Recorder - Styles Principaux
+ * Palette de couleurs inspirée du logo "l'atelier INOVé"
+ */
+
+:root {
+    --primary-green: #9BC53D;
+    --dark-green: #2D5016;
+    --medium-green: #4A7C59;
+    --accent-orange: #F39C12;
+    --text-brown: #8B4513;
+    --light-green: #B8D84B;
+    --error-red: #dc3545;
+    --white: #ffffff;
+    --light-gray: #f8f9fa;
+    --border-gray: #ddd;
+}
+
+/* Classes utilitaires pour les couleurs */
+.text-primary-custom { color: var(--dark-green) !important; }
+.text-success-custom { color: var(--primary-green) !important; }
+.text-info-custom { color: var(--medium-green) !important; }
+.text-warning-custom { color: var(--accent-orange) !important; }
+
+.bg-primary-custom { background-color: var(--primary-green) !important; }
+.bg-dark-custom { background-color: var(--dark-green) !important; }
+.bg-medium-custom { background-color: var(--medium-green) !important; }
+
+/* Boutons personnalisés */
+.btn-primary-custom {
+    background-color: var(--primary-green);
+    border-color: var(--primary-green);
+    color: var(--white);
+}
+
+.btn-primary-custom:hover {
+    background-color: var(--medium-green);
+    border-color: var(--medium-green);
+}
+
+.btn-outline-primary-custom {
+    color: var(--medium-green);
+    border-color: var(--medium-green);
+}
+
+.btn-outline-primary-custom:hover {
+    background-color: var(--medium-green);
+    border-color: var(--medium-green);
+    color: var(--white);
+}
+
+/* Indicateurs de statut */
+.status-indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 8px;
+}
+
+.status-en-cours { background-color: var(--primary-green); }
+.status-en-attente { background-color: var(--accent-orange); }
+.status-termine { background-color: var(--medium-green); }
+.status-erreur { background-color: var(--error-red); }
+
+/* Titres et textes */
+h1, h2, h3, h4, h5, h6 { 
+    color: var(--dark-green); 
+}
+
+/* Cards personnalisées */
+.card-custom {
+    border: none;
+    border-radius: 8px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+
+.card-header-custom {
+    background-color: var(--primary-green);
+    color: var(--white);
+    border-radius: 8px 8px 0 0;
+}
+
+/* Footer personnalisé */
+.bg-footer {
+    background-color: var(--dark-green) !important;
+}
+
+/* Animations communes */
+.fade-in {
+    animation: fadeIn 0.6s ease-in;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.hover-lift {
+    transition: all 0.3s ease;
+}
+
+.hover-lift:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+}

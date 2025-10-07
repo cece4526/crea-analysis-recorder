@@ -1,0 +1,153 @@
+/* 
+ * CRÉA Analysis Recorder - Styles Page d'Accueil
+ */
+
+/* Section Hero */
+.hero-section {
+    background: linear-gradient(135deg, var(--primary-green) 0%, var(--medium-green) 100%);
+    color: var(--white);
+    padding: 80px 0;
+    text-align: center;
+}
+
+.brand-logo {
+    font-size: 3rem;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    color: var(--accent-orange);
+}
+
+/* Cartes de production */
+.production-card {
+    transition: all 0.3s ease;
+    border: none;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    height: 350px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+.production-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+}
+
+.cereales-card {
+    background: linear-gradient(135deg, var(--primary-green) 0%, var(--light-green) 100%);
+    color: var(--white);
+}
+
+.soja-card {
+    background: linear-gradient(135deg, var(--medium-green) 0%, var(--dark-green) 100%);
+    color: var(--white);
+}
+
+.production-icon {
+    font-size: 4rem;
+    margin-bottom: 20px;
+    color: var(--accent-orange);
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0,0,0,0.1);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.production-card:hover .card-overlay {
+    opacity: 1;
+}
+
+.btn-access {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--accent-orange);
+    border: 2px solid var(--accent-orange);
+    color: var(--white);
+    padding: 12px 30px;
+    border-radius: 25px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.btn-access:hover {
+    background: var(--white);
+    color: var(--accent-orange);
+    border-color: var(--white);
+}
+
+/* Section statistiques */
+.stats-section {
+    background-color: var(--light-gray);
+    padding: 60px 0;
+}
+
+.stat-card {
+    text-align: center;
+    padding: 30px;
+    background: var(--white);
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    margin-bottom: 30px;
+    border-top: 4px solid var(--primary-green);
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: var(--medium-green);
+}
+
+.stat-number.text-success { color: var(--primary-green) !important; }
+.stat-number.text-info { color: var(--medium-green) !important; }
+.stat-number.text-warning { color: var(--accent-orange) !important; }
+
+/* Animations spécifiques à la page d'accueil */
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-card {
+    animation: slideInUp 0.6s ease forwards;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .hero-section {
+        padding: 50px 0;
+    }
+    
+    .brand-logo {
+        font-size: 2rem;
+    }
+    
+    .production-card {
+        height: auto;
+        min-height: 300px;
+    }
+    
+    .btn-access {
+        position: relative;
+        bottom: auto;
+        left: auto;
+        transform: none;
+        margin-top: 20px;
+    }
+}

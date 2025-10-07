@@ -1,0 +1,210 @@
+// CRÉA Analysis Recorder - Main SCSS file
+// Inspiration: l'atelier INOVé color palette
+
+// ===== VARIABLES =====
+// Couleurs principales (inspirées du logo INOVé)
+$primary-green: #9BC53D;
+$dark-green: #2D5016;
+$medium-green: #4A7C59;
+$accent-orange: #F39C12;
+$text-brown: #8B4513;
+$light-green: #B8D84B;
+
+// Couleurs système
+$error-red: #dc3545;
+$white: #ffffff;
+$light-gray: #f8f9fa;
+$border-gray: #ddd;
+$black: #000000;
+
+// Typographie
+$font-family-base: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+$font-family-monospace: "Courier New", monospace;
+
+// Espacements
+$spacer: 1rem;
+$spacers: (
+  0: 0,
+  1: $spacer * 0.25,
+  2: $spacer * 0.5,
+  3: $spacer,
+  4: $spacer * 1.5,
+  5: $spacer * 3
+);
+
+// Transitions
+$transition-base: all 0.3s ease;
+$transition-fast: all 0.15s ease;
+
+// Breakpoints
+$breakpoints: (
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px
+);
+
+// ===== MIXINS =====
+@mixin transition($property: $transition-base) {
+  transition: $property;
+}
+
+@mixin border-radius($radius: 8px) {
+  border-radius: $radius;
+}
+
+@mixin box-shadow($shadow: 0 3px 10px rgba(0,0,0,0.1)) {
+  box-shadow: $shadow;
+}
+
+@mixin gradient($start, $end, $direction: 135deg) {
+  background: linear-gradient($direction, $start 0%, $end 100%);
+}
+
+// Responsive breakpoints
+@mixin respond-to($breakpoint) {
+  @if map-has-key($breakpoints, $breakpoint) {
+    @media (max-width: map-get($breakpoints, $breakpoint)) {
+      @content;
+    }
+  }
+}
+
+// ===== BASE STYLES =====
+:root {
+  --primary-green: #{$primary-green};
+  --dark-green: #{$dark-green};
+  --medium-green: #{$medium-green};
+  --accent-orange: #{$accent-orange};
+  --text-brown: #{$text-brown};
+  --light-green: #{$light-green};
+  --error-red: #{$error-red};
+  --white: #{$white};
+  --light-gray: #{$light-gray};
+  --border-gray: #{$border-gray};
+}
+
+body {
+  font-family: $font-family-base;
+  line-height: 1.6;
+  color: $dark-green;
+}
+
+// ===== UTILITY CLASSES =====
+.text-primary-custom { color: $dark-green !important; }
+.text-success-custom { color: $primary-green !important; }
+.text-info-custom { color: $medium-green !important; }
+.text-warning-custom { color: $accent-orange !important; }
+
+.bg-primary-custom { background-color: $primary-green !important; }
+.bg-dark-custom { background-color: $dark-green !important; }
+.bg-medium-custom { background-color: $medium-green !important; }
+.bg-footer { background-color: $dark-green !important; }
+
+// ===== COMPONENTS =====
+
+// Boutons personnalisés
+.btn-primary-custom {
+  background-color: $primary-green;
+  border-color: $primary-green;
+  color: $white;
+  @include transition();
+
+  &:hover {
+    background-color: $medium-green;
+    border-color: $medium-green;
+  }
+}
+
+.btn-outline-primary-custom {
+  color: $medium-green;
+  border-color: $medium-green;
+  @include transition();
+
+  &:hover {
+    background-color: $medium-green;
+    border-color: $medium-green;
+    color: $white;
+  }
+}
+
+// Indicateurs de statut
+.status-indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 8px;
+
+  &.status-en-cours { background-color: $primary-green; }
+  &.status-en-attente { background-color: $accent-orange; }
+  &.status-termine { background-color: $medium-green; }
+  &.status-erreur { background-color: $error-red; }
+}
+
+// Titres
+h1, h2, h3, h4, h5, h6 { 
+  color: $dark-green; 
+  font-weight: 600;
+}
+
+// Cards personnalisées
+.card-custom {
+  border: none;
+  @include border-radius();
+  @include box-shadow();
+}
+
+.card-header-custom {
+  background-color: $primary-green;
+  color: $white;
+  @include border-radius(8px 8px 0 0);
+}
+
+// ===== ANIMATIONS =====
+@keyframes fadeIn {
+  from { 
+    opacity: 0; 
+    transform: translateY(20px); 
+  }
+  to { 
+    opacity: 1; 
+    transform: translateY(0); 
+  }
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+.fade-in {
+  animation: fadeIn 0.6s ease-in;
+}
+
+.hover-lift {
+  @include transition();
+
+  &:hover {
+    transform: translateY(-5px);
+    @include box-shadow(0 10px 25px rgba(0,0,0,0.15));
+  }
+}
+
+// Indicateur temps réel
+.realtime-indicator {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: $primary-green;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+// ===== RESPONSIVE =====
+@include respond-to(md) {
+  h1 { font-size: 2rem; }
+  h2 { font-size: 1.7rem; }
+  h3 { font-size: 1.4rem; }
+}

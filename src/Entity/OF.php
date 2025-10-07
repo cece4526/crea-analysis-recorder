@@ -41,16 +41,40 @@ class OF
     private ?int $numero = null;
 
     /**
-     * Nature du produit
-     */
-    #[ORM\Column(type: Types::STRING, length: 255)]
-    private ?string $nature = null;
-
-    /**
      * Date de l'OF
      */
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $date = null;
+
+    /**
+     * Produit
+     */
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $produit = null;
+
+    /**
+     * Quantité
+     */
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
+    private ?string $quantite = null;
+
+    /**
+     * Statut de l'OF
+     */
+    #[ORM\Column(type: Types::STRING, length: 50)]
+    private ?string $statut = 'en_attente';
+
+    /**
+     * Date de création
+     */
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $createdAt = null;
+
+    /**
+     * Date de mise à jour
+     */
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    private ?\DateTimeInterface $updatedAt = null;
 
     /**
      * Production associée à cet OF
@@ -139,6 +163,11 @@ class OF
         $this->_heureEnzymes = new ArrayCollection();
         $this->_decanteurCereales = new ArrayCollection();
         $this->_analyseSojas = new ArrayCollection();
+        
+        // Initialiser les dates automatiquement
+        $this->createdAt = new \DateTime();
+        $this->updatedAt = new \DateTime();
+        $this->statut = 'en_attente';
     }
 
         /**
@@ -184,19 +213,19 @@ class OF
         }
 
         /**
-         * Retourne la nature de l'OF.
+         * Retourne le produit de l'OF.
          */
-        public function getNature(): ?string
+        public function getProduit(): ?string
         {
-            return $this->nature;
+            return $this->produit;
         }
 
         /**
-         * Définit la nature de l'OF.
+         * Définit le produit de l'OF.
          */
-        public function setNature(?string $nature): self
+        public function setProduit(?string $produit): self
         {
-            $this->nature = $nature;
+            $this->produit = $produit;
             return $this;
         }
 
@@ -214,6 +243,74 @@ class OF
         public function setDate(?\DateTimeInterface $date): self
         {
             $this->date = $date;
+            return $this;
+        }
+
+        /**
+         * Retourne la quantité de l'OF.
+         */
+        public function getQuantite(): ?string
+        {
+            return $this->quantite;
+        }
+
+        /**
+         * Définit la quantité de l'OF.
+         */
+        public function setQuantite(?string $quantite): self
+        {
+            $this->quantite = $quantite;
+            return $this;
+        }
+
+        /**
+         * Retourne le statut de l'OF.
+         */
+        public function getStatut(): ?string
+        {
+            return $this->statut;
+        }
+
+        /**
+         * Définit le statut de l'OF.
+         */
+        public function setStatut(?string $statut): self
+        {
+            $this->statut = $statut;
+            return $this;
+        }
+
+        /**
+         * Retourne la date de création de l'OF.
+         */
+        public function getCreatedAt(): ?\DateTimeInterface
+        {
+            return $this->createdAt;
+        }
+
+        /**
+         * Définit la date de création de l'OF.
+         */
+        public function setCreatedAt(?\DateTimeInterface $createdAt): self
+        {
+            $this->createdAt = $createdAt;
+            return $this;
+        }
+
+        /**
+         * Retourne la date de mise à jour de l'OF.
+         */
+        public function getUpdatedAt(): ?\DateTimeInterface
+        {
+            return $this->updatedAt;
+        }
+
+        /**
+         * Définit la date de mise à jour de l'OF.
+         */
+        public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+        {
+            $this->updatedAt = $updatedAt;
             return $this;
         }
 

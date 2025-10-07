@@ -9,7 +9,8 @@
         "symfony/yaml": "^7.3",
         "doctrine/doctrine-bundle": "^2.16",
         "twig/twig": "^3.21",
-        "symfony/process": "^7.3"
+        "symfony/process": "^7.3",
+        "symfony/webpack-encore-bundle": "^2.3"
     },
     "require-dev": {
         "symfony/maker-bundle": "^1.64",

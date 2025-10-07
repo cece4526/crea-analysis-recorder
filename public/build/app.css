@@ -1,0 +1,166 @@
+/*!***************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[4].oneOf[1].use[1]!./node_modules/resolve-url-loader/index.js??ruleSet[1].rules[4].oneOf[1].use[2]!./node_modules/sass-loader/dist/cjs.js??ruleSet[1].rules[4].oneOf[1].use[3]!./assets/styles/app.scss ***!
+  \***************************************************************************************************************************************************************************************************************************************************************************/
+:root {
+  --primary-green: #9BC53D;
+  --dark-green: #2D5016;
+  --medium-green: #4A7C59;
+  --accent-orange: #F39C12;
+  --text-brown: #8B4513;
+  --light-green: #B8D84B;
+  --error-red: #dc3545;
+  --white: #ffffff;
+  --light-gray: #f8f9fa;
+  --border-gray: #ddd;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  line-height: 1.6;
+  color: #2D5016;
+}
+
+.text-primary-custom {
+  color: #2D5016 !important;
+}
+
+.text-success-custom {
+  color: #9BC53D !important;
+}
+
+.text-info-custom {
+  color: #4A7C59 !important;
+}
+
+.text-warning-custom {
+  color: #F39C12 !important;
+}
+
+.bg-primary-custom {
+  background-color: #9BC53D !important;
+}
+
+.bg-dark-custom {
+  background-color: #2D5016 !important;
+}
+
+.bg-medium-custom {
+  background-color: #4A7C59 !important;
+}
+
+.bg-footer {
+  background-color: #2D5016 !important;
+}
+
+.btn-primary-custom {
+  background-color: #9BC53D;
+  border-color: #9BC53D;
+  color: #ffffff;
+  transition: all 0.3s ease;
+}
+.btn-primary-custom:hover {
+  background-color: #4A7C59;
+  border-color: #4A7C59;
+}
+
+.btn-outline-primary-custom {
+  color: #4A7C59;
+  border-color: #4A7C59;
+  transition: all 0.3s ease;
+}
+.btn-outline-primary-custom:hover {
+  background-color: #4A7C59;
+  border-color: #4A7C59;
+  color: #ffffff;
+}
+
+.status-indicator {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 8px;
+}
+.status-indicator.status-en-cours {
+  background-color: #9BC53D;
+}
+.status-indicator.status-en-attente {
+  background-color: #F39C12;
+}
+.status-indicator.status-termine {
+  background-color: #4A7C59;
+}
+.status-indicator.status-erreur {
+  background-color: #dc3545;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #2D5016;
+  font-weight: 600;
+}
+
+.card-custom {
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+}
+
+.card-header-custom {
+  background-color: #9BC53D;
+  color: #ffffff;
+  border-radius: 8px 8px 0 0;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.fade-in {
+  animation: fadeIn 0.6s ease-in;
+}
+
+.hover-lift {
+  transition: all 0.3s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.realtime-indicator {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: #9BC53D;
+  border-radius: 50%;
+  animation: pulse 2s infinite;
+}
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 2rem;
+  }
+  h2 {
+    font-size: 1.7rem;
+  }
+  h3 {
+    font-size: 1.4rem;
+  }
+}

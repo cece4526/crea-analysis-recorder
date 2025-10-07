@@ -1,0 +1,363 @@
+// CRÉA Analysis Recorder - Dashboard Styles
+@import 'app';
+
+// ===== VARIABLES SPÉCIFIQUES =====
+$of-header-padding: 15px;
+$process-card-padding: 15px;
+$process-item-padding: 15px;
+
+// ===== EN-TÊTES DES OF =====
+.of-header {
+  color: $white;
+  padding: $of-header-padding;
+  @include border-radius();
+  margin-bottom: 20px;
+  @include transition();
+
+  &:hover {
+    transform: translateY(-2px);
+    @include box-shadow(0 8px 20px rgba(0,0,0,0.2));
+  }
+
+  @include respond-to(md) {
+    padding: 12px;
+  }
+
+  // Variants
+  &.of-header-cereales,
+  &-cereales {
+    @include gradient($primary-green, $light-green);
+  }
+
+  &.of-header-soja,
+  &-soja {
+    @include gradient($medium-green, $dark-green);
+  }
+
+  h3 {
+    color: $white;
+    margin-bottom: 0.5rem;
+    font-size: 1.5rem;
+
+    @include respond-to(md) {
+      font-size: 1.3rem;
+    }
+  }
+
+  p {
+    margin-bottom: 0.25rem;
+    opacity: 0.9;
+  }
+}
+
+// ===== CARTES DE PROCESSUS =====
+.process-card {
+  border: 1px solid $border-gray;
+  @include border-radius();
+  padding: $process-card-padding;
+  margin-bottom: 15px;
+  background: $white;
+  border-top: 3px solid $primary-green;
+  @include transition();
+
+  &:hover {
+    @include box-shadow(0 5px 15px rgba(0,0,0,0.1));
+    transform: translateY(-2px);
+  }
+
+  @include respond-to(md) {
+    margin-bottom: 10px;
+    padding: 12px;
+  }
+
+  // Variant pour soja
+  &-soja {
+    border-top-color: $medium-green;
+  }
+
+  h5 {
+    color: $dark-green;
+    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+
+    i {
+      margin-right: 0.5rem;
+      color: $accent-orange;
+    }
+  }
+}
+
+// ===== ÉLÉMENTS DE PROCESSUS =====
+.process-item {
+  text-align: center;
+  padding: $process-item-padding;
+  border: 1px solid $border-gray;
+  @include border-radius(6px);
+  background: $white;
+  @include transition();
+
+  &:hover {
+    background: $light-gray;
+    border-color: $primary-green;
+    transform: translateY(-1px);
+  }
+
+  @include respond-to(md) {
+    padding: 10px;
+    margin-bottom: 10px;
+  }
+
+  // Taille réduite
+  &-small {
+    padding: 10px;
+    font-size: 0.9rem;
+  }
+
+  strong {
+    display: block;
+    color: $dark-green;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+
+  small {
+    color: $text-brown;
+    font-family: $font-family-monospace;
+  }
+}
+
+// ===== ÉTATS DES PROCESSUS =====
+.process-status {
+  &-running {
+    border-left: 4px solid $primary-green;
+    background: linear-gradient(90deg, rgba($primary-green, 0.1) 0%, transparent 100%);
+  }
+
+  &-waiting {
+    border-left: 4px solid $accent-orange;
+    background: linear-gradient(90deg, rgba($accent-orange, 0.1) 0%, transparent 100%);
+  }
+
+  &-completed {
+    border-left: 4px solid $medium-green;
+    background: linear-gradient(90deg, rgba($medium-green, 0.1) 0%, transparent 100%);
+  }
+}
+
+// ===== NOTICE DE DÉVELOPPEMENT =====
+.dev-notice {
+  @include gradient($light-green, $accent-orange);
+  padding: 20px;
+  @include border-radius();
+  margin-bottom: 20px;
+  text-align: center;
+  color: $white;
+  border: none;
+  @include box-shadow();
+
+  h4 {
+    color: $white;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+
+    i {
+      margin-right: 0.5rem;
+    }
+  }
+
+  p {
+    margin-bottom: 0;
+    opacity: 0.9;
+  }
+}
+
+// ===== CARDS DE STATISTIQUES =====
+.dashboard-stat-card {
+  background: $white;
+  @include border-radius();
+  padding: 20px;
+  text-align: center;
+  @include box-shadow();
+  border-top: 3px solid $primary-green;
+  @include transition();
+
+  &:hover {
+    transform: translateY(-3px);
+    @include box-shadow(0 8px 20px rgba(0,0,0,0.15));
+  }
+
+  @include respond-to(md) {
+    padding: 15px;
+  }
+}
+
+.dashboard-stat-number {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 5px;
+
+  @include respond-to(md) {
+    font-size: 1.5rem;
+  }
+
+  // Variantes de couleurs
+  &.success { color: $primary-green; }
+  &.info { color: $medium-green; }
+  &.warning { color: $accent-orange; }
+  &.primary { color: $dark-green; }
+}
+
+// ===== EN-TÊTES DE CARDES =====
+.card-header-dashboard {
+  background-color: $primary-green !important;
+  color: $white !important;
+  @include border-radius(8px 8px 0 0);
+  font-weight: 600;
+
+  h5 {
+    color: $white;
+    margin-bottom: 0;
+
+    i {
+      margin-right: 0.5rem;
+    }
+  }
+}
+
+.card-header-soja {
+  background-color: $medium-green !important;
+}
+
+// ===== BOUTONS DE NAVIGATION =====
+.btn-nav-dashboard {
+  background-color: transparent;
+  border: 2px solid $medium-green;
+  color: $medium-green;
+  padding: 8px 16px;
+  @include border-radius(20px);
+  @include transition();
+
+  &:hover {
+    background-color: $medium-green;
+    color: $white;
+    transform: translateY(-1px);
+  }
+
+  i {
+    margin-right: 0.5rem;
+  }
+}
+
+// ===== TEMPS AFFICHÉ =====
+.time-display {
+  font-family: $font-family-monospace;
+  font-weight: bold;
+  font-size: 0.9rem;
+  color: $text-brown;
+  background: rgba($accent-orange, 0.1);
+  padding: 0.25rem 0.5rem;
+  @include border-radius(4px);
+}
+
+// ===== SURCHARGES BOOTSTRAP =====
+.border-info {
+  border-color: $primary-green !important;
+}
+
+.bg-info {
+  background-color: $primary-green !important;
+}
+
+.text-primary { color: $dark-green !important; }
+.text-success { color: $primary-green !important; }
+.text-info { color: $medium-green !important; }
+.text-warning { color: $accent-orange !important; }
+
+.btn-outline-primary {
+  color: $medium-green;
+  border-color: $medium-green;
+
+  &:hover {
+    background-color: $medium-green;
+    border-color: $medium-green;
+    color: $white;
+  }
+}
+
+.card-header {
+  background-color: $primary-green !important;
+  color: $white !important;
+}
+
+// ===== LAYOUT RESPONSIF =====
+@include respond-to(md) {
+  .dashboard-container {
+    .row {
+      margin: 0 -5px;
+      
+      [class*="col-"] {
+        padding: 0 5px;
+      }
+    }
+  }
+}
+
+// ===== ANIMATIONS SPÉCIFIQUES =====
+@keyframes processStart {
+  0% {
+    background-color: $light-gray;
+    transform: scale(1);
+  }
+  50% {
+    background-color: lighten($primary-green, 30%);
+    transform: scale(1.02);
+  }
+  100% {
+    background-color: $white;
+    transform: scale(1);
+  }
+}
+
+.process-starting {
+  animation: processStart 1s ease-in-out;
+}
+
+// ===== GRILLE DE PROCESSUS =====
+.process-grid {
+  .row {
+    margin: 0 -5px;
+
+    .col-4,
+    .col-6 {
+      padding: 0 5px;
+      margin-bottom: 10px;
+    }
+  }
+}
+
+// ===== AMÉLIORATION DES LISTES =====
+.process-list {
+  list-style: none;
+  padding: 0;
+
+  li {
+    padding: 0.5rem 0;
+    border-bottom: 1px solid rgba($border-gray, 0.5);
+    @include transition();
+
+    &:hover {
+      background-color: rgba($primary-green, 0.05);
+      padding-left: 0.5rem;
+    }
+
+    &:last-child {
+      border-bottom: none;
+    }
+
+    .fa-check-circle {
+      color: $primary-green;
+      margin-right: 0.5rem;
+    }
+  }
+}

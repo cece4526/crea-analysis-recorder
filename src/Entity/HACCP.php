@@ -16,19 +16,31 @@ class HACCP
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: Types::INTEGER)]
-    private ?int $_id = null;
+    private ?int $id = null;
 
-    #[ORM\Column(type: Types::BOOLEAN)]
-    private ?bool $_filtre_pasteurisateur_resultat = null;
+    #[ORM\Column(type: Types::BOOLEAN, nullable: true)]
+    private ?bool $filtre_pasteurisateur_resultat = null;
 
-    #[ORM\Column(type: Types::INTEGER)]
-    private ?int $_temperature_cible = null;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $temperature_cible = null;
 
-    #[ORM\Column(type: Types::INTEGER)]
-    private ?int $_temperature_indique = null;
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $temperature_indique = null;
 
-    #[ORM\Column(type: Types::BOOLEAN)]
-    private ?bool $_filtre_nep_resultat = null;
+    #[ORM\Column(type: Types::BOOLEAN, nullable: true)]
+    private ?bool $filtre_nep_resultat = null;
+
+    #[ORM\Column(type: Types::INTEGER, nullable: true)]
+    private ?int $of_id = null;
+
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $initialProduction = null;
+
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $initialNEP = null;
+
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    private ?string $initialTEMP = null;
 
     /**
      * Retourne l'identifiant du contrôle HACCP.
@@ -37,7 +49,7 @@ class HACCP
      */
     public function getId(): ?int
     {
-        return $this->_id;
+        return $this->id;
     }
 
     /**
@@ -47,7 +59,7 @@ class HACCP
      */
     public function getFiltrePasteurisateurResultat(): ?bool
     {
-        return $this->_filtre_pasteurisateur_resultat;
+        return $this->filtre_pasteurisateur_resultat;
     }
 
     /**
@@ -59,7 +71,7 @@ class HACCP
      */
     public function setFiltrePasteurisateurResultat(?bool $val): self
     {
-        $this->_filtre_pasteurisateur_resultat = $val;
+        $this->filtre_pasteurisateur_resultat = $val;
         return $this;
     }
 
@@ -70,7 +82,7 @@ class HACCP
      */
     public function getTemperatureCible(): ?int
     {
-        return $this->_temperature_cible;
+        return $this->temperature_cible;
     }
 
     /**
@@ -82,7 +94,7 @@ class HACCP
      */
     public function setTemperatureCible(?int $val): self
     {
-        $this->_temperature_cible = $val;
+        $this->temperature_cible = $val;
         return $this;
     }
 
@@ -93,7 +105,7 @@ class HACCP
      */
     public function getTemperatureIndique(): ?int
     {
-        return $this->_temperature_indique;
+        return $this->temperature_indique;
     }
 
     /**
@@ -105,7 +117,7 @@ class HACCP
      */
     public function setTemperatureIndique(?int $val): self
     {
-        $this->_temperature_indique = $val;
+        $this->temperature_indique = $val;
         return $this;
     }
 
@@ -116,7 +128,7 @@ class HACCP
      */
     public function getFiltreNepResultat(): ?bool
     {
-        return $this->_filtre_nep_resultat;
+        return $this->filtre_nep_resultat;
     }
 
     /**
@@ -128,34 +140,99 @@ class HACCP
      */
     public function setFiltreNepResultat(?bool $val): self
     {
-        $this->_filtre_nep_resultat = $val;
+        $this->filtre_nep_resultat = $val;
         return $this;
     }
 
-    #[ORM\OneToOne(targetEntity: OF::class, inversedBy: '_haccp', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?OF $_of = null;
-
     /**
-     * Retourne l'OF associé à ce contrôle HACCP.
+     * Retourne l'ID de l'OF.
      *
-     * @return OF|null
+     * @return int|null
      */
-    public function getOf(): ?OF
+    public function getOfId(): ?int
     {
-        return $this->_of;
+        return $this->of_id;
     }
 
     /**
-     * Définit l'OF associé à ce contrôle HACCP.
+     * Définit l'ID de l'OF.
      *
-     * @param OF|null $of L'OF à associer
+     * @param int|null $val ID de l'OF
      *
      * @return self
      */
-    public function setOf(?OF $of): self
+    public function setOfId(?int $val): self
     {
-        $this->_of = $of;
+        $this->of_id = $val;
+        return $this;
+    }
+
+    /**
+     * Retourne l'initial de production.
+     *
+     * @return string|null
+     */
+    public function getInitialProduction(): ?string
+    {
+        return $this->initialProduction;
+    }
+
+    /**
+     * Définit l'initial de production.
+     *
+     * @param string|null $val Initial de production
+     *
+     * @return self
+     */
+    public function setInitialProduction(?string $val): self
+    {
+        $this->initialProduction = $val;
+        return $this;
+    }
+
+    /**
+     * Retourne l'initial NEP.
+     *
+     * @return string|null
+     */
+    public function getInitialNEP(): ?string
+    {
+        return $this->initialNEP;
+    }
+
+    /**
+     * Définit l'initial NEP.
+     *
+     * @param string|null $val Initial NEP
+     *
+     * @return self
+     */
+    public function setInitialNEP(?string $val): self
+    {
+        $this->initialNEP = $val;
+        return $this;
+    }
+
+    /**
+     * Retourne l'initial TEMP.
+     *
+     * @return string|null
+     */
+    public function getInitialTEMP(): ?string
+    {
+        return $this->initialTEMP;
+    }
+
+    /**
+     * Définit l'initial TEMP.
+     *
+     * @param string|null $val Initial TEMP
+     *
+     * @return self
+     */
+    public function setInitialTEMP(?string $val): self
+    {
+        $this->initialTEMP = $val;
         return $this;
     }
 }

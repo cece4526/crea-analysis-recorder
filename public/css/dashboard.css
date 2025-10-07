@@ -1,0 +1,190 @@
+/* 
+ * CRÉA Analysis Recorder - Styles Dashboards
+ */
+
+/* En-têtes des OF */
+.of-header {
+    color: var(--white);
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+}
+
+.of-header-cereales {
+    background: linear-gradient(135deg, var(--primary-green), var(--light-green));
+}
+
+.of-header-soja {
+    background: linear-gradient(135deg, var(--medium-green), var(--dark-green));
+}
+
+/* Cartes de processus */
+.process-card {
+    border: 1px solid var(--border-gray);
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+    background: var(--white);
+    border-top: 3px solid var(--primary-green);
+    transition: all 0.3s ease;
+}
+
+.process-card:hover {
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    transform: translateY(-2px);
+}
+
+.process-card-soja {
+    border-top-color: var(--medium-green);
+}
+
+/* Surcharges spécifiques pour les éléments Bootstrap */
+.border-info {
+    border-color: var(--primary-green) !important;
+}
+
+.bg-info {
+    background-color: var(--primary-green) !important;
+}
+
+.text-primary { color: var(--dark-green) !important; }
+.text-success { color: var(--primary-green) !important; }
+.text-info { color: var(--medium-green) !important; }
+.text-warning { color: var(--accent-orange) !important; }
+
+/* Éléments de processus */
+.process-item {
+    text-align: center;
+    padding: 15px;
+    border: 1px solid var(--border-gray);
+    border-radius: 6px;
+    background: var(--white);
+    transition: all 0.3s ease;
+}
+
+.process-item:hover {
+    background: var(--light-gray);
+    border-color: var(--primary-green);
+}
+
+.process-item-small {
+    padding: 10px;
+}
+
+/* Notice de développement */
+.dev-notice {
+    background: linear-gradient(135deg, var(--light-green), var(--accent-orange));
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: var(--white);
+    border: none;
+}
+
+/* Cards de statistiques du dashboard */
+.dashboard-stat-card {
+    background: var(--white);
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    border-top: 3px solid var(--primary-green);
+}
+
+.dashboard-stat-number {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.dashboard-stat-number.success { color: var(--primary-green); }
+.dashboard-stat-number.info { color: var(--medium-green); }
+.dashboard-stat-number.warning { color: var(--accent-orange); }
+.dashboard-stat-number.primary { color: var(--dark-green); }
+
+/* En-têtes de cartes personnalisées */
+.card-header-dashboard {
+    background-color: var(--primary-green) !important;
+    color: var(--white) !important;
+    border-radius: 8px 8px 0 0;
+}
+
+.card-header-soja {
+    background-color: var(--medium-green) !important;
+}
+
+/* Boutons de navigation */
+.btn-nav-dashboard {
+    background-color: transparent;
+    border: 2px solid var(--medium-green);
+    color: var(--medium-green);
+    padding: 8px 16px;
+    border-radius: 20px;
+    transition: all 0.3s ease;
+}
+
+.btn-nav-dashboard:hover {
+    background-color: var(--medium-green);
+    color: var(--white);
+}
+
+/* Indicateurs temps réel */
+.realtime-indicator {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background: var(--primary-green);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+/* Layout responsive pour dashboards */
+@media (max-width: 768px) {
+    .of-header {
+        padding: 12px;
+    }
+    
+    .process-card {
+        margin-bottom: 10px;
+    }
+    
+    .process-item {
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+    
+    .dashboard-stat-number {
+        font-size: 1.5rem;
+    }
+}
+
+/* États des processus */
+.process-status-running {
+    border-left: 4px solid var(--primary-green);
+    background: linear-gradient(90deg, rgba(155, 197, 61, 0.1) 0%, transparent 100%);
+}
+
+.process-status-waiting {
+    border-left: 4px solid var(--accent-orange);
+    background: linear-gradient(90deg, rgba(243, 156, 18, 0.1) 0%, transparent 100%);
+}
+
+.process-status-completed {
+    border-left: 4px solid var(--medium-green);
+    background: linear-gradient(90deg, rgba(74, 124, 89, 0.1) 0%, transparent 100%);
+}
+
+/* Temps affiché */
+.time-display {
+    font-family: 'Courier New', monospace;
+    font-weight: bold;
+    font-size: 0.9rem;
+    color: var(--text-brown);
+}

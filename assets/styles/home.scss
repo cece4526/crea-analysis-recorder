@@ -1,0 +1,247 @@
+// CRÉA Analysis Recorder - Home Page Styles
+@import 'app';
+
+// ===== VARIABLES SPÉCIFIQUES =====
+$hero-padding: 80px;
+$card-height: 350px;
+$card-border-radius: 15px;
+
+// ===== SECTION HERO =====
+.hero-section {
+  @include gradient($primary-green, $medium-green);
+  color: $white;
+  padding: $hero-padding 0;
+  text-align: center;
+
+  @include respond-to(md) {
+    padding: ($hero-padding * 0.6) 0;
+  }
+}
+
+.brand-logo {
+  font-size: 3rem;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+  color: $accent-orange;
+
+  @include respond-to(md) {
+    font-size: 2rem;
+  }
+
+  i {
+    margin-right: 0.5rem;
+  }
+}
+
+// ===== CARTES DE PRODUCTION =====
+.production-card {
+  @include transition();
+  border: none;
+  @include border-radius($card-border-radius);
+  @include box-shadow(0 5px 15px rgba(0,0,0,0.1));
+  height: $card-height;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+
+  &:hover {
+    transform: translateY(-10px);
+    @include box-shadow(0 15px 35px rgba(0,0,0,0.2));
+
+    .card-overlay {
+      opacity: 1;
+    }
+  }
+
+  @include respond-to(md) {
+    height: auto;
+    min-height: 300px;
+  }
+
+  // Variants de cartes
+  &.cereales-card {
+    @include gradient($primary-green, $light-green);
+    color: $white;
+  }
+
+  &.soja-card {
+    @include gradient($medium-green, $dark-green);
+    color: $white;
+  }
+}
+
+.production-icon {
+  font-size: 4rem;
+  margin-bottom: 20px;
+  color: $accent-orange;
+  text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.card-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba($black, 0.1);
+  opacity: 0;
+  @include transition(opacity);
+}
+
+.btn-access {
+  position: absolute;
+  bottom: 30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: $accent-orange;
+  border: 2px solid $accent-orange;
+  color: $white;
+  padding: 12px 30px;
+  @include border-radius(25px);
+  font-weight: bold;
+  @include transition();
+
+  &:hover {
+    background: $white;
+    color: $accent-orange;
+    border-color: $white;
+  }
+
+  @include respond-to(md) {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    transform: none;
+    margin-top: 20px;
+  }
+
+  i {
+    margin-right: 0.5rem;
+  }
+}
+
+// ===== SECTION STATISTIQUES =====
+.stats-section {
+  background-color: $light-gray;
+  padding: 60px 0;
+
+  @include respond-to(md) {
+    padding: 40px 0;
+  }
+}
+
+.stat-card {
+  text-align: center;
+  padding: 30px;
+  background: $white;
+  @include border-radius(10px);
+  @include box-shadow();
+  margin-bottom: 30px;
+  border-top: 4px solid $primary-green;
+  @include transition();
+
+  &:hover {
+    transform: translateY(-3px);
+    @include box-shadow(0 8px 20px rgba(0,0,0,0.15));
+  }
+
+  @include respond-to(md) {
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+}
+
+.stat-number {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: $medium-green;
+  margin-bottom: 0.5rem;
+
+  @include respond-to(md) {
+    font-size: 2rem;
+  }
+
+  // Variantes de couleurs
+  &.text-success { color: $primary-green !important; }
+  &.text-info { color: $medium-green !important; }
+  &.text-warning { color: $accent-orange !important; }
+}
+
+// ===== ANIMATIONS SPÉCIFIQUES =====
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-card {
+  animation: slideInUp 0.6s ease forwards;
+}
+
+// Animation au chargement des cartes
+.production-card {
+  opacity: 0;
+  transform: translateY(50px);
+
+  &.loaded {
+    opacity: 1;
+    transform: translateY(0);
+    @include transition(all 0.6s ease);
+  }
+}
+
+// ===== FOOTER =====
+footer {
+  .container {
+    .row {
+      align-items: center;
+    }
+  }
+
+  h6 {
+    color: $white;
+    margin-bottom: 0.5rem;
+
+    i {
+      margin-right: 0.5rem;
+    }
+  }
+
+  p {
+    margin-bottom: 0;
+    opacity: 0.8;
+  }
+}
+
+// ===== AMÉLIORATIONS RESPONSIVES =====
+@include respond-to(lg) {
+  .production-card {
+    margin-bottom: 2rem;
+  }
+}
+
+@include respond-to(md) {
+  .stats-section {
+    .container {
+      .row {
+        text-align: center;
+      }
+    }
+  }
+}
+
+// ===== ANIMATIONS INTERACTIVES =====
+.production-card {
+  .card-body {
+    @include transition();
+  }
+
+  &:hover .card-body {
+    transform: scale(1.02);
+  }
+}

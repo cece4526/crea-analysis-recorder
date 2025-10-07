@@ -1,0 +1,166 @@
+/* Animations et effets pour le dashboard céréales */
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+@keyframes slideInUp {
+    from {
+        transform: translateY(30px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.production-card {
+    animation: slideInUp 0.6s ease-out;
+}
+
+.process-item.active {
+    animation: pulse 2s infinite;
+}
+
+.status-indicator {
+    transition: all 0.3s ease;
+}
+
+.status-indicator.status-en-cours {
+    animation: pulse 1.5s infinite;
+}
+
+/* Effets hover améliorés */
+.process-item:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+.correction-step:hover {
+    transform: scale(1.05);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .process-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .correction-flow {
+        flex-direction: column;
+    }
+    
+    .arrow {
+        transform: rotate(90deg);
+        margin: 15px 0;
+    }
+}
+
+@media (max-width: 576px) {
+    .process-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .production-header {
+        font-size: 14px;
+        padding: 10px 15px;
+    }
+    
+    .of-number, .date-badge {
+        display: block;
+        margin: 5px 0;
+    }
+}
+
+/* Indicateurs de temps réel */
+.real-time-indicator {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 12px;
+    height: 12px;
+    background: #27ae60;
+    border-radius: 50%;
+    animation: pulse 1s infinite;
+}
+
+.real-time-indicator.offline {
+    background: #e74c3c;
+    animation: none;
+}
+
+/* Notifications toast */
+.toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1055;
+}
+
+.process-notification {
+    background: linear-gradient(135deg, #74b9ff, #0984e3);
+    color: white;
+    border: none;
+    border-radius: 10px;
+}
+
+/* Loading spinners */
+.loading-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #f3f3f3;
+    border-top: 2px solid #3498db;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Graphiques en temps réel */
+.mini-chart {
+    height: 60px;
+    background: linear-gradient(to right, 
+        rgba(52, 152, 219, 0.1), 
+        rgba(52, 152, 219, 0.3), 
+        rgba(52, 152, 219, 0.1));
+    border-radius: 5px;
+    position: relative;
+    overflow: hidden;
+}
+
+.chart-line {
+    position: absolute;
+    bottom: 10px;
+    left: 5px;
+    right: 5px;
+    height: 2px;
+    background: #3498db;
+    border-radius: 1px;
+}
+
+/* États d'alerte */
+.alert-critical {
+    background: linear-gradient(135deg, #e74c3c, #c0392b) !important;
+    animation: pulse 0.8s infinite;
+}
+
+.alert-warning {
+    background: linear-gradient(135deg, #f39c12, #d68910) !important;
+}
+
+.alert-info {
+    background: linear-gradient(135deg, #3498db, #2980b9) !important;
+}

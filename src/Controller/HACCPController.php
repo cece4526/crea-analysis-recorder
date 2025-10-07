@@ -65,6 +65,62 @@ class HACCPController extends AbstractController
         ]);
     }
 
+    #[Route('/create', name: 'haccp_create', methods: ['POST'])]
+    public function create(Request $request, EntityManagerInterface $em): Response
+    {
+        try {
+            $haccp = new HACCP();
+            
+            // Récupération des données du formulaire
+            $filtrePasteurisateurResultat = $request->request->get('filtre_pasteurisateur_resultat') === '1';
+            $filtreNepResultat = $request->request->get('filtre_nep_resultat') === '1';
+            
+            $temperatureCible = (int)($request->request->get('temperature_cible') ?: 110);
+            $temperatureIndique = (int)($request->request->get('temperature_indique') ?: 0);
+            
+            $initialProduction = $request->request->get('initialProduction');
+            $initialNEP = $request->request->get('initialNEP');
+            $initialTEMP = $request->request->get('initialTEMP');
+            
+            $ofId = (int)($request->request->get('of_id') ?: null);
+            
+            // Validation des valeurs critiques
+            $controleOkTemperature = $temperatureIndique >= $temperatureCible;
+            
+            // Assignation des valeurs à l'entité
+            $haccp->setFiltrePasteurisateurResultat($filtrePasteurisateurResultat);
+            $haccp->setFiltreNepResultat($filtreNepResultat);
+            $haccp->setTemperatureCible($temperatureCible);
+            $haccp->setTemperatureIndique($temperatureIndique);
+            $haccp->setInitialProduction($initialProduction);
+            $haccp->setInitialNEP($initialNEP);
+            $haccp->setInitialTEMP($initialTEMP);
+            
+            if ($ofId) {
+                $haccp->setOfId($ofId);
+            }
+            
+            $em->persist($haccp);
+            $em->flush();
+            
+            $message = 'Contrôles HACCP enregistrés avec succès';
+            if (!$controleOkTemperature && $temperatureIndique > 0) {
+                $message .= ' (⚠️ Température sous la valeur cible)';
+            }
+            
+            return $this->json([
+                'success' => true,
+                'message' => $message
+            ]);
+            
+        } catch (\Exception $e) {
+            return $this->json([
+                'success' => false,
+                'message' => 'Erreur lors de l\'enregistrement : ' . $e->getMessage()
+            ], 400);
+        }
+    }
+
     #[Route('/{id}', name: 'haccp_delete', methods: ['POST'])]
     public function delete(Request $request, HACCP $haccp, EntityManagerInterface $em): Response
     {

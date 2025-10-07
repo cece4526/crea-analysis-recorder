@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ process_type|title }} - OF {{ of_id }}{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8 mx-auto">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">
+                        🔧 {{ process_type|title }} - OF N° {{ of_id }}
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <h5>📊 Informations Générales</h5>
+                            <table class="table table-sm">
+                                <tr>
+                                    <td><strong>Démarré le :</strong></td>
+                                    <td>{{ process_data.started_at|date('d/m/Y H:i') }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Fin estimée :</strong></td>
+                                    <td>{{ process_data.estimated_completion|date('d/m/Y H:i') }}</td>
+                                </tr>
+                                <tr>
+                                    <td><strong>Opérateur :</strong></td>
+                                    <td>{{ process_data.operator }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <h5>⚙️ Paramètres de Process</h5>
+                            <table class="table table-sm">
+                                {% for param, value in process_data.parameters %}
+                                <tr>
+                                    <td><strong>{{ param|replace({'_': ' '})|title }} :</strong></td>
+                                    <td>
+                                        <span class="badge bg-info">{{ value }}</span>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </table>
+                        </div>
+                    </div>
+                    
+                    <div class="row mt-4">
+                        <div class="col-12">
+                            <h5>📈 Évolution Temps Réel</h5>
+                            <div class="progress mb-3">
+                                <div class="progress-bar bg-success" role="progressbar" style="width: {{ random(30, 85) }}%">
+                                    {{ random(30, 85) }}% Complété
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="text-center mt-4">
+                        <a href="{{ path('cereales_dashboard') }}" class="btn btn-secondary">
+                            ← Retour au Dashboard
+                        </a>
+                        <button class="btn btn-success" onclick="updateProcess()">
+                            🔄 Rafraîchir
+                        </button>
+                        <button class="btn btn-warning">
+                            ⚠️ Signaler Problème
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function updateProcess() {
+    // Simulation de mise à jour
+    location.reload();
+}
+</script>
+{% endblock %}

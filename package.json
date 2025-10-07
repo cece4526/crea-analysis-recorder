@@ -1,0 +1,30 @@
+{
+  "name": "crea-analysis-recorder",
+  "version": "1.0.0",
+  "description": "Application for recording the analysis of soy milk production and various cereals.",
+  "main": "index.js",
+  "scripts": {
+    "dev-server": "encore dev-server",
+    "dev": "encore dev",
+    "watch": "encore dev --watch",
+    "build": "encore production",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cece4526/crea--analysis-recorder.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cece4526/crea--analysis-recorder/issues"
+  },
+  "homepage": "https://github.com/cece4526/crea--analysis-recorder#readme",
+  "devDependencies": {
+    "@symfony/webpack-encore": "^5.2.0",
+    "core-js": "3.23",
+    "sass": "^1.93.2",
+    "sass-loader": "^16.0.5"
+  }
+}
