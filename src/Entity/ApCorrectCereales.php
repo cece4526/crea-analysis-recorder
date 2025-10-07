@@ -4,79 +4,55 @@ namespace App\Entity;
 
 use App\Repository\ApCorrectCerealesRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 
 /**
- * @ORM\Entity(repositoryClass=ApCorrectCerealesRepository::class)
+ * Entité ApCorrectCereales
  */
+#[ORM\Entity(repositoryClass: ApCorrectCerealesRepository::class)]
+#[ORM\Table(name: 'ap_correct_cereales')]
 class ApCorrectCereales
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(name: 'id', type: Types::INTEGER)]
     private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="datetime")
-     */
+    #[ORM\Column(name: 'date', type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(name: 'tank', type: Types::INTEGER)]
     private ?int $tank = null;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(name: 'eau_ajouter', type: Types::INTEGER)]
     private ?int $eauAjouter = null;
 
-
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(name: 'produit_fini', type: Types::INTEGER)]
     private ?int $produitFini = null;
 
-    /**
-     * @ORM\Column(type="decimal", precision=10, scale=2)
-     */
+    #[ORM\Column(name: 'es_tank', type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $esTank = null;
 
-    /**
-     * @ORM\Column(type="decimal", precision=10, scale=2)
-     */
+    #[ORM\Column(name: 'culot', type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $culot = null;
 
-    /**
-     * @ORM\Column(type="decimal", precision=10, scale=2)
-     */
+    #[ORM\Column(name: 'ph', type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $ph = null;
 
-    /**
-     * @ORM\Column(type="decimal", precision=10, scale=2)
-     */
+    #[ORM\Column(name: 'densiter', type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $densiter = null;
 
-    /**
-     * @ORM\Column(type="decimal", precision=10, scale=2)
-     */
+    #[ORM\Column(name: 'sucre', type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $sucre = null;
 
-    /**
-     * @ORM\Column(type="decimal", precision=10, scale=2, nullable=true)
-     */
+    #[ORM\Column(name: 'cryoscopie', type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
     private ?string $cryoscopie = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(name: 'initial_pilote', type: Types::STRING, length: 255)]
     private ?string $initialPilote = null;
 
-    /**
-     * @ORM\OneToOne(targetEntity=OF::class)
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\OneToOne(targetEntity: OF::class, inversedBy: '_apCorrectCereales', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
     private ?OF $_of = null;
 
     public function getId(): ?int

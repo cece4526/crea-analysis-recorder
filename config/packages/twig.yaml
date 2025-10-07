@@ -1,0 +1,5 @@
+twig:
+    default_path: '%kernel.project_dir%/templates'
+    globals:
+        app_name: 'CRÉA-ANALYSIS RECORDER'
+    form_themes: ['bootstrap_5_layout.html.twig']

@@ -1,0 +1,73 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Productions{% endblock %}
+
+{% block body %}
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Productions</h1>
+        <a href="{{ path('app_production_new') }}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Nouvelle Production
+        </a>
+    </div>
+    
+    <div class="card">
+        <div class="card-body">
+            {% if productions is empty %}
+                <p class="text-muted text-center py-4">
+                    <i class="fas fa-inbox fa-3x d-block mb-3"></i>
+                    Aucune production enregistrée.
+                </p>
+            {% else %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>ID</th>
+                                <th>Date</th>
+                                <th>Quantité (L)</th>
+                                <th>Type</th>
+                                <th>Statut</th>
+                                <th>OF</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for production in productions %}
+                                <tr>
+                                    <td>{{ production.id }}</td>
+                                    <td>{{ production.date|date('d/m/Y') }}</td>
+                                    <td>{{ production.quantite|number_format(2, ',', ' ') }}</td>
+                                    <td>{{ production.type }}</td>
+                                    <td>
+                                        <span class="badge bg-{% if production.statut == 'terminé' %}success{% elseif production.statut == 'en cours' %}warning{% else %}secondary{% endif %}">
+                                            {{ production.statut|title }}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        {% if production.of %}
+                                            <a href="{{ path('app_of_show', {'id': production.of.id}) }}" class="text-decoration-none">
+                                                OF-{{ production.of.numero }}
+                                            </a>
+                                        {% else %}
+                                            <span class="text-muted">-</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm" role="group">
+                                            <a href="{{ path('app_production_show', {'id': production.id}) }}" class="btn btn-outline-primary" title="Voir">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <a href="{{ path('app_production_edit', {'id': production.id}) }}" class="btn btn-outline-secondary" title="Modifier">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

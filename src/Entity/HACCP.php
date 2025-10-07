@@ -4,39 +4,30 @@ namespace App\Entity;
 
 use App\Repository\HACCPRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 
 /**
  * Entité HACCP
- *
- * @ORM\Entity(repositoryClass=HACCPRepository::class)
  */
+#[ORM\Entity(repositoryClass: HACCPRepository::class)]
+#[ORM\Table(name: 'haccp')]
 class HACCP
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: Types::INTEGER)]
     private ?int $_id = null;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
+    #[ORM\Column(type: Types::BOOLEAN)]
     private ?bool $_filtre_pasteurisateur_resultat = null;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: Types::INTEGER)]
     private ?int $_temperature_cible = null;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Column(type: Types::INTEGER)]
     private ?int $_temperature_indique = null;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
+    #[ORM\Column(type: Types::BOOLEAN)]
     private ?bool $_filtre_nep_resultat = null;
 
     /**
@@ -141,10 +132,8 @@ class HACCP
         return $this;
     }
 
-    /**
-     * @ORM\OneToOne(targetEntity=OF::class, inversedBy="haccp", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\OneToOne(targetEntity: OF::class, inversedBy: '_haccp', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
     private ?OF $_of = null;
 
     /**

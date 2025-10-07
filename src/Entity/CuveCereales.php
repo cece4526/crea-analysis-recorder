@@ -2,9 +2,15 @@
 
 namespace App\Entity;
 
-
 use App\Repository\CuveCerealesRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
+
+/**
+ * Entité CuveCereales
+ */
+#[ORM\Entity(repositoryClass: CuveCerealesRepository::class)]
+#[ORM\Table(name: 'cuve_cereales')]
 
 /**
  * Entité CuveCereales
@@ -13,16 +19,13 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class CuveCereales
 {
-    /**
-     * @ORM\ManyToOne(targetEntity=OF::class, inversedBy="cuveCereales")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: OF::class, inversedBy: '_cuveCereales')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?OF $of = null;
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(name: 'id', type: Types::INTEGER)]
     private ?int $id = null;
 
     /**

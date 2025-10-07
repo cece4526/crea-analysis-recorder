@@ -6,29 +6,27 @@ use App\Repository\OkaraRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
+
 /**
  * Entité Okara
- *
- * @ORM\Entity(repositoryClass=OkaraRepository::class)
  */
+#[ORM\Entity(repositoryClass: OkaraRepository::class)]
+#[ORM\Table(name: 'okara')]
 class Okara
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(name: 'id', type: Types::INTEGER)]
     private ?int $_id = null;
 
     /**
-     * @ORM\OneToMany(targetEntity=Echantillons::class, mappedBy="okara", orphanRemoval=true)
      * @var Collection<int, Echantillons>
      */
+    #[ORM\OneToMany(targetEntity: Echantillons::class, mappedBy: '_okara', orphanRemoval: true)]
     private Collection $echantillons;
 
-    /**
-     * @ORM\OneToOne(targetEntity=OF::class, mappedBy="okara", cascade={"persist", "remove"})
-     */
+    #[ORM\OneToOne(targetEntity: OF::class, inversedBy: '_okara', cascade: ['persist', 'remove'])]
     private ?OF $of = null;
 
     /**

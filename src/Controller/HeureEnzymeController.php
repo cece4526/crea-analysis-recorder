@@ -9,16 +9,12 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
-/**
- * @Route("/heure-enzyme")
- */
+#[Route('/heure-enzyme')]
 class HeureEnzymeController extends AbstractController
 {
-    /**
-     * @Route("/", name="heure_enzyme_index", methods={"GET"})
-     */
+    #[Route('/', name: 'heure_enzyme_index', methods: ['GET'])]
     public function index(HeureEnzymeRepository $repository): Response
     {
         return $this->render('heure_enzyme/index.html.twig', [
@@ -26,9 +22,7 @@ class HeureEnzymeController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/new", name="heure_enzyme_new", methods={"GET", "POST"})
-     */
+    #[Route('/new', name: 'heure_enzyme_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $em): Response
     {
         $heureEnzyme = new HeureEnzyme();
@@ -46,9 +40,7 @@ class HeureEnzymeController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="heure_enzyme_show", methods={"GET"})
-     */
+    #[Route('/{id}', name: 'heure_enzyme_show', methods: ['GET'])]
     public function show(HeureEnzyme $heureEnzyme): Response
     {
         return $this->render('heure_enzyme/show.html.twig', [
@@ -56,9 +48,7 @@ class HeureEnzymeController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/edit", name="heure_enzyme_edit", methods={"GET", "POST"})
-     */
+    #[Route('/{id}/edit', name: 'heure_enzyme_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, HeureEnzyme $heureEnzyme, EntityManagerInterface $em): Response
     {
         $form = $this->createForm(HeureEnzymeType::class, $heureEnzyme);
@@ -75,9 +65,7 @@ class HeureEnzymeController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="heure_enzyme_delete", methods={"POST"})
-     */
+    #[Route('/{id}', name: 'heure_enzyme_delete', methods: ['POST'])]
     public function delete(Request $request, HeureEnzyme $heureEnzyme, EntityManagerInterface $em): Response
     {
         if ($this->isCsrfTokenValid('delete'.$heureEnzyme->getId(), $request->request->get('_token'))) {

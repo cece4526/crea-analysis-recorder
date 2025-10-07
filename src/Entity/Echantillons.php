@@ -4,22 +4,19 @@ namespace App\Entity;
 
 use App\Repository\EchantillonsRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 
 /**
  * Entité Echantillons
- *
- * @ORM\Entity(repositoryClass=EchantillonsRepository::class)
  */
+#[ORM\Entity(repositoryClass: EchantillonsRepository::class)]
+#[ORM\Table(name: 'echantillons')]
 class Echantillons
 {
     /**
-     * @ORM\Column(type="decimal", precision=10, scale=2, nullable=true)
-     */
-    /**
      * Extrait sec de l'échantillon
-     *
-     * @ORM\Column(type="decimal", precision=10, scale=2, nullable=true)
      */
+    #[ORM\Column(name: 'extrait_sec', type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
     private ?string $_extrait_sec = null;
 
     /**
@@ -51,11 +48,10 @@ class Echantillons
     }
     /**
      * Identifiant unique de l'échantillon
-     *
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
      */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(name: 'id', type: Types::INTEGER)]
     private ?int $_id = null;
 
     /**
@@ -164,10 +160,9 @@ class Echantillons
      */
     /**
      * Okara associé à l'échantillon
-     *
-     * @ORM\ManyToOne(targetEntity=Okara::class, inversedBy="echantillons")
-     * @ORM\JoinColumn(nullable=false)
      */
+    #[ORM\ManyToOne(targetEntity: Okara::class, inversedBy: 'echantillons')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?Okara $_okara = null;
 
     /**

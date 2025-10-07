@@ -9,16 +9,12 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
-/**
- * @Route("/production")
- */
+#[Route('/production')]
 class ProductionController extends AbstractController
 {
-    /**
-     * @Route("/", name="production_index", methods={"GET"})
-     */
+    #[Route('/', name: 'production_index', methods: ['GET'])]
     public function index(ProductionRepository $productionRepository): Response
     {
         return $this->render('production/index.html.twig', [
@@ -26,9 +22,7 @@ class ProductionController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/new", name="production_new", methods={"GET", "POST"})
-     */
+    #[Route('/new', name: 'production_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $em): Response
     {
         $production = new Production();
@@ -46,9 +40,7 @@ class ProductionController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="production_show", methods={"GET"})
-     */
+    #[Route('/{id}', name: 'production_show', methods: ['GET'])]
     public function show(Production $production): Response
     {
         return $this->render('production/show.html.twig', [
@@ -56,9 +48,7 @@ class ProductionController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/edit", name="production_edit", methods={"GET", "POST"})
-     */
+    #[Route('/{id}/edit', name: 'production_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Production $production, EntityManagerInterface $em): Response
     {
         $form = $this->createForm(ProductionType::class, $production);
@@ -75,9 +65,7 @@ class ProductionController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="production_delete", methods={"POST"})
-     */
+    #[Route('/{id}', name: 'production_delete', methods: ['POST'])]
     public function delete(Request $request, Production $production, EntityManagerInterface $em): Response
     {
         if ($this->isCsrfTokenValid('delete'.$production->getId(), $request->request->get('_token'))) {

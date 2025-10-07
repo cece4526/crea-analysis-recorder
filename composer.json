@@ -5,11 +5,15 @@
         "symfony/form": "^7.3",
         "symfony/validator": "^7.3",
         "symfony/twig-bundle": "^7.3",
-        "symfony/runtime": "^7.3"
+        "symfony/runtime": "^7.3",
+        "symfony/yaml": "^7.3",
+        "doctrine/doctrine-bundle": "^2.16",
+        "twig/twig": "^3.21",
+        "symfony/process": "^7.3"
     },
     "require-dev": {
         "symfony/maker-bundle": "^1.64",
-        "phpunit/phpunit": "^10.0"
+        "phpunit/phpunit": "^12.0"
     },
     "config": {
         "allow-plugins": {

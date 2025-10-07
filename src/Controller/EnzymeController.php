@@ -9,16 +9,12 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
-/**
- * @Route("/enzyme")
- */
+#[Route('/enzyme')]
 class EnzymeController extends AbstractController
 {
-    /**
-     * @Route("/", name="enzyme_index", methods={"GET"})
-     */
+    #[Route('/', name: 'enzyme_index', methods: ['GET'])]
     public function index(EnzymeRepository $repository): Response
     {
         return $this->render('enzyme/index.html.twig', [
@@ -26,9 +22,7 @@ class EnzymeController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/new", name="enzyme_new", methods={"GET", "POST"})
-     */
+    #[Route('/new', name: 'enzyme_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $em): Response
     {
         $enzyme = new Enzyme();
@@ -46,9 +40,7 @@ class EnzymeController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="enzyme_show", methods={"GET"})
-     */
+    #[Route('/{id}', name: 'enzyme_show', methods: ['GET'])]
     public function show(Enzyme $enzyme): Response
     {
         return $this->render('enzyme/show.html.twig', [
@@ -56,9 +48,7 @@ class EnzymeController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/edit", name="enzyme_edit", methods={"GET", "POST"})
-     */
+    #[Route('/{id}/edit', name: 'enzyme_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Enzyme $enzyme, EntityManagerInterface $em): Response
     {
         $form = $this->createForm(EnzymeType::class, $enzyme);
@@ -75,9 +65,7 @@ class EnzymeController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="enzyme_delete", methods={"POST"})
-     */
+    #[Route('/{id}', name: 'enzyme_delete', methods: ['POST'])]
     public function delete(Request $request, Enzyme $enzyme, EntityManagerInterface $em): Response
     {
         if ($this->isCsrfTokenValid('delete'.$enzyme->getId(), $request->request->get('_token'))) {

@@ -9,16 +9,12 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
-/**
- * @Route("/echantillons")
- */
+#[Route('/echantillons')]
 class EchantillonsController extends AbstractController
 {
-    /**
-     * @Route("/", name="echantillons_index", methods={"GET"})
-     */
+    #[Route('/', name: 'echantillons_index', methods: ['GET'])]
     public function index(EchantillonsRepository $echantillonsRepository): Response
     {
         return $this->render('echantillons/index.html.twig', [
@@ -26,9 +22,7 @@ class EchantillonsController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/new", name="echantillons_new", methods={"GET", "POST"})
-     */
+    #[Route('/new', name: 'echantillons_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $em): Response
     {
         $echantillon = new Echantillons();
@@ -46,9 +40,7 @@ class EchantillonsController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="echantillons_show", methods={"GET"})
-     */
+    #[Route('/{id}', name: 'echantillons_show', methods: ['GET'])]
     public function show(Echantillons $echantillon): Response
     {
         return $this->render('echantillons/show.html.twig', [
@@ -56,9 +48,7 @@ class EchantillonsController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/edit", name="echantillons_edit", methods={"GET", "POST"})
-     */
+    #[Route('/{id}/edit', name: 'echantillons_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Echantillons $echantillon, EntityManagerInterface $em): Response
     {
         $form = $this->createForm(EchantillonsType::class, $echantillon);
@@ -75,9 +65,7 @@ class EchantillonsController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="echantillons_delete", methods={"POST"})
-     */
+    #[Route('/{id}', name: 'echantillons_delete', methods: ['POST'])]
     public function delete(Request $request, Echantillons $echantillon, EntityManagerInterface $em): Response
     {
         if ($this->isCsrfTokenValid('delete'.$echantillon->getId(), $request->request->get('_token'))) {

@@ -4,17 +4,18 @@ namespace App\Entity;
 
 use App\Repository\AvCorrectSojaRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 
 /**
- * @ORM\Entity(repositoryClass=AvCorrectSojaRepository::class)
+ * Entité AvCorrectSoja
  */
+#[ORM\Entity(repositoryClass: AvCorrectSojaRepository::class)]
+#[ORM\Table(name: 'av_correct_soja')]
 class AvCorrectSoja
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(name: 'id', type: Types::INTEGER)]
     private ?int $id = null;
 
     /**
@@ -53,9 +54,10 @@ class AvCorrectSoja
     private ?string $initialPilote = null;
 
     /**
-     * @ORM\OneToOne(targetEntity=OF::class)
-     * @ORM\JoinColumn(nullable=false)
+     * OF associé à cette correction
      */
+    #[ORM\OneToOne(targetEntity: OF::class, inversedBy: '_avCorrectSoja', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
     private ?OF $_of = null;
 
     /**

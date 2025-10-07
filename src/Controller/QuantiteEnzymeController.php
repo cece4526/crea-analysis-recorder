@@ -9,16 +9,12 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
-/**
- * @Route("/quantite-enzyme")
- */
+#[Route('/quantite-enzyme')]
 class QuantiteEnzymeController extends AbstractController
 {
-    /**
-     * @Route("/", name="quantite_enzyme_index", methods={"GET"})
-     */
+    #[Route('/', name: 'quantite_enzyme_index', methods: ['GET'])]
     public function index(QuantiteEnzymeRepository $repository): Response
     {
         return $this->render('quantite_enzyme/index.html.twig', [
@@ -26,9 +22,7 @@ class QuantiteEnzymeController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/new", name="quantite_enzyme_new", methods={"GET", "POST"})
-     */
+    #[Route('/new', name: 'quantite_enzyme_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $em): Response
     {
         $quantiteEnzyme = new QuantiteEnzyme();
@@ -46,9 +40,7 @@ class QuantiteEnzymeController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="quantite_enzyme_show", methods={"GET"})
-     */
+    #[Route('/{id}', name: 'quantite_enzyme_show', methods: ['GET'])]
     public function show(QuantiteEnzyme $quantiteEnzyme): Response
     {
         return $this->render('quantite_enzyme/show.html.twig', [
@@ -56,9 +48,7 @@ class QuantiteEnzymeController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/edit", name="quantite_enzyme_edit", methods={"GET", "POST"})
-     */
+    #[Route('/{id}/edit', name: 'quantite_enzyme_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, QuantiteEnzyme $quantiteEnzyme, EntityManagerInterface $em): Response
     {
         $form = $this->createForm(QuantiteEnzymeType::class, $quantiteEnzyme);
@@ -75,9 +65,7 @@ class QuantiteEnzymeController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="quantite_enzyme_delete", methods={"POST"})
-     */
+    #[Route('/{id}', name: 'quantite_enzyme_delete', methods: ['POST'])]
     public function delete(Request $request, QuantiteEnzyme $quantiteEnzyme, EntityManagerInterface $em): Response
     {
         if ($this->isCsrfTokenValid('delete'.$quantiteEnzyme->getId(), $request->request->get('_token'))) {

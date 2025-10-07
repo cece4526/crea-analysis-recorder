@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle Production{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-8">
+            <h1>Nouvelle Production</h1>
+            
+            {{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': true}}) }}
+                {{ form_rest(form) }}
+                
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Enregistrer
+                    </button>
+                    <a href="#" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Retour
+                    </a>
+                </div>
+            {{ form_end(form) }}
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Aide</h5>
+                </div>
+                <div class="card-body">
+                    <p class="card-text">Remplissez ce formulaire pour créer une nouvelle production.</p>
+                    <ul class="list-unstyled">
+                        <li><strong>Date :</strong> Date de la production</li>
+                        <li><strong>Quantité :</strong> Quantité produite en litres</li>
+                        <li><strong>Type :</strong> Type de production (soja, céréales, etc.)</li>
+                        <li><strong>Statut :</strong> État actuel de la production</li>
+                        <li><strong>OF :</strong> Ordre de fabrication associé</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

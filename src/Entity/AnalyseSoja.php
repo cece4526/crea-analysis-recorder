@@ -25,7 +25,7 @@ class AnalyseSoja
     /**
      * Ordre de fabrication associé
      */
-    #[ORM\ManyToOne(targetEntity: OF::class, inversedBy: 'analyseSojas')]
+    #[ORM\ManyToOne(targetEntity: OF::class, inversedBy: '_analyseSojas')]
     #[ORM\JoinColumn(nullable: false)]
     private ?OF $of = null;
 

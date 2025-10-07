@@ -1,10 +1,10 @@
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use App\Entity\Okara;
 <?php
 
 namespace App\Form;
 
 use App\Entity\Echantillons;
+use App\Entity\Okara;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;

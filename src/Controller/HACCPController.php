@@ -9,16 +9,12 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
-/**
- * @Route("/haccp")
- */
+#[Route('/haccp')]
 class HACCPController extends AbstractController
 {
-    /**
-     * @Route("/", name="haccp_index", methods={"GET"})
-     */
+    #[Route('/', name: 'haccp_index', methods: ['GET'])]
     public function index(HACCPRepository $haccpRepository): Response
     {
         return $this->render('haccp/index.html.twig', [
@@ -26,9 +22,7 @@ class HACCPController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/new", name="haccp_new", methods={"GET", "POST"})
-     */
+    #[Route('/new', name: 'haccp_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $em): Response
     {
         $haccp = new HACCP();
@@ -46,9 +40,7 @@ class HACCPController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="haccp_show", methods={"GET"})
-     */
+    #[Route('/{id}', name: 'haccp_show', methods: ['GET'])]
     public function show(HACCP $haccp): Response
     {
         return $this->render('haccp/show.html.twig', [
@@ -56,9 +48,7 @@ class HACCPController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/edit", name="haccp_edit", methods={"GET", "POST"})
-     */
+    #[Route('/{id}/edit', name: 'haccp_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, HACCP $haccp, EntityManagerInterface $em): Response
     {
         $form = $this->createForm(HACCPType::class, $haccp);
@@ -75,9 +65,7 @@ class HACCPController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="haccp_delete", methods={"POST"})
-     */
+    #[Route('/{id}', name: 'haccp_delete', methods: ['POST'])]
     public function delete(Request $request, HACCP $haccp, EntityManagerInterface $em): Response
     {
         if ($this->isCsrfTokenValid('delete'.$haccp->getId(), $request->request->get('_token'))) {

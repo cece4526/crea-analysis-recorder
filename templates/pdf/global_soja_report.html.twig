@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rapport Global SOJA - Production {{ production.id }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 11px;
+            margin: 0;
+            padding: 15px;
+            color: #333;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 25px;
+            border-bottom: 2px solid #2c5d31;
+            padding-bottom: 15px;
+        }
+        
+        .header h1 {
+            color: #2c5d31;
+            font-size: 22px;
+            margin: 0;
+        }
+        
+        .section {
+            margin-bottom: 20px;
+            page-break-inside: avoid;
+        }
+        
+        .section h2 {
+            color: #2c5d31;
+            font-size: 14px;
+            border-bottom: 1px solid #2c5d31;
+            padding-bottom: 3px;
+            margin-bottom: 10px;
+        }
+        
+        .of-section {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            background-color: #fafafa;
+        }
+        
+        .of-title {
+            background-color: #2c5d31;
+            color: white;
+            padding: 8px;
+            margin: -15px -15px 15px -15px;
+            font-weight: bold;
+            border-radius: 5px 5px 0 0;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+            font-size: 10px;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 6px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+            color: #2c5d31;
+            font-size: 9px;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .conformite-oui {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .conformite-non {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        
+        .summary-global {
+            background-color: #e9f7ef;
+            border: 2px solid #2c5d31;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+        
+        .summary-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .summary-item {
+            text-align: center;
+            padding: 10px;
+            background-color: white;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+        
+        .summary-value {
+            font-size: 18px;
+            font-weight: bold;
+            color: #2c5d31;
+        }
+        
+        .summary-label {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .text-center { text-align: center; }
+        .font-bold { font-weight: bold; }
+        
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 25px;
+            text-align: center;
+            font-size: 9px;
+            color: #666;
+            border-top: 1px solid #ddd;
+            padding-top: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📊 Rapport Global de Production SOJA</h1>
+        <div>
+            <strong>Production N° {{ production.id }}</strong> du {{ production.date|date('d/m/Y') }}<br>
+            Quantité totale: <strong>{{ production.quantiteTotale }} kg</strong><br>
+            Nombre d'OF: <strong>{{ ofs_data|length }}</strong><br>
+            Généré le {{ generated_at|date('d/m/Y à H:i:s') }}
+        </div>
+    </div>
+
+    <!-- Résumé Global de Tous les OF -->
+    <div class="section">
+        <h2>📈 Résumé Global de la Production</h2>
+        <div class="summary-global">
+            {% set total_analyses = 0 %}
+            {% set total_corrections_av = 0 %}
+            {% set total_corrections_ap = 0 %}
+            {% set total_okara = 0 %}
+            {% set conformes = 0 %}
+            
+            {% for of_data in ofs_data %}
+                {% set total_analyses = total_analyses + of_data.data.summary.total_analyses %}
+                {% set total_corrections_av = total_corrections_av + of_data.data.summary.total_corrections_av %}
+                {% set total_corrections_ap = total_corrections_ap + of_data.data.summary.total_corrections_ap %}
+                {% set total_okara = total_okara + of_data.data.summary.quantite_okara_totale %}
+                {% if of_data.data.summary.conformite_globale %}
+                    {% set conformes = conformes + 1 %}
+                {% endif %}
+            {% endfor %}
+            
+            <div class="summary-grid">
+                <div class="summary-item">
+                    <div class="summary-value">{{ total_analyses }}</div>
+                    <div class="summary-label">Analyses Totales</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-value">{{ total_corrections_av + total_corrections_ap }}</div>
+                    <div class="summary-label">Corrections Totales</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-value">{{ total_okara }} kg</div>
+                    <div class="summary-label">Okara Total</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-value">{{ conformes }}/{{ ofs_data|length }}</div>
+                    <div class="summary-label">OF Conformes</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-value">{{ ((conformes / ofs_data|length) * 100)|number_format(1) }}%</div>
+                    <div class="summary-label">Taux de Conformité</div>
+                </div>
+                <div class="summary-item">
+                    <div class="summary-value">{{ (total_okara / production.quantiteTotale * 100)|number_format(1) }}%</div>
+                    <div class="summary-label">Rendement Okara</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Détail par OF -->
+    {% for of_data in ofs_data %}
+    <div class="of-section">
+        <div class="of-title">
+            📋 OF N° {{ of_data.of.numero }} - {{ of_data.of.nature }}
+            <span style="float: right;">
+                Status: {{ of_data.of.statut|upper }}
+                | Conformité: 
+                <span class="{{ of_data.data.summary.conformite_globale ? 'conformite-oui' : 'conformite-non' }}">
+                    {{ of_data.data.summary.conformite_globale ? 'CONFORME' : 'NON CONFORME' }}
+                </span>
+            </span>
+        </div>
+
+        <!-- Résumé de l'OF -->
+        <table style="margin-bottom: 15px;">
+            <tr>
+                <th style="width: 20%;">Analyses</th>
+                <th style="width: 15%;">pH Moyen</th>
+                <th style="width: 15%;">Brix Moyen</th>
+                <th style="width: 15%;">Corrections AV</th>
+                <th style="width: 15%;">Corrections AP</th>
+                <th style="width: 20%;">Okara (kg)</th>
+            </tr>
+            <tr>
+                <td class="text-center font-bold">{{ of_data.data.summary.total_analyses }}</td>
+                <td class="text-center">{{ of_data.data.summary.moyenne_ph ?? 'N/A' }}</td>
+                <td class="text-center">{{ of_data.data.summary.moyenne_brix ?? 'N/A' }}°</td>
+                <td class="text-center">{{ of_data.data.summary.total_corrections_av }}</td>
+                <td class="text-center">{{ of_data.data.summary.total_corrections_ap }}</td>
+                <td class="text-center font-bold">{{ of_data.data.summary.quantite_okara_totale }}</td>
+            </tr>
+        </table>
+
+        <!-- Analyses condensées -->
+        {% if of_data.data.analyses %}
+        <h3 style="color: #2c5d31; font-size: 12px; margin: 10px 0 5px 0;">🔬 Analyses ({{ of_data.data.analyses|length }})</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Heure</th>
+                    <th>pH</th>
+                    <th>Brix</th>
+                    <th>Temp</th>
+                    <th>Densité</th>
+                    <th>Conformité</th>
+                    <th>Observations</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for analyse in of_data.data.analyses %}
+                <tr>
+                    <td class="font-bold">{{ analyse.heureAnalyse|date('H:i') }}</td>
+                    <td class="text-center">{{ analyse.ph }}</td>
+                    <td class="text-center">{{ analyse.brix }}°</td>
+                    <td class="text-center">{{ analyse.temperature }}°C</td>
+                    <td class="text-center">{{ analyse.densite }}</td>
+                    <td class="text-center {{ analyse.conformite ? 'conformite-oui' : 'conformite-non' }}">
+                        {{ analyse.conformite ? 'OK' : 'NOK' }}
+                    </td>
+                    <td>{{ analyse.observations ? (analyse.observations|length > 30 ? analyse.observations|slice(0, 30) ~ '...' : analyse.observations) : '-' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+
+        <!-- Corrections condensées -->
+        {% if of_data.data.av_corrections or of_data.data.ap_corrections %}
+        <h3 style="color: #2c5d31; font-size: 12px; margin: 10px 0 5px 0;">🔧 Corrections</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Heure</th>
+                    <th>Correction</th>
+                    <th>Avant → Après</th>
+                    <th>Quantité</th>
+                    <th>Opérateur</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for correction in of_data.data.av_corrections %}
+                <tr>
+                    <td><span style="background: #17a2b8; color: white; padding: 2px 4px; border-radius: 2px; font-size: 8px;">AVANT</span></td>
+                    <td>{{ correction.heureCorrection|date('H:i') }}</td>
+                    <td class="font-bold">{{ correction.typeCorrection }}</td>
+                    <td class="text-center">{{ correction.valeurAvant }} → {{ correction.valeurApres }}</td>
+                    <td class="text-center">{{ correction.quantiteAjoutee }}</td>
+                    <td>{{ correction.operateur }}</td>
+                </tr>
+                {% endfor %}
+                {% for correction in of_data.data.ap_corrections %}
+                <tr>
+                    <td><span style="background: #28a745; color: white; padding: 2px 4px; border-radius: 2px; font-size: 8px;">APRÈS</span></td>
+                    <td>{{ correction.heureCorrection|date('H:i') }}</td>
+                    <td class="font-bold">{{ correction.typeCorrection }}</td>
+                    <td class="text-center">{{ correction.valeurAvant }} → {{ correction.valeurApres }}</td>
+                    <td class="text-center">{{ correction.quantiteAjoutee }}</td>
+                    <td>{{ correction.operateur }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+    </div>
+    {% endfor %}
+
+    <div class="footer">
+        CRÉA-ANALYSIS RECORDER - Rapport Global SOJA Production {{ production.id }} - Page <span class="pageNumber"></span>
+    </div>
+</body>
+</html>

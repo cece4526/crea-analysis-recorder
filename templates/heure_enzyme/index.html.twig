@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Mesures Heure Enzyme{% endblock %}
+
+{% block body %}
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1>Mesures Heure Enzyme</h1>
+        <a href="{{ path('heure_enzyme_new') }}" class="btn btn-primary">
+            <i class="fas fa-plus"></i> Nouvelle Mesure
+        </a>
+    </div>
+    
+    <div class="card">
+        <div class="card-body">
+            {% if heure_enzymes is empty %}
+                <p class="text-muted text-center py-4">
+                    <i class="fas fa-inbox fa-3x d-block mb-3"></i>
+                    Aucune mesure enregistrée.
+                </p>
+            {% else %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>OF</th>
+                                <th>Heure</th>
+                                <th>Température</th>
+                                <th>pH</th>
+                                <th>Vitesse</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for heure_enzyme in heure_enzymes %}
+                                <tr>
+                                    <td>
+                                        {% if heure_enzyme.of %}
+                                            OF-{{ heure_enzyme.of.numero }}
+                                        {% else %}
+                                            <span class="text-muted">-</span>
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ heure_enzyme.heure|date('H:i') }}</td>
+                                    <td>{{ heure_enzyme.temperature }}°C</td>
+                                    <td>{{ heure_enzyme.ph }}</td>
+                                    <td>{{ heure_enzyme.vitesse }} rpm</td>
+                                    <td>
+                                        <div class="btn-group btn-group-sm" role="group">
+                                            <a href="{{ path('heure_enzyme_show', {'id': heure_enzyme.id}) }}" class="btn btn-outline-primary" title="Voir">
+                                                <i class="fas fa-eye"></i>
+                                            </a>
+                                            <a href="{{ path('heure_enzyme_edit', {'id': heure_enzyme.id}) }}" class="btn btn-outline-secondary" title="Modifier">
+                                                <i class="fas fa-edit"></i>
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

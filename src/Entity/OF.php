@@ -53,57 +53,84 @@ class OF
     private ?\DateTimeInterface $date = null;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Production::class, inversedBy="ofs")
-     * @ORM\JoinColumn(nullable=false)
+     * Production associée à cet OF
      */
-    private ?Production $_production = null;
+    #[ORM\ManyToOne(targetEntity: Production::class, inversedBy: 'ofs')]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?Production $production = null;
+
+    // Relations temporairement commentées pour tests
+    // /**
+    //  * Collection des analyses soja
+    //  */
+    // #[ORM\OneToMany(targetEntity: AnalyseSoja::class, mappedBy: 'of', cascade: ['persist', 'remove'])]
+    // private Collection $analyseSojas;
 
     /**
-     * @ORM\OneToMany(targetEntity=QuantiteEnzyme::class, mappedBy="of", cascade={"persist", "remove"})
+     * Okara associé à cet OF
      */
-    private Collection $_quantiteEnzymes;
-
-    /**
-     * @ORM\OneToMany(targetEntity=CuveCereales::class, mappedBy="of", cascade={"persist", "remove"})
-     */
-    private Collection $_cuveCereales;
-
-    /**
-     * @ORM\OneToMany(targetEntity=HeureEnzyme::class, mappedBy="of", cascade={"persist", "remove"})
-     */
-    private Collection $_heureEnzymes;
-
-    /**
-     * @ORM\OneToMany(targetEntity=DecanteurCereales::class, mappedBy="of", cascade={"persist", "remove"})
-     */
-    private Collection $_decanteurCereales;
-
-    /**
-     * @ORM\OneToMany(targetEntity=AnalyseSoja::class, mappedBy="of", cascade={"persist", "remove"})
-     */
-    private Collection $_analyseSojas;
-
-    /**
-     * @ORM\OneToOne(targetEntity=Okara::class, inversedBy="of", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\OneToOne(targetEntity: Okara::class, mappedBy: 'of', cascade: ['persist', 'remove'])]
     private ?Okara $_okara = null;
 
     /**
-     * @ORM\OneToOne(targetEntity=HACCP::class, mappedBy="of", cascade={"persist", "remove"})
+     * HACCP associé à cet OF
      */
+    #[ORM\OneToOne(targetEntity: HACCP::class, mappedBy: '_of', cascade: ['persist', 'remove'])]
     private ?HACCP $_haccp = null;
 
-
     /**
-     * @ORM\OneToOne(targetEntity=AvCorrectSoja::class, mappedBy="_of", cascade={"persist", "remove"})
+     * AvCorrectSoja associé à cet OF
      */
+    #[ORM\OneToOne(targetEntity: AvCorrectSoja::class, mappedBy: '_of', cascade: ['persist', 'remove'])]
     private ?AvCorrectSoja $_avCorrectSoja = null;
 
     /**
-     * @ORM\OneToOne(targetEntity=AvCorrectCereales::class, mappedBy="_of", cascade={"persist", "remove"})
+     * AvCorrectCereales associé à cet OF
      */
+    #[ORM\OneToOne(targetEntity: AvCorrectCereales::class, mappedBy: '_of', cascade: ['persist', 'remove'])]
     private ?AvCorrectCereales $_avCorrectCereales = null;
+
+    /**
+     * ApCorrectCereales associé à cet OF
+     */
+    #[ORM\OneToOne(targetEntity: ApCorrectCereales::class, mappedBy: '_of', cascade: ['persist', 'remove'])]
+    private ?ApCorrectCereales $_apCorrectCereales = null;
+
+    /**
+     * ApCorrectSoja associé à cet OF
+     */
+    #[ORM\OneToOne(targetEntity: ApCorrectSoja::class, mappedBy: '_of', cascade: ['persist', 'remove'])]
+    private ?ApCorrectSoja $_apCorrectSoja = null;
+
+    /**
+     * Collection des quantités d'enzymes
+     */
+    #[ORM\OneToMany(targetEntity: QuantiteEnzyme::class, mappedBy: '_of', cascade: ['persist', 'remove'])]
+    private Collection $_quantiteEnzymes;
+
+    /**
+     * Collection des cuves céréales
+     */
+    #[ORM\OneToMany(targetEntity: CuveCereales::class, mappedBy: 'of', cascade: ['persist', 'remove'])]
+    private Collection $_cuveCereales;
+
+    /**
+     * Collection des heures enzymes
+     */
+    #[ORM\OneToMany(targetEntity: HeureEnzyme::class, mappedBy: 'of', cascade: ['persist', 'remove'])]
+    private Collection $_heureEnzymes;
+
+    /**
+     * Collection des décanteurs céréales
+     */
+    #[ORM\OneToMany(targetEntity: DecanteurCereales::class, mappedBy: 'of', cascade: ['persist', 'remove'])]
+    private Collection $_decanteurCereales;
+
+    /**
+     * Collection des analyses soja
+     */
+    #[ORM\OneToMany(targetEntity: AnalyseSoja::class, mappedBy: 'of', cascade: ['persist', 'remove'])]
+    private Collection $_analyseSojas;
 
     public function __construct()
     {
@@ -192,23 +219,18 @@ class OF
 
         /**
          * Retourne la production associée à l'OF.
-         *
-         * @return Production|null
          */
         public function getProduction(): ?Production
         {
-            return $this->_production;
+            return $this->production;
         }
 
         /**
          * Définit la production associée à l'OF.
-         *
-         * @param Production|null $production
-         * @return self
          */
         public function setProduction(?Production $production): self
         {
-            $this->_production = $production;
+            $this->production = $production;
             return $this;
         }
 
@@ -499,6 +521,28 @@ class OF
         public function setApCorrectCereales(?ApCorrectCereales $apCorrectCereales): self
         {
             $this->_apCorrectCereales = $apCorrectCereales;
+            return $this;
+        }
+
+        /**
+         * Retourne l'ApCorrectSoja associé à l'OF.
+         *
+         * @return ApCorrectSoja|null
+         */
+        public function getApCorrectSoja(): ?ApCorrectSoja
+        {
+            return $this->_apCorrectSoja;
+        }
+
+        /**
+         * Définit l'ApCorrectSoja associé à l'OF.
+         *
+         * @param ApCorrectSoja|null $apCorrectSoja
+         * @return self
+         */
+        public function setApCorrectSoja(?ApCorrectSoja $apCorrectSoja): self
+        {
+            $this->_apCorrectSoja = $apCorrectSoja;
             return $this;
         }
 }

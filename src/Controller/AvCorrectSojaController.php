@@ -9,16 +9,12 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
-/**
- * @Route("/av-correct-soja")
- */
+#[Route('/av-correct-soja')]
 class AvCorrectSojaController extends AbstractController
 {
-    /**
-     * @Route("/", name="av_correct_soja_index", methods={"GET"})
-     */
+    #[Route('/', name: 'av_correct_soja_index', methods: ['GET'])]
     public function index(AvCorrectSojaRepository $repo): Response
     {
         return $this->render('av_correct_soja/index.html.twig', [
@@ -26,9 +22,7 @@ class AvCorrectSojaController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/new", name="av_correct_soja_new", methods={"GET", "POST"})
-     */
+    #[Route('/new', name: 'av_correct_soja_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $em): Response
     {
         $avCorrectSoja = new AvCorrectSoja();
@@ -44,9 +38,7 @@ class AvCorrectSojaController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="av_correct_soja_show", methods={"GET"})
-     */
+    #[Route('/{id}', name: 'av_correct_soja_show', methods: ['GET'])]
     public function show(AvCorrectSoja $avCorrectSoja): Response
     {
         return $this->render('av_correct_soja/show.html.twig', [
@@ -54,9 +46,7 @@ class AvCorrectSojaController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/edit", name="av_correct_soja_edit", methods={"GET", "POST"})
-     */
+    #[Route('/{id}/edit', name: 'av_correct_soja_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, AvCorrectSoja $avCorrectSoja, EntityManagerInterface $em): Response
     {
         $form = $this->createForm(AvCorrectSojaType::class, $avCorrectSoja);
@@ -71,9 +61,7 @@ class AvCorrectSojaController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="av_correct_soja_delete", methods={"POST"})
-     */
+    #[Route('/{id}', name: 'av_correct_soja_delete', methods: ['POST'])]
     public function delete(Request $request, AvCorrectSoja $avCorrectSoja, EntityManagerInterface $em): Response
     {
         if ($this->isCsrfTokenValid('delete'.$avCorrectSoja->getId(), $request->request->get('_token'))) {

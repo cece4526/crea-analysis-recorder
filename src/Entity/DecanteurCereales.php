@@ -2,47 +2,36 @@
 
 namespace App\Entity;
 
-
 use App\Repository\DecanteurCerealesRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 
 /**
  * Entité DecanteurCereales
- *
- * @ORM\Entity(repositoryClass=DecanteurCerealesRepository::class)
  */
+#[ORM\Entity(repositoryClass: DecanteurCerealesRepository::class)]
+#[ORM\Table(name: 'decanteur_cereales')]
 class DecanteurCereales
 {
-    /**
-     * @ORM\ManyToOne(targetEntity=OF::class, inversedBy="decanteurCereales")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: OF::class, inversedBy: '_decanteurCereales')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?OF $of = null;
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(name: 'id', type: Types::INTEGER)]
     private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="decimal", precision=10, scale=2, nullable=true)
-     */
+    #[ORM\Column(name: 'es_av_decan', type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
     private ?string $es_av_decan = null;
 
-    /**
-     * @ORM\Column(type="decimal", precision=10, scale=2, nullable=true)
-     */
+    #[ORM\Column(name: 'es_ap_decan', type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
     private ?string $es_ap_decan = null;
 
-    /**
-     * @ORM\Column(type="decimal", precision=10, scale=2, nullable=true)
-     */
+    #[ORM\Column(name: 'vitesse_diff', type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
     private ?string $vitesse_diff = null;
 
-    /**
-     * @ORM\Column(type="decimal", precision=10, scale=2, nullable=true)
-     */
+    #[ORM\Column(name: 'variponds', type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
     private ?string $variponds = null;
 
     /**

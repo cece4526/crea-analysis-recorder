@@ -9,16 +9,12 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
-/**
- * @Route("/of")
- */
+#[Route('/of')]
 class OFController extends AbstractController
 {
-    /**
-     * @Route("/", name="of_index", methods={"GET"})
-     */
+    #[Route('/', name: 'of_index', methods: ['GET'])]
     public function index(OFRepository $ofRepository): Response
     {
         return $this->render('of/index.html.twig', [
@@ -26,9 +22,7 @@ class OFController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/new", name="of_new", methods={"GET", "POST"})
-     */
+    #[Route('/new', name: 'of_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $em): Response
     {
         $of = new OF();
@@ -46,9 +40,7 @@ class OFController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="of_show", methods={"GET"})
-     */
+    #[Route('/{id}', name: 'of_show', methods: ['GET'])]
     public function show(OF $of): Response
     {
         return $this->render('of/show.html.twig', [

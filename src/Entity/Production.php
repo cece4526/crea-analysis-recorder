@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ProductionRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\DBAL\Types\Types;
 
@@ -24,13 +26,12 @@ class Production
     #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $status = null;
 
-    // Relation temporairement commentée pour les tests
-    // #[ORM\OneToMany(targetEntity: OF::class, mappedBy: 'production')]
-    // private Collection $ofs;
+    #[ORM\OneToMany(targetEntity: OF::class, mappedBy: 'production')]
+    private Collection $ofs;
 
     public function __construct()
     {
-        // $this->ofs = new ArrayCollection();
+        $this->ofs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -71,8 +72,6 @@ class Production
         return $this;
     }
 
-    // Méthodes temporairement commentées pour les tests
-    /*
     public function getOfs(): Collection
     {
         return $this->ofs;
@@ -96,5 +95,4 @@ class Production
         }
         return $this;
     }
-    */
 }

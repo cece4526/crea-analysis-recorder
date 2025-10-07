@@ -9,16 +9,12 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
-/**
- * @Route("/av-correct-cereales")
- */
+#[Route('/av-correct-cereales')]
 class AvCorrectCerealesController extends AbstractController
 {
-    /**
-     * @Route("/", name="av_correct_cereales_index", methods={"GET"})
-     */
+    #[Route('/', name: 'av_correct_cereales_index', methods: ['GET'])]
     public function index(AvCorrectCerealesRepository $repo): Response
     {
         return $this->render('av_correct_cereales/index.html.twig', [
@@ -26,9 +22,7 @@ class AvCorrectCerealesController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/new", name="av_correct_cereales_new", methods={"GET", "POST"})
-     */
+    #[Route('/new', name: 'av_correct_cereales_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $em): Response
     {
         $avCorrectCereales = new AvCorrectCereales();
@@ -44,9 +38,7 @@ class AvCorrectCerealesController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="av_correct_cereales_show", methods={"GET"})
-     */
+    #[Route('/{id}', name: 'av_correct_cereales_show', methods: ['GET'])]
     public function show(AvCorrectCereales $avCorrectCereales): Response
     {
         return $this->render('av_correct_cereales/show.html.twig', [
@@ -54,9 +46,7 @@ class AvCorrectCerealesController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/edit", name="av_correct_cereales_edit", methods={"GET", "POST"})
-     */
+    #[Route('/{id}/edit', name: 'av_correct_cereales_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, AvCorrectCereales $avCorrectCereales, EntityManagerInterface $em): Response
     {
         $form = $this->createForm(AvCorrectCerealesType::class, $avCorrectCereales);
@@ -71,9 +61,7 @@ class AvCorrectCerealesController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="av_correct_cereales_delete", methods={"POST"})
-     */
+    #[Route('/{id}', name: 'av_correct_cereales_delete', methods: ['POST'])]
     public function delete(Request $request, AvCorrectCereales $avCorrectCereales, EntityManagerInterface $em): Response
     {
         if ($this->isCsrfTokenValid('delete'.$avCorrectCereales->getId(), $request->request->get('_token'))) {

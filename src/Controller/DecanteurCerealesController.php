@@ -9,16 +9,12 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
-/**
- * @Route("/decanteur-cereales")
- */
+#[Route('/decanteur-cereales')]
 class DecanteurCerealesController extends AbstractController
 {
-    /**
-     * @Route("/", name="decanteur_cereales_index", methods={"GET"})
-     */
+    #[Route('/', name: 'decanteur_cereales_index', methods: ['GET'])]
     public function index(DecanteurCerealesRepository $repository): Response
     {
         return $this->render('decanteur_cereales/index.html.twig', [
@@ -26,9 +22,7 @@ class DecanteurCerealesController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/new", name="decanteur_cereales_new", methods={"GET", "POST"})
-     */
+    #[Route('/new', name: 'decanteur_cereales_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $em): Response
     {
         $decanteurCereales = new DecanteurCereales();
@@ -46,9 +40,7 @@ class DecanteurCerealesController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="decanteur_cereales_show", methods={"GET"})
-     */
+    #[Route('/{id}', name: 'decanteur_cereales_show', methods: ['GET'])]
     public function show(DecanteurCereales $decanteurCereales): Response
     {
         return $this->render('decanteur_cereales/show.html.twig', [
@@ -56,9 +48,7 @@ class DecanteurCerealesController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/edit", name="decanteur_cereales_edit", methods={"GET", "POST"})
-     */
+    #[Route('/{id}/edit', name: 'decanteur_cereales_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, DecanteurCereales $decanteurCereales, EntityManagerInterface $em): Response
     {
         $form = $this->createForm(DecanteurCerealesType::class, $decanteurCereales);
@@ -75,9 +65,7 @@ class DecanteurCerealesController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="decanteur_cereales_delete", methods={"POST"})
-     */
+    #[Route('/{id}', name: 'decanteur_cereales_delete', methods: ['POST'])]
     public function delete(Request $request, DecanteurCereales $decanteurCereales, EntityManagerInterface $em): Response
     {
         if ($this->isCsrfTokenValid('delete'.$decanteurCereales->getId(), $request->request->get('_token'))) {

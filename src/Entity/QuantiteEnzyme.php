@@ -8,40 +8,31 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Entity\Enzyme;
 use App\Entity\OF;
+use Doctrine\DBAL\Types\Types;
 
 /**
  * Entité QuantiteEnzyme
- *
- * @ORM\Entity(repositoryClass=QuantiteEnzymeRepository::class)
  */
+#[ORM\Entity(repositoryClass: QuantiteEnzymeRepository::class)]
+#[ORM\Table(name: 'quantite_enzyme')]
 class QuantiteEnzyme
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(name: 'id', type: Types::INTEGER)]
     private ?int $_id = null;
 
-    /**
-     * @ORM\Column(type="decimal", precision=10, scale=2, nullable=true)
-     */
+    #[ORM\Column(name: 'pourcentage', type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
     private ?string $_pourcentage = null;
 
-    /**
-     * @ORM\Column(type="decimal", precision=10, scale=2, nullable=true)
-     */
+    #[ORM\Column(name: 'quantite', type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
     private ?string $_quantite = null;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=Enzyme::class, mappedBy="quantiteEnzymes")
-     */
+    #[ORM\ManyToMany(targetEntity: Enzyme::class, mappedBy: '_quantiteEnzymes')]
     private Collection $_enzymes;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=OF::class, inversedBy="quantiteEnzymes")
-     * @ORM\JoinColumn(nullable=false)
-     */
+    #[ORM\ManyToOne(targetEntity: OF::class, inversedBy: '_quantiteEnzymes')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?OF $_of = null;
 
     /**

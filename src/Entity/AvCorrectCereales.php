@@ -4,58 +4,60 @@ namespace App\Entity;
 
 use App\Repository\AvCorrectCerealesRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 
 /**
- * @ORM\Entity(repositoryClass=AvCorrectCerealesRepository::class)
+ * Entité AvCorrectCereales
  */
+#[ORM\Entity(repositoryClass: AvCorrectCerealesRepository::class)]
+#[ORM\Table(name: 'av_correct_cereales')]
 class AvCorrectCereales
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(name: 'id', type: Types::INTEGER)]
     private ?int $id = null;
 
     /**
-     * @ORM\Column(type="datetime")
+     * #[ORM\Column(type: Types::DATETIME_MUTABLE)]
      */
     private ?\DateTimeInterface $date = null;
 
     /**
-     * @ORM\Column(type="integer")
+     * #[ORM\Column(type: Types::INTEGER)]
      */
     private ?int $tank = null;
 
     /**
-     * @ORM\Column(type="integer")
+     * #[ORM\Column(type: Types::INTEGER)]
      */
     private ?int $eau = null;
 
     /**
-     * @ORM\Column(type="integer")
+     * #[ORM\Column(type: Types::INTEGER)]
      */
     private ?int $matiere = null;
 
     /**
-     * @ORM\Column(type="integer")
+     * #[ORM\Column(type: Types::INTEGER)]
      */
     private ?int $produitFini = null;
 
     /**
-     * @ORM\Column(type="decimal", precision=10, scale=2)
+     * #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
      */
     private ?string $esTank = null;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * #[ORM\Column(type: Types::STRING, length: 255)]
      */
     private ?string $initialPilote = null;
 
     /**
-     * @ORM\OneToOne(targetEntity=OF::class)
-     * @ORM\JoinColumn(nullable=false)
+     * OF associé à cette correction
      */
+    #[ORM\OneToOne(targetEntity: OF::class, inversedBy: '_avCorrectCereales', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
     private ?OF $_of = null;
 
     /**

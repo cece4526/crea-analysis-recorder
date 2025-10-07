@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rapport de Production CÉRÉALES - OF {{ of.numero }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 12px;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #8b4513;
+            padding-bottom: 20px;
+        }
+        
+        .header h1 {
+            color: #8b4513;
+            font-size: 24px;
+            margin: 0;
+        }
+        
+        .header .info {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        
+        .section {
+            margin-bottom: 25px;
+            page-break-inside: avoid;
+        }
+        
+        .section h2 {
+            color: #8b4513;
+            font-size: 16px;
+            border-bottom: 1px solid #8b4513;
+            padding-bottom: 5px;
+            margin-bottom: 15px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 15px;
+            font-size: 11px;
+        }
+        
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        
+        th {
+            background-color: #f8f9fa;
+            font-weight: bold;
+            color: #8b4513;
+        }
+        
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        
+        .conformite-oui {
+            color: #28a745;
+            font-weight: bold;
+        }
+        
+        .conformite-non {
+            color: #dc3545;
+            font-weight: bold;
+        }
+        
+        .summary-box {
+            background-color: #faf0e6;
+            border: 1px solid #8b4513;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+        }
+        
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 30px;
+            text-align: center;
+            font-size: 10px;
+            color: #666;
+            border-top: 1px solid #ddd;
+            padding-top: 5px;
+        }
+        
+        .text-center { text-align: center; }
+        .text-right { text-align: right; }
+        .font-bold { font-weight: bold; }
+        
+        .process-badge {
+            background-color: #8b4513;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-size: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>Rapport de Production CÉRÉALES</h1>
+        <div class="info">
+            <strong>OF N° {{ of.numero }}</strong> - {{ of.nature }}<br>
+            Production du {{ production.date|date('d/m/Y à H:i') }}<br>
+            Quantité totale: {{ production.quantiteTotale }} kg<br>
+            Généré le {{ generated_at|date('d/m/Y à H:i:s') }}
+        </div>
+    </div>
+
+    <!-- Résumé Global -->
+    <div class="section">
+        <h2>📊 Résumé de Production</h2>
+        <div class="summary-box">
+            <div class="summary-row">
+                <span><strong>Nombre de cuves:</strong></span>
+                <span>{{ data.summary.total_cuves }}</span>
+            </div>
+            <div class="summary-row">
+                <span><strong>Nombre de décanteurs:</strong></span>
+                <span>{{ data.summary.total_decanteurs }}</span>
+            </div>
+            <div class="summary-row">
+                <span><strong>Durée de production:</strong></span>
+                <span>{{ data.summary.duree_production ?? 'N/A' }}</span>
+            </div>
+            <div class="summary-row">
+                <span><strong>pH moyen cuves:</strong></span>
+                <span>{{ data.summary.moyenne_ph_cuves ?? 'N/A' }}</span>
+            </div>
+            <div class="summary-row">
+                <span><strong>pH moyen décanteurs:</strong></span>
+                <span>{{ data.summary.moyenne_ph_decanteurs ?? 'N/A' }}</span>
+            </div>
+            <div class="summary-row">
+                <span><strong>Corrections avant:</strong></span>
+                <span>{{ data.summary.total_corrections_av }}</span>
+            </div>
+            <div class="summary-row">
+                <span><strong>Corrections après:</strong></span>
+                <span>{{ data.summary.total_corrections_ap }}</span>
+            </div>
+            <div class="summary-row">
+                <span><strong>Conformité globale:</strong></span>
+                <span class="{{ data.summary.conformite_globale ? 'conformite-oui' : 'conformite-non' }}">
+                    {{ data.summary.conformite_globale ? 'CONFORME' : 'NON CONFORME' }}
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <!-- HACCP -->
+    {% if data.haccp %}
+    <div class="section">
+        <h2>🛡️ Contrôles HACCP</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Heure</th>
+                    <th>Point de contrôle</th>
+                    <th>Température</th>
+                    <th>Durée</th>
+                    <th>Conformité</th>
+                    <th>Observations</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for haccp in data.haccp %}
+                <tr>
+                    <td>{{ haccp.heureControle|date('H:i') }}</td>
+                    <td>{{ haccp.pointControle }}</td>
+                    <td class="text-center">{{ haccp.temperature }}°C</td>
+                    <td class="text-center">{{ haccp.duree }} min</td>
+                    <td class="text-center {{ haccp.conformite ? 'conformite-oui' : 'conformite-non' }}">
+                        {{ haccp.conformite ? 'OUI' : 'NON' }}
+                    </td>
+                    <td>{{ haccp.observations ?? '-' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+
+    <!-- Cuves Céréales -->
+    {% if data.cuves %}
+    <div class="section">
+        <h2>🏭 Cuves Céréales</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Cuve</th>
+                    <th>Début</th>
+                    <th>Fin</th>
+                    <th>Durée</th>
+                    <th>pH</th>
+                    <th>Température</th>
+                    <th>Volume</th>
+                    <th>Pression</th>
+                    <th>Conformité</th>
+                    <th>Observations</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cuve in data.cuves %}
+                <tr>
+                    <td class="font-bold">
+                        <span class="process-badge">{{ cuve.numeroCuve }}</span>
+                    </td>
+                    <td>{{ cuve.heureDebut|date('H:i') }}</td>
+                    <td>{{ cuve.heureFin ? cuve.heureFin|date('H:i') : 'En cours' }}</td>
+                    <td class="text-center">
+                        {% if cuve.heureFin %}
+                            {% set diff = cuve.heureDebut.diff(cuve.heureFin) %}
+                            {{ diff.format('%H:%I') }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td class="text-center">{{ cuve.ph }}</td>
+                    <td class="text-center">{{ cuve.temperature }}°C</td>
+                    <td class="text-center">{{ cuve.volume }} L</td>
+                    <td class="text-center">{{ cuve.pression }} bar</td>
+                    <td class="text-center {{ cuve.conformite ? 'conformite-oui' : 'conformite-non' }}">
+                        {{ cuve.conformite ? 'OUI' : 'NON' }}
+                    </td>
+                    <td>{{ cuve.observations ?? '-' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+
+    <!-- Hydrolyse Enzymatique -->
+    {% if data.hydrolyses %}
+    <div class="section">
+        <h2>🧪 Hydrolyse Enzymatique</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Début</th>
+                    <th>Fin</th>
+                    <th>Durée effective</th>
+                    <th>Enzyme</th>
+                    <th>Quantité</th>
+                    <th>Température</th>
+                    <th>pH</th>
+                    <th>Efficacité</th>
+                    <th>Conformité</th>
+                    <th>Observations</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for hydrolyse in data.hydrolyses %}
+                <tr>
+                    <td>{{ hydrolyse.heureDebut|date('H:i') }}</td>
+                    <td>{{ hydrolyse.heureFin ? hydrolyse.heureFin|date('H:i') : 'En cours' }}</td>
+                    <td class="text-center">
+                        {% if hydrolyse.dureeEffective %}
+                            {{ hydrolyse.dureeEffective }} min
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td class="text-center">{{ hydrolyse.typeEnzyme ?? '-' }}</td>
+                    <td class="text-center">{{ hydrolyse.quantiteEnzyme ?? '-' }} {{ hydrolyse.uniteQuantite ?? '' }}</td>
+                    <td class="text-center">{{ hydrolyse.temperatureMoyenne ?? '-' }}°C</td>
+                    <td class="text-center">{{ hydrolyse.phMoyen ?? '-' }}</td>
+                    <td class="text-center">{{ hydrolyse.efficaciteCalculee ?? '-' }}%</td>
+                    <td class="text-center {{ hydrolyse.conformite ? 'conformite-oui' : 'conformite-non' }}">
+                        {{ hydrolyse.conformite ? 'OUI' : 'NON' }}
+                    </td>
+                    <td>{{ hydrolyse.observations ?? '-' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <!-- Statistiques hydrolyseur -->
+        {% if data.summary.hydrolyse %}
+        <div class="summary-box">
+            <h3>📊 Statistiques Hydrolyse</h3>
+            <div class="summary-row">
+                <span><strong>Efficacité moyenne:</strong></span>
+                <span>{{ data.summary.hydrolyse.efficacite_moyenne }}%</span>
+            </div>
+            <div class="summary-row">
+                <span><strong>Température moyenne:</strong></span>
+                <span>{{ data.summary.hydrolyse.temperature_moyenne }}°C</span>
+            </div>
+            <div class="summary-row">
+                <span><strong>pH moyen:</strong></span>
+                <span>{{ data.summary.hydrolyse.ph_moyen }}</span>
+            </div>
+            <div class="summary-row">
+                <span><strong>Durée totale:</strong></span>
+                <span>{{ data.summary.hydrolyse.duree_totale }} min</span>
+            </div>
+            <div class="summary-row">
+                <span><strong>Conformité hydrolyse:</strong></span>
+                <span class="{{ data.summary.hydrolyse.conformite_globale ? 'conformite-oui' : 'conformite-non' }}">
+                    {{ data.summary.hydrolyse.conformite_globale ? 'CONFORME' : 'NON CONFORME' }}
+                </span>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    <!-- Décanteurs Céréales -->
+    {% if data.decanteurs %}
+    <div class="section">
+        <h2>⚗️ Décanteurs Céréales</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Décanteur</th>
+                    <th>Début</th>
+                    <th>Fin</th>
+                    <th>Durée</th>
+                    <th>pH</th>
+                    <th>Température</th>
+                    <th>Volume</th>
+                    <th>Clarté</th>
+                    <th>Conformité</th>
+                    <th>Observations</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for decanteur in data.decanteurs %}
+                <tr>
+                    <td class="font-bold">
+                        <span class="process-badge">{{ decanteur.numeroDecanteur }}</span>
+                    </td>
+                    <td>{{ decanteur.heureDebut|date('H:i') }}</td>
+                    <td>{{ decanteur.heureFin ? decanteur.heureFin|date('H:i') : 'En cours' }}</td>
+                    <td class="text-center">
+                        {% if decanteur.heureFin %}
+                            {% set diff = decanteur.heureDebut.diff(decanteur.heureFin) %}
+                            {{ diff.format('%H:%I') }}
+                        {% else %}
+                            -
+                        {% endif %}
+                    </td>
+                    <td class="text-center">{{ decanteur.ph }}</td>
+                    <td class="text-center">{{ decanteur.temperature }}°C</td>
+                    <td class="text-center">{{ decanteur.volume }} L</td>
+                    <td class="text-center">{{ decanteur.clarte }}%</td>
+                    <td class="text-center {{ decanteur.conformite ? 'conformite-oui' : 'conformite-non' }}">
+                        {{ decanteur.conformite ? 'OUI' : 'NON' }}
+                    </td>
+                    <td>{{ decanteur.observations ?? '-' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+
+    <!-- Corrections Avant -->
+    {% if data.av_corrections %}
+    <div class="section">
+        <h2>⚙️ Corrections AVANT Production</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Heure</th>
+                    <th>Type Correction</th>
+                    <th>Équipement</th>
+                    <th>Valeur Avant</th>
+                    <th>Valeur Après</th>
+                    <th>Quantité Ajoutée</th>
+                    <th>Opérateur</th>
+                    <th>Observations</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for correction in data.av_corrections %}
+                <tr>
+                    <td>{{ correction.heureCorrection|date('H:i') }}</td>
+                    <td class="font-bold">{{ correction.typeCorrection }}</td>
+                    <td>{{ correction.equipement ?? '-' }}</td>
+                    <td class="text-center">{{ correction.valeurAvant }}</td>
+                    <td class="text-center">{{ correction.valeurApres }}</td>
+                    <td class="text-center">{{ correction.quantiteAjoutee }}</td>
+                    <td>{{ correction.operateur }}</td>
+                    <td>{{ correction.observations ?? '-' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+
+    <!-- Corrections Après -->
+    {% if data.ap_corrections %}
+    <div class="section">
+        <h2>🔧 Corrections APRÈS Production</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Heure</th>
+                    <th>Type Correction</th>
+                    <th>Équipement</th>
+                    <th>Valeur Avant</th>
+                    <th>Valeur Après</th>
+                    <th>Quantité Ajoutée</th>
+                    <th>Opérateur</th>
+                    <th>Observations</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for correction in data.ap_corrections %}
+                <tr>
+                    <td>{{ correction.heureCorrection|date('H:i') }}</td>
+                    <td class="font-bold">{{ correction.typeCorrection }}</td>
+                    <td>{{ correction.equipement ?? '-' }}</td>
+                    <td class="text-center">{{ correction.valeurAvant }}</td>
+                    <td class="text-center">{{ correction.valeurApres }}</td>
+                    <td class="text-center">{{ correction.quantiteAjoutee }}</td>
+                    <td>{{ correction.operateur }}</td>
+                    <td>{{ correction.observations ?? '-' }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% endif %}
+
+    <div class="footer">
+        CRÉA-ANALYSIS RECORDER - Rapport CÉRÉALES OF {{ of.numero }} - Page <span class="pageNumber"></span>
+    </div>
+</body>
+</html>

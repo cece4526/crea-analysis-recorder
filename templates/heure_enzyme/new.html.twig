@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nouvelle Mesure Heure Enzyme{% endblock %}
+
+{% block body %}
+    <div class="row">
+        <div class="col-md-8">
+            <h1>Nouvelle Mesure Heure Enzyme</h1>
+            
+            {{ form_start(form, {'attr': {'class': 'needs-validation', 'novalidate': true}}) }}
+                <div class="mb-3">
+                    {{ form_label(form.of, 'Ordre de Fabrication', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.of, {'attr': {'class': 'form-select'}}) }}
+                    {{ form_errors(form.of) }}
+                </div>
+                
+                <div class="mb-3">
+                    {{ form_label(form.heure, 'Heure de mesure', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.heure, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.heure) }}
+                </div>
+                
+                <div class="mb-3">
+                    {{ form_label(form.temperature, 'Température (°C)', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.temperature, {'attr': {'class': 'form-control', 'step': '0.1'}}) }}
+                    {{ form_errors(form.temperature) }}
+                </div>
+                
+                <div class="mb-3">
+                    {{ form_label(form.ph, 'pH', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.ph, {'attr': {'class': 'form-control', 'step': '0.01'}}) }}
+                    {{ form_errors(form.ph) }}
+                </div>
+                
+                <div class="mb-3">
+                    {{ form_label(form.vitesse, 'Vitesse (rpm)', {'label_attr': {'class': 'form-label'}}) }}
+                    {{ form_widget(form.vitesse, {'attr': {'class': 'form-control'}}) }}
+                    {{ form_errors(form.vitesse) }}
+                </div>
+                
+                {{ form_rest(form) }}
+                
+                <div class="d-flex gap-2">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save"></i> Enregistrer
+                    </button>
+                    <a href="{{ path('app_heure_enzyme_index') }}" class="btn btn-secondary">
+                        <i class="fas fa-arrow-left"></i> Retour
+                    </a>
+                </div>
+            {{ form_end(form) }}
+        </div>
+    </div>
+{% endblock %}

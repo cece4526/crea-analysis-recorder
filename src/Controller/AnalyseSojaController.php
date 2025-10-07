@@ -9,16 +9,12 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
-/**
- * @Route("/analyse-soja")
- */
+#[Route('/analyse-soja')]
 class AnalyseSojaController extends AbstractController
 {
-    /**
-     * @Route("/", name="analyse_soja_index", methods={"GET"})
-     */
+    #[Route('/', name: 'analyse_soja_index', methods: ['GET'])]
     public function index(AnalyseSojaRepository $repository): Response
     {
         return $this->render('analyse_soja/index.html.twig', [
@@ -26,9 +22,7 @@ class AnalyseSojaController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/new", name="analyse_soja_new", methods={"GET", "POST"})
-     */
+    #[Route('/new', name: 'analyse_soja_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $em): Response
     {
         $analyseSoja = new AnalyseSoja();
@@ -46,9 +40,8 @@ class AnalyseSojaController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="analyse_soja_show", methods={"GET"})
-     */
+    #[Route('/{id}', name: 'analyse_soja_show', methods: ['GET'])]
+    #[Route('/{id}', name: 'analyse_soja_show', methods: ['GET'])]
     public function show(AnalyseSoja $analyseSoja): Response
     {
         return $this->render('analyse_soja/show.html.twig', [
@@ -56,9 +49,7 @@ class AnalyseSojaController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/edit", name="analyse_soja_edit", methods={"GET", "POST"})
-     */
+    #[Route('/{id}/edit', name: 'analyse_soja_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, AnalyseSoja $analyseSoja, EntityManagerInterface $em): Response
     {
         $form = $this->createForm(AnalyseSojaType::class, $analyseSoja);
@@ -75,9 +66,7 @@ class AnalyseSojaController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="analyse_soja_delete", methods={"POST"})
-     */
+    #[Route('/{id}', name: 'analyse_soja_delete', methods: ['POST'])]
     public function delete(Request $request, AnalyseSoja $analyseSoja, EntityManagerInterface $em): Response
     {
         if ($this->isCsrfTokenValid('delete'.$analyseSoja->getId(), $request->request->get('_token'))) {

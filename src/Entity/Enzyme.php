@@ -3,32 +3,30 @@ namespace App\Entity;
 
 use App\Repository\EnzymeRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use App\Entity\QuantiteEnzyme;
 
 /**
  * Entité Enzyme
- *
- * @ORM\Entity(repositoryClass=EnzymeRepository::class)
  */
+#[ORM\Entity(repositoryClass: EnzymeRepository::class)]
+#[ORM\Table(name: 'enzyme')]
 class Enzyme
 {
-    /**
-     * @ORM\Id
-     * @ORM\GeneratedValue
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(name: 'id', type: Types::INTEGER)]
     private ?int $_id = null;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
+    #[ORM\Column(name: 'name', type: Types::STRING, length: 255)]
     private ?string $_name = null;
 
-    /**
-     * @ORM\ManyToMany(targetEntity=QuantiteEnzyme::class, inversedBy="enzymes")
-     */
+    #[ORM\ManyToMany(targetEntity: QuantiteEnzyme::class, inversedBy: '_enzymes')]
+    #[ORM\JoinTable(name: 'enzyme_quantite_enzyme')]
+    #[ORM\JoinColumn(name: 'enzyme_id', referencedColumnName: 'id')]
+    #[ORM\InverseJoinColumn(name: 'quantite_enzyme_id', referencedColumnName: 'id')]
     private Collection $_quantiteEnzymes;
 
     /**

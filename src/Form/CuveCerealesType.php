@@ -20,16 +20,79 @@ class CuveCerealesType extends AbstractType
         $builder
             ->add('of', EntityType::class, [
                 'class' => OF::class,
-                'choice_label' => 'id',
-                'label' => 'OF',
+                'choice_label' => function(OF $of) {
+                    return $of->getName() . ' - ' . $of->getNumero();
+                },
+                'label' => 'Ordre de Fabrication',
+                'attr' => ['class' => 'form-select'],
             ])
-            ->add('cuve', IntegerType::class)
-            ->add('debit_enzyme', NumberType::class, ['required' => false])
-            ->add('temperature_hydrolise', NumberType::class, ['required' => false])
-            ->add('quantite_enzyme2', NumberType::class, ['required' => false])
-            ->add('matiere', NumberType::class, ['required' => false])
-            ->add('control_verre', CheckboxType::class, ['required' => false])
-            ->add('initial_pilote', TextType::class, ['required' => false])
+            ->add('cuve', IntegerType::class, [
+                'label' => 'Numéro de cuve',
+                'attr' => [
+                    'class' => 'form-control',
+                    'min' => '1',
+                    'placeholder' => 'Ex: 1, 2, 3...',
+                ],
+            ])
+            ->add('debitEnzyme', NumberType::class, [
+                'required' => false,
+                'label' => 'Débit enzyme (L/h)',
+                'scale' => 2,
+                'attr' => [
+                    'class' => 'form-control',
+                    'step' => '0.01',
+                    'min' => '0',
+                    'placeholder' => '0.00',
+                ],
+            ])
+            ->add('temperatureHydrolise', NumberType::class, [
+                'required' => false,
+                'label' => 'Température hydrolyse (°C)',
+                'scale' => 2,
+                'attr' => [
+                    'class' => 'form-control',
+                    'step' => '0.01',
+                    'min' => '0',
+                    'max' => '100',
+                    'placeholder' => '60.00',
+                ],
+            ])
+            ->add('quantiteEnzyme2', NumberType::class, [
+                'required' => false,
+                'label' => 'Quantité enzyme 2 (ml)',
+                'scale' => 2,
+                'attr' => [
+                    'class' => 'form-control',
+                    'step' => '0.01',
+                    'min' => '0',
+                    'placeholder' => '0.00',
+                ],
+            ])
+            ->add('matiere', NumberType::class, [
+                'required' => false,
+                'label' => 'Matière (kg)',
+                'scale' => 2,
+                'attr' => [
+                    'class' => 'form-control',
+                    'step' => '0.01',
+                    'min' => '0',
+                    'placeholder' => '0.00',
+                ],
+            ])
+            ->add('controlVerre', CheckboxType::class, [
+                'required' => false,
+                'label' => 'Contrôle verre effectué',
+                'attr' => ['class' => 'form-check-input'],
+            ])
+            ->add('initialPilote', TextType::class, [
+                'required' => false,
+                'label' => 'Initiales pilote',
+                'attr' => [
+                    'class' => 'form-control',
+                    'maxlength' => 10,
+                    'placeholder' => 'Ex: J.D.',
+                ],
+            ])
         ;
     }
 
