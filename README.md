@@ -1,3 +1,3 @@
-# cr-a--analysis-recorder
+# crea-analysis-recorder
 
-application for recording the analysis of soy milk production and various cereals.
+Application for recording the analysis of soy milk production and various cereals.
