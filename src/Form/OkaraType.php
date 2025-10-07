@@ -1,8 +1,9 @@
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use App\Entity\OF;
 <?php
 
 namespace App\Form;
+
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Entity\OF;
 
 use App\Entity\Okara;
 use Symfony\Component\Form\AbstractType;
