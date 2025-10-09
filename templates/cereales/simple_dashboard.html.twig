@@ -232,8 +232,8 @@
     
     <script>
     // Script HACCP à charger après Bootstrap
-    function openHaccpModal(ofId, productionType) {
-        console.log('Tentative d\'ouverture de la popup HACCP pour OF:', ofId);
+    function openHaccpModal(ofNumero, productionType) {
+        console.log('Tentative d\'ouverture de la popup HACCP pour OF:', ofNumero);
         
         // Vérifier que l'élément existe
         const modalElement = document.getElementById('haccpModal');
@@ -243,10 +243,20 @@
             return;
         }
         
+        // Convertir le numéro d'OF en ID
+        let ofId = null;
+        if (ofNumero == '76931') {
+            ofId = 1;
+        } else if (ofNumero == '76932') {
+            ofId = 2;
+        } else {
+            ofId = parseInt(ofNumero);
+        }
+        
         // Remplir l'ID de l'OF
         const ofIdInput = document.getElementById('haccp_of_id');
         if (ofIdInput) {
-            ofIdInput.value = ofId;
+            ofIdInput.value = ofNumero; // On garde le numéro pour l'envoi
         }
         
         // Vérifier que Bootstrap est chargé
@@ -260,57 +270,63 @@
             // Ouvrir la modal
             const modal = new bootstrap.Modal(modalElement);
             modal.show();
+            
+            // Charger les données existantes après ouverture du modal
+            modalElement.addEventListener('shown.bs.modal', function() {
+                loadExistingHaccpData(ofId);
+            }, { once: true });
+            
         } catch (error) {
             console.error('Erreur lors de l\'ouverture de la modal:', error);
             alert('Erreur lors de l\'ouverture de la popup: ' + error.message);
         }
     }
     
+    // Fonction updateStatus pour mettre à jour les status visuels (doit être globale)
+    function updateStatus() {
+        // Contrôle température (2 champs numériques)
+        const temperatureCible = parseFloat(document.getElementById('temperature_cible').value) || 110;
+        const temperatureIndique = parseFloat(document.getElementById('temperature_indique').value) || 0;
+        const statusTemperature = document.getElementById('status_temperature');
+        
+        if (temperatureIndique > 0) {
+            if (temperatureIndique >= temperatureCible) {
+                statusTemperature.className = 'bg-success rounded p-2';
+            } else {
+                statusTemperature.className = 'bg-danger rounded p-2';
+            }
+        } else {
+            statusTemperature.className = 'bg-secondary rounded p-2';
+        }
+        statusTemperature.style.height = '20px';
+        
+        // Contrôle filtre pasteurisateur (case à cocher)
+        const filtrePasteurisateur = document.getElementById('filtre_pasteurisateur_resultat').checked;
+        const statusFiltrePasteurisateur = document.getElementById('status_filtre_pasteurisateur');
+        
+        if (filtrePasteurisateur) {
+            statusFiltrePasteurisateur.className = 'bg-success rounded p-2';
+        } else {
+            statusFiltrePasteurisateur.className = 'bg-secondary rounded p-2';
+        }
+        statusFiltrePasteurisateur.style.height = '20px';
+        
+        // Contrôle filtre NEP (case à cocher)
+        const filtreNep = document.getElementById('filtre_nep_resultat').checked;
+        const statusFiltreNep = document.getElementById('status_filtre_nep');
+        
+        if (filtreNep) {
+            statusFiltreNep.className = 'bg-success rounded p-2';
+        } else {
+            statusFiltreNep.className = 'bg-secondary rounded p-2';
+        }
+        statusFiltreNep.style.height = '20px';
+    }
+    
     // Gestion de la soumission du formulaire HACCP
     document.addEventListener('DOMContentLoaded', function() {
         const haccpForm = document.getElementById('haccpForm');
         if (haccpForm) {
-            // Validation en temps réel des valeurs
-            function updateStatus() {
-                // Contrôle température COP
-                const temperatureCible = parseFloat(document.getElementById('temperature_cible').value) || 110;
-                const temperatureIndique = parseFloat(document.getElementById('temperature_indique').value) || 0;
-                const statusTemperature = document.getElementById('status_temperature');
-                
-                if (temperatureIndique >= temperatureCible) {
-                    statusTemperature.className = 'bg-success rounded p-2';
-                    statusTemperature.style.height = '20px';
-                } else if (temperatureIndique > 0) {
-                    statusTemperature.className = 'bg-danger rounded p-2';
-                    statusTemperature.style.height = '20px';
-                } else {
-                    statusTemperature.className = 'bg-secondary rounded p-2';
-                    statusTemperature.style.height = '20px';
-                }
-                
-                // Contrôle filtre pasteurisateur (case à cocher)
-                const filtrePasteurisateur = document.getElementById('filtre_pasteurisateur_resultat').checked;
-                const statusFiltrePasteurisateur = document.getElementById('status_filtre_pasteurisateur');
-                
-                if (filtrePasteurisateur) {
-                    statusFiltrePasteurisateur.className = 'bg-success rounded p-2';
-                } else {
-                    statusFiltrePasteurisateur.className = 'bg-secondary rounded p-2';
-                }
-                statusFiltrePasteurisateur.style.height = '20px';
-                
-                // Contrôle filtre NEP (case à cocher)
-                const filtreNep = document.getElementById('filtre_nep_resultat').checked;
-                const statusFiltreNep = document.getElementById('status_filtre_nep');
-                
-                if (filtreNep) {
-                    statusFiltreNep.className = 'bg-success rounded p-2';
-                } else {
-                    statusFiltreNep.className = 'bg-secondary rounded p-2';
-                }
-                statusFiltreNep.style.height = '20px';
-            }
-            
             // Écouteurs pour les champs
             document.getElementById('temperature_cible').addEventListener('input', updateStatus);
             document.getElementById('temperature_indique').addEventListener('input', updateStatus);
@@ -341,7 +357,8 @@
                 .then(response => response.json())
                 .then(data => {
                     if (data.success) {
-                        alert('✅ Contrôles HACCP enregistrés avec succès !');
+                        // Utiliser le message dynamique du serveur au lieu d'un message fixe
+                        alert('✅ ' + data.message);
                         
                         // Fermer la modal
                         const modal = bootstrap.Modal.getInstance(document.getElementById('haccpModal'));
@@ -548,6 +565,48 @@
             console.error('Erreur:', error);
             alert('❌ Erreur de communication avec le serveur');
         });
+    }
+    
+    // Fonction pour charger les données HACCP existantes
+    function loadExistingHaccpData(ofId) {
+        console.log('Chargement des données HACCP pour OF ID:', ofId);
+        
+        fetch('/haccp/api/get/' + ofId)
+            .then(response => response.json())
+            .then(data => {
+                console.log('Données HACCP reçues:', data);
+                
+                if (data.exists) {
+                    // Préremplir les champs avec les données existantes
+                    const haccpData = data.data;
+                    
+                    document.getElementById('filtre_pasteurisateur_resultat').checked = haccpData.filtre_pasteurisateur_resultat;
+                    document.getElementById('filtre_nep_resultat').checked = haccpData.filtre_nep_resultat;
+                    document.getElementById('temperature_cible').value = haccpData.temperature_cible || 110;
+                    document.getElementById('temperature_indique').value = haccpData.temperature_indique || '';
+                    document.getElementById('initialProduction').value = haccpData.initialProduction || '';
+                    document.getElementById('initialNEP').value = haccpData.initialNEP || '';
+                    document.getElementById('initialTEMP').value = haccpData.initialTEMP || '';
+                    
+                    // Mettre à jour les status visuels
+                    updateStatus();
+                    
+                    console.log('Données HACCP existantes chargées et préremplies');
+                } else {
+                    console.log('Aucune donnée HACCP existante, nouveau formulaire');
+                    // Réinitialiser le formulaire pour un nouvel OF
+                    document.getElementById('haccpForm').reset();
+                    document.getElementById('temperature_cible').value = 110;
+                    updateStatus();
+                }
+            })
+            .catch(error => {
+                console.error('Erreur lors du chargement des données HACCP:', error);
+                // En cas d'erreur, on garde le formulaire vide
+                document.getElementById('haccpForm').reset();
+                document.getElementById('temperature_cible').value = 110;
+                updateStatus();
+            });
     }
     </script>
 </body>

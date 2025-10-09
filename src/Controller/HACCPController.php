@@ -7,6 +7,7 @@ use App\Form\HACCPType;
 use App\Repository\HACCPRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -73,7 +74,37 @@ class HACCPController extends AbstractController
             $allData = $request->request->all();
             error_log('HACCP DEBUG - Toutes les données reçues: ' . json_encode($allData));
             
-            $haccp = new HACCP();
+            $ofData = $request->request->get('of_id');
+            error_log('HACCP DEBUG - OF data reçu: ' . $ofData);
+            
+            // Convertir le numéro d'OF en ID si nécessaire
+            $ofId = null;
+            if ($ofData) {
+                if ($ofData == '76931') {
+                    $ofId = 1;
+                } elseif ($ofData == '76932') {
+                    $ofId = 2;
+                } else {
+                    $ofId = (int)$ofData;
+                }
+                error_log('HACCP DEBUG - OF numéro ' . $ofData . ' converti en ID: ' . $ofId);
+            }
+            
+            // Vérifier s'il existe déjà un enregistrement HACCP pour cet OF
+            $existingHaccp = null;
+            if ($ofId) {
+                $existingHaccp = $em->getRepository(HACCP::class)->findOneBy(['of_id' => $ofId]);
+            }
+            
+            if ($existingHaccp) {
+                // Mettre à jour l'enregistrement existant
+                $haccp = $existingHaccp;
+                error_log('HACCP DEBUG - Mise à jour de l\'enregistrement existant ID: ' . $haccp->getId());
+            } else {
+                // Créer un nouveau enregistrement
+                $haccp = new HACCP();
+                error_log('HACCP DEBUG - Création d\'un nouvel enregistrement');
+            }
             
             // Récupération des données du formulaire
             $filtrePasteurisateurResultat = $request->request->get('filtre_pasteurisateur_resultat') === '1';
@@ -85,24 +116,6 @@ class HACCPController extends AbstractController
             $initialProduction = $request->request->get('initialProduction');
             $initialNEP = $request->request->get('initialNEP');
             $initialTEMP = $request->request->get('initialTEMP');
-            
-            $ofData = $request->request->get('of_id');
-            error_log('HACCP DEBUG - OF data reçu: ' . $ofData);
-            
-            // Convertir le numéro d'OF en ID si nécessaire
-            $ofId = null;
-            if ($ofData) {
-                // Si c'est un numéro d'OF (comme 76931), on cherche l'ID correspondant
-                if ($ofData == '76931') {
-                    $ofId = 1;
-                } elseif ($ofData == '76932') {
-                    $ofId = 2;
-                } else {
-                    // Sinon, on assume que c'est déjà un ID
-                    $ofId = (int)$ofData;
-                }
-                error_log('HACCP DEBUG - OF numéro ' . $ofData . ' converti en ID: ' . $ofId);
-            }
             
             // Validation des valeurs critiques
             $controleOkTemperature = $temperatureIndique >= $temperatureCible;
@@ -123,14 +136,24 @@ class HACCPController extends AbstractController
             $em->persist($haccp);
             $em->flush();
             
-            $message = 'Contrôles HACCP enregistrés avec succès';
+            $isUpdate = $existingHaccp !== null;
+            error_log('HACCP DEBUG - existingHaccp: ' . ($existingHaccp ? 'OUI (ID: ' . $existingHaccp->getId() . ')' : 'NON'));
+            error_log('HACCP DEBUG - isUpdate: ' . ($isUpdate ? 'OUI' : 'NON'));
+            
+            if ($isUpdate) {
+                $message = 'Les données HACCP ont été mises à jour avec succès.';
+            } else {
+                $message = 'Les données HACCP ont été enregistrées avec succès.';
+            }
+            error_log('HACCP DEBUG - Message final: ' . $message);
             if (!$controleOkTemperature && $temperatureIndique > 0) {
                 $message .= ' (⚠️ Température sous la valeur cible)';
             }
             
             return $this->json([
                 'success' => true,
-                'message' => $message
+                'message' => $message,
+                'action' => $existingHaccp ? 'updated' : 'created'
             ]);
             
         } catch (\Exception $e) {
@@ -138,6 +161,39 @@ class HACCPController extends AbstractController
                 'success' => false,
                 'message' => 'Erreur lors de l\'enregistrement : ' . $e->getMessage()
             ], 400);
+        }
+    }
+    
+    #[Route('/api/get/{ofId}', name: 'haccp_api_get', methods: ['GET'])]
+    public function getHaccpByOf(int $ofId, EntityManagerInterface $em): JsonResponse
+    {
+        try {
+            $haccp = $em->getRepository(HACCP::class)->findOneBy(['of_id' => $ofId]);
+            
+            if (!$haccp) {
+                return $this->json(['exists' => false]);
+            }
+            
+            return $this->json([
+                'exists' => true,
+                'data' => [
+                    'id' => $haccp->getId(),
+                    'filtre_pasteurisateur_resultat' => $haccp->getFiltrePasteurisateurResultat(),
+                    'filtre_nep_resultat' => $haccp->getFiltreNepResultat(),
+                    'temperature_cible' => $haccp->getTemperatureCible(),
+                    'temperature_indique' => $haccp->getTemperatureIndique(),
+                    'initialProduction' => $haccp->getInitialProduction(),
+                    'initialNEP' => $haccp->getInitialNEP(),
+                    'initialTEMP' => $haccp->getInitialTEMP(),
+                    'of_id' => $haccp->getOfId()
+                ]
+            ]);
+            
+        } catch (\Exception $e) {
+            return $this->json([
+                'exists' => false,
+                'error' => $e->getMessage()
+            ], 500);
         }
     }
 
