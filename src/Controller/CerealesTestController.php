@@ -31,7 +31,7 @@ class CerealesTestController extends AbstractController
             $dsn = "mysql:host=127.0.0.1;dbname=crea_analysis_recorder;charset=utf8mb4";
             $pdo = new \PDO($dsn, 'root', '');
             
-            $stmt = $pdo->prepare("SELECT COUNT(*) as total FROM `of`");
+            $stmt = $pdo->prepare("SELECT COUNT(*) as total FROM ordre_fabrication");
             $stmt->execute();
             $data = $stmt->fetch(\PDO::FETCH_ASSOC);
             

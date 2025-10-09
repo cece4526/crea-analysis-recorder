@@ -1,0 +1,144 @@
+<!-- Modal Cuve Hydrolyse -->
+<div class="modal fade" id="cuveHydrolyseModal" tabindex="-1" aria-labelledby="cuveHydrolyseModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header" style="background: linear-gradient(135deg, #4CAF50, #45a049); color: white;">
+                <h5 class="modal-title" id="cuveHydrolyseModalLabel">
+                    <i class="fas fa-flask me-2"></i>
+                    Enregistrement de la Production - Cuve Hydrolyse
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="cuveHydrolyseForm">
+                    <input type="hidden" id="cuve_of_id" name="of_id">
+                    <div class="row mb-4">
+                        <div class="col-md-12">
+                            <label for="cuve_of_display" class="form-label">
+                                <i class="fas fa-file-alt me-1"></i>Ordre de Fabrication (OF)
+                            </label>
+                            <input type="text" class="form-control" id="cuve_of_display" readonly 
+                                   style="background-color: #f8f9fa; font-weight: bold; color: #0066cc;">
+                        </div>
+                    </div>
+                    
+                    <!-- Paramètres de préparation -->
+                    <h6 class="text-primary mb-3">
+                        <i class="fas fa-cogs me-2"></i>Paramètres de préparation
+                    </h6>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="cuve_numero" class="form-label">
+                                <i class="fas fa-vial me-1"></i>Numéro de Cuve *
+                            </label>
+                            <input type="number" class="form-control" id="cuve_numero" name="cuve" required 
+                                   placeholder="Ex: 1" min="1" max="10">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="cuve_debit_enzyme" class="form-label">
+                                <i class="fas fa-tint me-1"></i>Débit d'incorporation d'enzyme (L/h) *
+                            </label>
+                            <input type="number" class="form-control" id="cuve_debit_enzyme" name="debit_enzyme" required
+                                   placeholder="Ex: 25.5" step="0.1" min="0">
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="cuve_temperature" class="form-label">
+                                <i class="fas fa-thermometer-half me-1"></i>Température d'hydrolyse (°C) *
+                            </label>
+                            <input type="number" class="form-control" id="cuve_temperature" name="temperature_hydrolise" 
+                                   placeholder="Ex: 60" step="0.1" min="0" max="100" required>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="cuve_quantite_enzyme" class="form-label">
+                                <i class="fas fa-vial me-1"></i>Quantité Enzyme (L) *
+                            </label>
+                            <input type="number" class="form-control" id="cuve_quantite_enzyme" name="quantite_enzyme" required
+                                   placeholder="Ex: 15.5" step="0.1" min="0">
+                        </div>
+                    </div>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-6">
+                            <label for="cuve_matiere" class="form-label">
+                                <i class="fas fa-weight me-1"></i>Matière ajoutée (kg) *
+                            </label>
+                            <input type="number" class="form-control" id="cuve_matiere" name="matiere" required
+                                   placeholder="Ex: 100.5" step="0.1" min="0">
+                        </div>
+                        <div class="col-md-6">
+                            <label for="cuve_initial_pilote" class="form-label">
+                                <i class="fas fa-user me-1"></i>Initial Pilote (max 5 car.) *
+                            </label>
+                            <input type="text" class="form-control" id="cuve_initial_pilote" name="initial_pilote" required
+                                   placeholder="Ex: AB" maxlength="5">
+                        </div>
+                    </div>
+                    
+                    <!-- Contrôle visuel -->
+                    <h6 class="text-primary mb-3 mt-4">
+                        <i class="fas fa-eye me-2"></i>Contrôle visuel
+                    </h6>
+                    
+                    <div class="row mb-3">
+                        <div class="col-md-12">
+                            <fieldset>
+                                <legend class="form-label">
+                                    <i class="fas fa-search me-1"></i>Contrôle visuel lors de verre *
+                                </legend>
+                                <div class="form-check-group d-flex gap-3">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="control_verre" id="control_verre_ok" value="1" required>
+                                        <label class="form-check-label text-success" for="control_verre_ok">
+                                            <i class="fas fa-check-circle me-1"></i>OK
+                                        </label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="control_verre" id="control_verre_nok" value="0" required>
+                                        <label class="form-check-label text-danger" for="control_verre_nok">
+                                            <i class="fas fa-times-circle me-1"></i>Non OK
+                                        </label>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </div>
+                    </div>
+                    
+                    <!-- Informations sur l'OF -->
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <strong>Information:</strong> Les données seront enregistrées pour l'OF N° <span id="cuveOfInfo">--</span>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times me-1"></i>Annuler
+                </button>
+                <button type="button" class="btn btn-success" onclick="submitCuveHydrolyseForm()">
+                    <i class="fas fa-save me-1"></i>Enregistrer
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.form-check-group .form-check-input:checked + .form-check-label {
+    font-weight: bold;
+}
+
+.modal-content {
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+}
+
+.alert-info {
+    background: linear-gradient(135deg, #e3f2fd, #bbdefb);
+    border: 1px solid #2196f3;
+    border-radius: 8px;
+}
+</style>

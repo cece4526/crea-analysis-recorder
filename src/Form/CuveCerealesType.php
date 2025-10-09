@@ -57,9 +57,9 @@ class CuveCerealesType extends AbstractType
                     'placeholder' => '60.00',
                 ],
             ])
-            ->add('quantiteEnzyme2', NumberType::class, [
+            ->add('matiere', NumberType::class, [
                 'required' => false,
-                'label' => 'Quantité enzyme 2 (ml)',
+                'label' => 'Matière (kg)',
                 'scale' => 2,
                 'attr' => [
                     'class' => 'form-control',
@@ -68,9 +68,9 @@ class CuveCerealesType extends AbstractType
                     'placeholder' => '0.00',
                 ],
             ])
-            ->add('matiere', NumberType::class, [
+            ->add('quantiteEnzyme', NumberType::class, [
                 'required' => false,
-                'label' => 'Matière (kg)',
+                'label' => 'Quantité enzyme (ml)',
                 'scale' => 2,
                 'attr' => [
                     'class' => 'form-control',

@@ -18,7 +18,7 @@ class CerealesSimpleController extends AbstractController
             $pdo = new \PDO($dsn, 'root', '');
             
             // Récupérer les OF en cours
-            $stmt = $pdo->prepare("SELECT * FROM `of` WHERE statut = 'en_cours' ORDER BY created_at DESC LIMIT 2");
+            $stmt = $pdo->prepare("SELECT * FROM ordre_fabrication WHERE statut = 'en_cours' ORDER BY created_at DESC LIMIT 2");
             $stmt->execute();
             $ofsEnCours = $stmt->fetchAll(\PDO::FETCH_ASSOC);
             

@@ -41,13 +41,13 @@ class HACCPRepository extends ServiceEntityRepository
     }
 
     /**
-     * Trouve un contrôle HACCP par OF
+     * Trouve un contrôle HACCP par OF ID
      */
-    public function findByOF(OF $of): ?HACCP
+    public function findByOFId(int $ofId): ?HACCP
     {
         return $this->createQueryBuilder('h')
-            ->andWhere('h._of = :of')
-            ->setParameter('of', $of)
+            ->andWhere('h.of_id = :ofId')
+            ->setParameter('ofId', $ofId)
             ->getQuery()
             ->getOneOrNullResult();
     }
@@ -58,9 +58,9 @@ class HACCPRepository extends ServiceEntityRepository
     public function findFiltresPasteurisateurDefaillants(): array
     {
         return $this->createQueryBuilder('h')
-            ->andWhere('h._filtre_pasteurisateur_resultat = :resultat')
+            ->andWhere('h.filtre_pasteurisateur_resultat = :resultat')
             ->setParameter('resultat', false)
-            ->orderBy('h._id', 'DESC')
+            ->orderBy('h.id', 'DESC')
             ->getQuery()
             ->getResult();
     }
@@ -71,9 +71,9 @@ class HACCPRepository extends ServiceEntityRepository
     public function findFiltresNEPDefaillants(): array
     {
         return $this->createQueryBuilder('h')
-            ->andWhere('h._filtre_nep_resultat = :resultat')
+            ->andWhere('h.filtre_nep_resultat = :resultat')
             ->setParameter('resultat', false)
-            ->orderBy('h._id', 'DESC')
+            ->orderBy('h.id', 'DESC')
             ->getQuery()
             ->getResult();
     }
@@ -84,9 +84,9 @@ class HACCPRepository extends ServiceEntityRepository
     public function findEcartsTemperature(int $ecartMaximum = 5): array
     {
         return $this->createQueryBuilder('h')
-            ->andWhere('ABS(h._temperature_cible - h._temperature_indique) > :ecart')
+            ->andWhere('ABS(h.temperature_cible - h.temperature_indique) > :ecart')
             ->setParameter('ecart', $ecartMaximum)
-            ->orderBy('h._id', 'DESC')
+            ->orderBy('h.id', 'DESC')
             ->getQuery()
             ->getResult();
     }
@@ -97,8 +97,8 @@ class HACCPRepository extends ServiceEntityRepository
     public function countByFiltrePasteurisateur(): array
     {
         $results = $this->createQueryBuilder('h')
-            ->select('h._filtre_pasteurisateur_resultat as resultat, COUNT(h._id) as count')
-            ->groupBy('h._filtre_pasteurisateur_resultat')
+            ->select('h.filtre_pasteurisateur_resultat as resultat, COUNT(h.id) as count')
+            ->groupBy('h.filtre_pasteurisateur_resultat')
             ->getQuery()
             ->getResult();
 
@@ -123,8 +123,8 @@ class HACCPRepository extends ServiceEntityRepository
     public function countByFiltreNEP(): array
     {
         $results = $this->createQueryBuilder('h')
-            ->select('h._filtre_nep_resultat as resultat, COUNT(h._id) as count')
-            ->groupBy('h._filtre_nep_resultat')
+            ->select('h.filtre_nep_resultat as resultat, COUNT(h.id) as count')
+            ->groupBy('h.filtre_nep_resultat')
             ->getQuery()
             ->getResult();
 
@@ -150,13 +150,13 @@ class HACCPRepository extends ServiceEntityRepository
     {
         $result = $this->createQueryBuilder('h')
             ->select('
-                AVG(h._temperature_cible) as temp_cible_moyenne,
-                AVG(h._temperature_indique) as temp_indique_moyenne,
-                MIN(h._temperature_cible) as temp_cible_min,
-                MAX(h._temperature_cible) as temp_cible_max,
-                MIN(h._temperature_indique) as temp_indique_min,
-                MAX(h._temperature_indique) as temp_indique_max,
-                AVG(ABS(h._temperature_cible - h._temperature_indique)) as ecart_moyen
+                AVG(h.temperature_cible) as temp_cible_moyenne,
+                AVG(h.temperature_indique) as temp_indique_moyenne,
+                MIN(h.temperature_cible) as temp_cible_min,
+                MAX(h.temperature_cible) as temp_cible_max,
+                MIN(h.temperature_indique) as temp_indique_min,
+                MAX(h.temperature_indique) as temp_indique_max,
+                AVG(ABS(h.temperature_cible - h.temperature_indique)) as ecart_moyen
             ')
             ->getQuery()
             ->getSingleResult();
@@ -182,12 +182,12 @@ class HACCPRepository extends ServiceEntityRepository
     public function findControlesConformes(): array
     {
         return $this->createQueryBuilder('h')
-            ->andWhere('h._filtre_pasteurisateur_resultat = :true')
-            ->andWhere('h._filtre_nep_resultat = :true')
-            ->andWhere('ABS(h._temperature_cible - h._temperature_indique) <= :ecart')
+            ->andWhere('h.filtre_pasteurisateur_resultat = :true')
+            ->andWhere('h.filtre_nep_resultat = :true')
+            ->andWhere('ABS(h.temperature_cible - h.temperature_indique) <= :ecart')
             ->setParameter('true', true)
             ->setParameter('ecart', 5)
-            ->orderBy('h._id', 'DESC')
+            ->orderBy('h.id', 'DESC')
             ->getQuery()
             ->getResult();
     }
@@ -199,13 +199,13 @@ class HACCPRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('h')
             ->andWhere('
-                h._filtre_pasteurisateur_resultat = :false 
-                OR h._filtre_nep_resultat = :false 
-                OR ABS(h._temperature_cible - h._temperature_indique) > :ecart
+                h.filtre_pasteurisateur_resultat = :false 
+                OR h.filtre_nep_resultat = :false 
+                OR ABS(h.temperature_cible - h.temperature_indique) > :ecart
             ')
             ->setParameter('false', false)
             ->setParameter('ecart', 5)
-            ->orderBy('h._id', 'DESC')
+            ->orderBy('h.id', 'DESC')
             ->getQuery()
             ->getResult();
     }
@@ -218,31 +218,46 @@ class HACCPRepository extends ServiceEntityRepository
         $qb = $this->createQueryBuilder('h');
 
         if (isset($filters['filtre_pasteurisateur']) && $filters['filtre_pasteurisateur'] !== '') {
-            $qb->andWhere('h._filtre_pasteurisateur_resultat = :filtre_pasteurisateur')
+            $qb->andWhere('h.filtre_pasteurisateur_resultat = :filtre_pasteurisateur')
                ->setParameter('filtre_pasteurisateur', (bool) $filters['filtre_pasteurisateur']);
         }
 
         if (isset($filters['filtre_nep']) && $filters['filtre_nep'] !== '') {
-            $qb->andWhere('h._filtre_nep_resultat = :filtre_nep')
+            $qb->andWhere('h.filtre_nep_resultat = :filtre_nep')
                ->setParameter('filtre_nep', (bool) $filters['filtre_nep']);
         }
 
         if (isset($filters['temperature_cible_min']) && $filters['temperature_cible_min'] !== '') {
-            $qb->andWhere('h._temperature_cible >= :temp_cible_min')
+            $qb->andWhere('h.temperature_cible >= :temp_cible_min')
                ->setParameter('temp_cible_min', (int) $filters['temperature_cible_min']);
         }
 
         if (isset($filters['temperature_cible_max']) && $filters['temperature_cible_max'] !== '') {
-            $qb->andWhere('h._temperature_cible <= :temp_cible_max')
+            $qb->andWhere('h.temperature_cible <= :temp_cible_max')
                ->setParameter('temp_cible_max', (int) $filters['temperature_cible_max']);
         }
 
         if (isset($filters['ecart_maximum']) && $filters['ecart_maximum'] !== '') {
-            $qb->andWhere('ABS(h._temperature_cible - h._temperature_indique) <= :ecart_max')
+            $qb->andWhere('ABS(h.temperature_cible - h.temperature_indique) <= :ecart_max')
                ->setParameter('ecart_max', (int) $filters['ecart_maximum']);
         }
 
-        return $qb->orderBy('h._id', 'DESC')
+        if (isset($filters['initialProduction']) && !empty($filters['initialProduction'])) {
+            $qb->andWhere('h.initialProduction = :initialProduction')
+               ->setParameter('initialProduction', $filters['initialProduction']);
+        }
+
+        if (isset($filters['initialNEP']) && !empty($filters['initialNEP'])) {
+            $qb->andWhere('h.initialNEP = :initialNEP')
+               ->setParameter('initialNEP', $filters['initialNEP']);
+        }
+
+        if (isset($filters['initialTEMP']) && !empty($filters['initialTEMP'])) {
+            $qb->andWhere('h.initialTEMP = :initialTEMP')
+               ->setParameter('initialTEMP', $filters['initialTEMP']);
+        }
+
+        return $qb->orderBy('h.id', 'DESC')
                   ->getQuery()
                   ->getResult();
     }
@@ -257,7 +272,20 @@ class HACCPRepository extends ServiceEntityRepository
         $controlesNonConformes = count($this->findControlesNonConformes());
         $filtresPasteurisateur = $this->countByFiltrePasteurisateur();
         $filtresNEP = $this->countByFiltreNEP();
-        $temperatureStats = $this->getTemperatureStats();
+        
+        // Vérifier s'il y a des données avant de calculer les stats de température
+        $temperatureStats = [];
+        if ($totalControles > 0) {
+            try {
+                $temperatureStats = $this->getTemperatureStats();
+            } catch (\Exception $e) {
+                $temperatureStats = [
+                    'temperature_cible' => ['moyenne' => 0, 'min' => 0, 'max' => 0],
+                    'temperature_indique' => ['moyenne' => 0, 'min' => 0, 'max' => 0],
+                    'ecart_moyen' => 0
+                ];
+            }
+        }
 
         return [
             'total_controles' => $totalControles,

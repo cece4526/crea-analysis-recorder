@@ -20,12 +20,12 @@ class HomeController extends AbstractController
             $stats = [];
             
             // Compter les OF
-            $stmt = $pdo->prepare("SELECT COUNT(*) as total FROM `of`");
+            $stmt = $pdo->prepare("SELECT COUNT(*) as total FROM ordre_fabrication");
             $stmt->execute();
             $stats['total_of'] = $stmt->fetch(\PDO::FETCH_ASSOC)['total'] ?? 0;
             
             // Compter les OF en cours
-            $stmt = $pdo->prepare("SELECT COUNT(*) as total FROM `of` WHERE statut = 'en_cours'");
+            $stmt = $pdo->prepare("SELECT COUNT(*) as total FROM ordre_fabrication WHERE statut = 'en_cours'");
             $stmt->execute();
             $stats['of_en_cours'] = $stmt->fetch(\PDO::FETCH_ASSOC)['total'] ?? 0;
             

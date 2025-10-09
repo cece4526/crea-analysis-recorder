@@ -33,13 +33,13 @@ class HACCP
     #[ORM\Column(type: Types::INTEGER, nullable: true)]
     private ?int $of_id = null;
 
-    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    #[ORM\Column(name: 'initialProduction', type: Types::STRING, length: 255, nullable: true)]
     private ?string $initialProduction = null;
 
-    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    #[ORM\Column(name: 'initialNEP', type: Types::STRING, length: 255, nullable: true)]
     private ?string $initialNEP = null;
 
-    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
+    #[ORM\Column(name: 'initialTEMP', type: Types::STRING, length: 255, nullable: true)]
     private ?string $initialTEMP = null;
 
     /**

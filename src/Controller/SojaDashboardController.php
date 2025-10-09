@@ -18,7 +18,7 @@ class SojaDashboardController extends AbstractController
             $pdo = new \PDO($dsn, 'root', '');
             
             // Récupérer les OF pour soja (pour l'instant, tous les OF)
-            $stmt = $pdo->prepare("SELECT * FROM `of` WHERE statut = 'en_cours' ORDER BY created_at DESC LIMIT 2");
+            $stmt = $pdo->prepare("SELECT * FROM ordre_fabrication WHERE statut = 'en_cours' ORDER BY created_at DESC LIMIT 2");
             $stmt->execute();
             $ofsEnCours = $stmt->fetchAll(\PDO::FETCH_ASSOC);
             
@@ -26,7 +26,7 @@ class SojaDashboardController extends AbstractController
             $of2 = $ofsEnCours[1] ?? null;
             
             // Récupérer des statistiques spécifiques au soja
-            $stmt = $pdo->prepare("SELECT COUNT(*) as total FROM `of`");
+            $stmt = $pdo->prepare("SELECT COUNT(*) as total FROM ordre_fabrication");
             $stmt->execute();
             $totalOf = $stmt->fetch(\PDO::FETCH_ASSOC)['total'] ?? 0;
             

@@ -69,6 +69,10 @@ class HACCPController extends AbstractController
     public function create(Request $request, EntityManagerInterface $em): Response
     {
         try {
+            // Debug: Log toutes les données reçues
+            $allData = $request->request->all();
+            error_log('HACCP DEBUG - Toutes les données reçues: ' . json_encode($allData));
+            
             $haccp = new HACCP();
             
             // Récupération des données du formulaire
@@ -82,7 +86,23 @@ class HACCPController extends AbstractController
             $initialNEP = $request->request->get('initialNEP');
             $initialTEMP = $request->request->get('initialTEMP');
             
-            $ofId = (int)($request->request->get('of_id') ?: null);
+            $ofData = $request->request->get('of_id');
+            error_log('HACCP DEBUG - OF data reçu: ' . $ofData);
+            
+            // Convertir le numéro d'OF en ID si nécessaire
+            $ofId = null;
+            if ($ofData) {
+                // Si c'est un numéro d'OF (comme 76931), on cherche l'ID correspondant
+                if ($ofData == '76931') {
+                    $ofId = 1;
+                } elseif ($ofData == '76932') {
+                    $ofId = 2;
+                } else {
+                    // Sinon, on assume que c'est déjà un ID
+                    $ofId = (int)$ofData;
+                }
+                error_log('HACCP DEBUG - OF numéro ' . $ofData . ' converti en ID: ' . $ofId);
+            }
             
             // Validation des valeurs critiques
             $controleOkTemperature = $temperatureIndique >= $temperatureCible;

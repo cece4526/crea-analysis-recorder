@@ -54,7 +54,7 @@ class TestController extends AbstractController
             $dsn = "mysql:host=127.0.0.1;dbname=crea_analysis_recorder;charset=utf8mb4";
             $pdo = new \PDO($dsn, 'root', '');
             
-            $stmt = $pdo->query("SELECT COUNT(*) as total FROM `of`");
+            $stmt = $pdo->query("SELECT COUNT(*) as total FROM ordre_fabrication");
             $result = $stmt->fetch(\PDO::FETCH_ASSOC);
             
             return new Response('<h1>Base de données OK</h1><p>Nombre d\'OF: ' . $result['total'] . '</p>');

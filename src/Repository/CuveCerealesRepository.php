@@ -107,7 +107,6 @@ class CuveCerealesRepository extends ServiceEntityRepository
                 COUNT(cc.id) as nb_utilisations,
                 AVG(CAST(cc.debit_enzyme AS DECIMAL(10,2))) as debit_enzyme_moyen,
                 AVG(CAST(cc.temperature_hydrolise AS DECIMAL(10,2))) as temperature_moyenne,
-                AVG(CAST(cc.quantite_enzyme2 AS DECIMAL(10,2))) as quantite_enzyme2_moyenne,
                 SUM(CASE WHEN cc.control_verre = true THEN 1 ELSE 0 END) as controles_verre_ok,
                 SUM(CASE WHEN cc.control_verre = false THEN 1 ELSE 0 END) as controles_verre_ko
             ')
@@ -123,7 +122,6 @@ class CuveCerealesRepository extends ServiceEntityRepository
                 'nb_utilisations' => (int) $result['nb_utilisations'],
                 'debit_enzyme_moyen' => round((float) $result['debit_enzyme_moyen'], 2),
                 'temperature_moyenne' => round((float) $result['temperature_moyenne'], 2),
-                'quantite_enzyme2_moyenne' => round((float) $result['quantite_enzyme2_moyenne'], 2),
                 'controles_verre_ok' => (int) $result['controles_verre_ok'],
                 'controles_verre_ko' => (int) $result['controles_verre_ko'],
                 'taux_controle_verre_ok' => $totalControles > 0 ? 

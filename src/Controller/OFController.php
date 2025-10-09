@@ -9,6 +9,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/of')]
@@ -77,5 +78,46 @@ class OFController extends AbstractController
             $em->flush();
         }
         return $this->redirectToRoute('of_index');
+    }
+
+    #[Route('/api/list', name: 'of_api_list', methods: ['GET'])]
+    public function apiList(EntityManagerInterface $em): Response
+    {
+        try {
+            // Utilisation d'une requête SQL directe pour éviter les problèmes d'entité
+            $sql = "SELECT id, numero, produit FROM ordre_fabrication ORDER BY numero";
+            $stmt = $em->getConnection()->prepare($sql);
+            $result = $stmt->executeQuery();
+            $ofs = $result->fetchAllAssociative();
+            
+            $data = [];
+            foreach ($ofs as $of) {
+                $data[] = [
+                    'id' => $of['id'],
+                    'numero' => $of['numero'],
+                    'produit' => $of['produit'],
+                    'name' => $of['produit'],
+                    'description' => $of['produit'] . ' - N° ' . $of['numero']
+                ];
+            }
+            
+            return $this->json($data);
+        } catch (\Exception $e) {
+            return $this->json([
+                'error' => 'Erreur lors du chargement des OFs: ' . $e->getMessage()
+            ], 500);
+        }
+    }
+
+    #[Route('/api/get/{id}', name: 'of_api_get', methods: ['GET'])]
+    public function apiGet(OF $of): Response
+    {
+        return $this->json([
+            'id' => $of->getId(),
+            'numero' => $of->getNumero(),
+            'produit' => $of->getProduit(),
+            'name' => $of->getName(),
+            'description' => $of->getName() . ' - N° ' . $of->getNumero()
+        ]);
     }
 }

@@ -19,49 +19,38 @@ use Doctrine\DBAL\Types\Types;
  */
 class CuveCereales
 {
-    #[ORM\ManyToOne(targetEntity: OF::class, inversedBy: '_cuveCereales')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?OF $of = null;
-
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(name: 'id', type: Types::INTEGER)]
     private ?int $id = null;
 
-    /**
-     * @ORM\Column(type="integer")
-     */
+    #[ORM\ManyToOne(targetEntity: OF::class, inversedBy: '_cuveCereales')]
+    #[ORM\JoinColumn(name: 'of_id', referencedColumnName: 'id', nullable: true)]
+    private ?OF $of = null;
+
+    #[ORM\Column(type: Types::INTEGER)]
     private ?int $cuve = null;
 
-    /**
-     * @ORM\Column(type="decimal", precision=10, scale=2, nullable=true)
-     */
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
     private ?string $debit_enzyme = null;
 
-    /**
-     * @ORM\Column(type="decimal", precision=10, scale=2, nullable=true)
-     */
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
     private ?string $temperature_hydrolise = null;
 
-    /**
-     * @ORM\Column(type="decimal", precision=10, scale=2, nullable=true)
-     */
-    private ?string $quantite_enzyme2 = null;
-
-    /**
-     * @ORM\Column(type="decimal", precision=10, scale=2, nullable=true)
-     */
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
     private ?string $matiere = null;
 
-    /**
-     * @ORM\Column(type="boolean")
-     */
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
+    private ?string $quantite_enzyme = null;
+
+    #[ORM\Column(type: Types::BOOLEAN, nullable: true)]
     private ?bool $control_verre = null;
 
-    /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
+    #[ORM\Column(type: Types::STRING, length: 255, nullable: true)]
     private ?string $initial_pilote = null;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $created_at = null;
 
     /**
      * Retourne l'identifiant de la cuve céréales.
@@ -166,29 +155,6 @@ class CuveCereales
     }
 
     /**
-     * Retourne la quantité d'enzyme 2.
-     *
-     * @return string|null
-     */
-    public function getQuantiteEnzyme2(): ?string
-    {
-        return $this->quantite_enzyme2;
-    }
-
-    /**
-     * Définit la quantité d'enzyme 2.
-     *
-     * @param string|null $quantiteEnzyme2 La quantité d'enzyme 2
-     *
-     * @return self
-     */
-    public function setQuantiteEnzyme2(?string $quantiteEnzyme2): self
-    {
-        $this->quantite_enzyme2 = $quantiteEnzyme2;
-        return $this;
-    }
-
-    /**
      * Retourne la matière.
      *
      * @return string|null
@@ -208,6 +174,29 @@ class CuveCereales
     public function setMatiere(?string $matiere): self
     {
         $this->matiere = $matiere;
+        return $this;
+    }
+
+    /**
+     * Retourne la quantité d'enzyme.
+     *
+     * @return string|null
+     */
+    public function getQuantiteEnzyme(): ?string
+    {
+        return $this->quantite_enzyme;
+    }
+
+    /**
+     * Définit la quantité d'enzyme.
+     *
+     * @param string|null $quantiteEnzyme La quantité d'enzyme
+     *
+     * @return self
+     */
+    public function setQuantiteEnzyme(?string $quantiteEnzyme): self
+    {
+        $this->quantite_enzyme = $quantiteEnzyme;
         return $this;
     }
 
@@ -254,6 +243,29 @@ class CuveCereales
     public function setInitialPilote(?string $initialPilote): self
     {
         $this->initial_pilote = $initialPilote;
+        return $this;
+    }
+
+    /**
+     * Retourne la date de création.
+     *
+     * @return \DateTimeInterface|null
+     */
+    public function getCreatedAt(): ?\DateTimeInterface
+    {
+        return $this->created_at;
+    }
+
+    /**
+     * Définit la date de création.
+     *
+     * @param \DateTimeInterface|null $createdAt La date de création
+     *
+     * @return self
+     */
+    public function setCreatedAt(?\DateTimeInterface $createdAt): self
+    {
+        $this->created_at = $createdAt;
         return $this;
     }
 }
