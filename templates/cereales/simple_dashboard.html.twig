@@ -20,7 +20,8 @@
                 <div class="of-header">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <h3>🌾 OF {{ of1.numero }}</h3>
+                            <h3>🌾 OF #{{ of1.numero }}</h3>
+                            <p class="mb-0 text-primary"><strong>Numéro: {{ of1.numero }}</strong></p>
                             <p class="mb-0">
                                 <span class="status-indicator status-{{ of1.statut }}"></span>
                                 Statut: {{ of1.statut|upper }}
@@ -36,9 +37,6 @@
                             <button class="btn btn-outline-primary btn-sm me-2" onclick="openHaccpModal('{{ of1.numero }}', 'cereales')">
                                 <i class="fas fa-shield-alt me-1"></i>HACCP
                             </button>
-                            <button class="btn btn-outline-success btn-sm" onclick="openCuveHydrolyseModal('{{ of1.numero }}', 'cereales')">
-                                <i class="fas fa-flask me-1"></i>Cuve Hydrolyse
-                            </button>
                         </div>
                     </div>
                 </div>
@@ -47,12 +45,32 @@
                     <h5>📈 Processus de Production</h5>
                     <div class="row">
                         <div class="col-6">
-                            <div class="text-center p-3 border rounded">
-                                <div class="status-indicator status-en-cours"></div>
-                                <strong>Cuves Céréales</strong>
+                            <!-- Carte cliquable pour Cuve Hydrolyse -->
+                            <div class="text-center p-3 border rounded cuve-card-clickable" 
+                                 onclick="openCuveHydrolyseModal('{{ of1.numero }}', 'cereales')" 
+                                 style="cursor: pointer; transition: all 0.3s; background: linear-gradient(135deg, #e3f2fd 0%, #f3e5f5 100%);"
+                                 onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 4px 15px rgba(0,123,255,0.3)';"
+                                 onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none';">
+                                
+                                <div class="mb-2">
+                                    <i class="fas fa-flask fa-2x text-primary"></i>
+                                </div>
+                                <strong class="text-primary">🧪 Cuve Hydrolyse</strong>
+                                
+                                {% if of1_cuve_info %}
                                 <div class="mt-2">
-                                    <small class="text-muted">Température: 85°C</small><br>
-                                    <small class="text-muted">Durée: 45 min</small>
+                                    <small class="text-info"><strong>🏆 Dernière cuve: #{{ of1_cuve_info.cuve }}</strong></small><br>
+                                    <small class="text-muted">⏱️ <span id="timer-of1" data-created="{{ of1_cuve_info.created_at }}">Calcul...</span></small>
+                                </div>
+                                {% else %}
+                                <div class="mt-2">
+                                    <small class="text-muted">Aucune cuve enregistrée</small><br>
+                                    <small class="text-success"><strong>👆 Cliquez pour créer</strong></small>
+                                </div>
+                                {% endif %}
+                                
+                                <div class="mt-2">
+                                    <span class="badge bg-primary">Cliquez pour gérer</span>
                                 </div>
                             </div>
                         </div>
@@ -69,27 +87,49 @@
                 </div>
                 
                 <div class="process-card">
-                    <h5>🔬 Enzymes & Corrections</h5>
+                    <h5>🔬 Heure Enzyme</h5>
                     <div class="row">
-                        <div class="col-4">
-                            <div class="text-center p-2 border rounded">
-                                <div class="status-indicator status-en-cours"></div>
-                                <strong>Enzyme</strong><br>
-                                <small>10:30</small>
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="text-center p-2 border rounded">
-                                <div class="status-indicator status-en-attente"></div>
-                                <strong>Avant Correct</strong><br>
-                                <small>--:--</small>
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="text-center p-2 border rounded">
-                                <div class="status-indicator status-en-attente"></div>
-                                <strong>Après Correct</strong><br>
-                                <small>--:--</small>
+                        <div class="col-12">
+                            <!-- Carte cliquable pour Heure Enzyme -->
+                            <div class="text-center p-3 border rounded heure-enzyme-card-clickable" 
+                                 onclick="openHeureEnzymeModal('{{ of1.numero }}', 'cereales')" 
+                                 style="cursor: pointer; transition: all 0.3s; background: linear-gradient(135deg, #fff3e0 0%, #fce4ec 100%);"
+                                 onmouseover="this.style.transform='scale(1.02)'; this.style.boxShadow='0 4px 15px rgba(255,152,0,0.3)';"
+                                 onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none';"
+                                 id="heure-enzyme-card-of1">>
+                                
+                                <div class="mb-2">
+                                    <i class="fas fa-clock fa-2x text-warning"></i>
+                                </div>
+                                <strong class="text-warning">⏰ Heure Enzyme</strong>
+                                
+                                {% if of1_heure_enzyme_info %}
+                                <div class="mt-2">
+                                    <small class="text-info"><strong>🕐 Dernière heure: {{ of1_heure_enzyme_info.heure }}</strong></small><br>
+                                    {% if of1_heure_enzyme_info.cuve_numero %}
+                                    <small class="text-success">🧪 Cuve: #{{ of1_heure_enzyme_info.cuve_numero }}</small><br>
+                                    {% endif %}
+                                    <small class="text-muted">⏱️ <span id="timer-enzyme-of1" data-created="{{ of1_heure_enzyme_info.created_at }}">Calcul...</span></small>
+                                </div>
+                                {% else %}
+                                <div class="mt-2">
+                                    <small class="text-muted">Aucune heure enregistrée</small><br>
+                                    <small class="text-warning"><strong>👆 Cliquez pour créer</strong></small>
+                                </div>
+                                {% endif %}
+                                
+                                <div class="mt-3">
+                                    <label class="form-label text-muted" style="font-size: 0.8em;">🧪 Sélectionner cuve hydrolyse:</label>
+                                    <select class="form-select form-select-sm" id="cuve-selector-of1" onchange="updateHeureEnzymeCuve('{{ of1.numero }}', this.value)" style="font-size: 0.9em;">
+                                        <option value="">-- Choisir une cuve --</option>
+                                        {% for cuve in of1_cuves %}
+                                        <option value="{{ cuve }}" {% if of1_heure_enzyme_info and of1_heure_enzyme_info.cuve_numero == cuve %}selected{% endif %}>Cuve #{{ cuve }}</option>
+                                        {% endfor %}
+                                        {% if of1_cuves is empty %}
+                                        <option disabled>Aucune cuve pour cet OF</option>
+                                        {% endif %}
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -108,7 +148,8 @@
                 <div class="of-header">
                     <div class="d-flex justify-content-between align-items-center">
                         <div>
-                            <h3>🌾 OF {{ of2.numero }}</h3>
+                            <h3>🌾 OF #{{ of2.numero }}</h3>
+                            <p class="mb-0 text-primary"><strong>Numéro: {{ of2.numero }}</strong></p>
                             <p class="mb-0">
                                 <span class="status-indicator status-{{ of2.statut }}"></span>
                                 Statut: {{ of2.statut|upper }}
@@ -124,9 +165,6 @@
                             <button class="btn btn-outline-primary btn-sm me-2" onclick="openHaccpModal('{{ of2.numero }}', 'cereales')">
                                 <i class="fas fa-shield-alt me-1"></i>HACCP
                             </button>
-                            <button class="btn btn-outline-success btn-sm" onclick="openCuveHydrolyseModal('{{ of2.numero }}', 'cereales')">
-                                <i class="fas fa-flask me-1"></i>Cuve Hydrolyse
-                            </button>
                         </div>
                     </div>
                 </div>
@@ -135,11 +173,32 @@
                     <h5>📈 Processus de Production</h5>
                     <div class="row">
                         <div class="col-6">
-                            <div class="text-center p-3 border rounded">
-                                <div class="status-indicator status-termine"></div>
-                                <strong>Cuves Céréales</strong>
+                            <!-- Carte cliquable pour Cuve Hydrolyse -->
+                            <div class="text-center p-3 border rounded cuve-card-clickable" 
+                                 onclick="openCuveHydrolyseModal('{{ of2.numero }}', 'cereales')" 
+                                 style="cursor: pointer; transition: all 0.3s; background: linear-gradient(135deg, #e8f5e8 0%, #f0f8f0 100%);"
+                                 onmouseover="this.style.transform='scale(1.05)'; this.style.boxShadow='0 4px 15px rgba(40,167,69,0.3)';"
+                                 onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none';">
+                                
+                                <div class="mb-2">
+                                    <i class="fas fa-flask fa-2x text-success"></i>
+                                </div>
+                                <strong class="text-success">🧪 Cuve Hydrolyse</strong>
+                                
+                                {% if of2_cuve_info %}
                                 <div class="mt-2">
-                                    <small class="text-muted">Terminé</small>
+                                    <small class="text-info"><strong>🏆 Dernière cuve: #{{ of2_cuve_info.cuve }}</strong></small><br>
+                                    <small class="text-muted">⏱️ <span id="timer-of2" data-created="{{ of2_cuve_info.created_at }}">Calcul...</span></small>
+                                </div>
+                                {% else %}
+                                <div class="mt-2">
+                                    <small class="text-muted">Aucune cuve enregistrée</small><br>
+                                    <small class="text-success"><strong>👆 Cliquez pour créer</strong></small>
+                                </div>
+                                {% endif %}
+                                
+                                <div class="mt-2">
+                                    <span class="badge bg-success">Cliquez pour gérer</span>
                                 </div>
                             </div>
                         </div>
@@ -156,27 +215,49 @@
                 </div>
                 
                 <div class="process-card">
-                    <h5>🔬 Enzymes & Corrections</h5>
+                    <h5>🔬 Heure Enzyme</h5>
                     <div class="row">
-                        <div class="col-4">
-                            <div class="text-center p-2 border rounded">
-                                <div class="status-indicator status-termine"></div>
-                                <strong>Enzyme</strong><br>
-                                <small>09:15</small>
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="text-center p-2 border rounded">
-                                <div class="status-indicator status-termine"></div>
-                                <strong>Avant Correct</strong><br>
-                                <small>10:45</small>
-                            </div>
-                        </div>
-                        <div class="col-4">
-                            <div class="text-center p-2 border rounded">
-                                <div class="status-indicator status-en-attente"></div>
-                                <strong>Après Correct</strong><br>
-                                <small>--:--</small>
+                        <div class="col-12">
+                            <!-- Carte cliquable pour Heure Enzyme -->
+                            <div class="text-center p-3 border rounded heure-enzyme-card-clickable" 
+                                 onclick="openHeureEnzymeModal('{{ of2.numero }}', 'cereales')" 
+                                 style="cursor: pointer; transition: all 0.3s; background: linear-gradient(135deg, #f3e5f5 0%, #e8f5e8 100%);"
+                                 onmouseover="this.style.transform='scale(1.02)'; this.style.boxShadow='0 4px 15px rgba(156,39,176,0.3)';"
+                                 onmouseout="this.style.transform='scale(1)'; this.style.boxShadow='none';"
+                                 id="heure-enzyme-card-of2">>
+                                
+                                <div class="mb-2">
+                                    <i class="fas fa-clock fa-2x text-secondary"></i>
+                                </div>
+                                <strong class="text-secondary">⏰ Heure Enzyme</strong>
+                                
+                                {% if of2_heure_enzyme_info %}
+                                <div class="mt-2">
+                                    <small class="text-info"><strong>🕐 Dernière heure: {{ of2_heure_enzyme_info.heure }}</strong></small><br>
+                                    {% if of2_heure_enzyme_info.cuve_numero %}
+                                    <small class="text-success">🧪 Cuve: #{{ of2_heure_enzyme_info.cuve_numero }}</small><br>
+                                    {% endif %}
+                                    <small class="text-muted">⏱️ <span id="timer-enzyme-of2" data-created="{{ of2_heure_enzyme_info.created_at }}">Calcul...</span></small>
+                                </div>
+                                {% else %}
+                                <div class="mt-2">
+                                    <small class="text-muted">Aucune heure enregistrée</small><br>
+                                    <small class="text-secondary"><strong>👆 Cliquez pour créer</strong></small>
+                                </div>
+                                {% endif %}
+                                
+                                <div class="mt-3">
+                                    <label class="form-label text-muted" style="font-size: 0.8em;">🧪 Sélectionner cuve hydrolyse:</label>
+                                    <select class="form-select form-select-sm" id="cuve-selector-of2" onchange="updateHeureEnzymeCuve('{{ of2.numero }}', this.value)" style="font-size: 0.9em;">
+                                        <option value="">-- Choisir une cuve --</option>
+                                        {% for cuve in of2_cuves %}
+                                        <option value="{{ cuve }}" {% if of2_heure_enzyme_info and of2_heure_enzyme_info.cuve_numero == cuve %}selected{% endif %}>Cuve #{{ cuve }}</option>
+                                        {% endfor %}
+                                        {% if of2_cuves is empty %}
+                                        <option disabled>Aucune cuve pour cet OF</option>
+                                        {% endif %}
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -608,6 +689,125 @@
                 updateStatus();
             });
     }
+    
+    // Fonction pour calculer et afficher le temps écoulé depuis la création
+    function updateTimers() {
+        const timers = ['timer-of1', 'timer-of2', 'timer-enzyme-of1', 'timer-enzyme-of2'];
+        
+        timers.forEach(function(timerId) {
+            const timerElement = document.getElementById(timerId);
+            if (timerElement && timerElement.getAttribute('data-created')) {
+                const createdDate = new Date(timerElement.getAttribute('data-created'));
+                const now = new Date();
+                const diffMs = now - createdDate;
+                
+                if (diffMs >= 0) {
+                    const hours = Math.floor(diffMs / (1000 * 60 * 60));
+                    const minutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+                    const seconds = Math.floor((diffMs % (1000 * 60)) / 1000);
+                    
+                    let timeString = '';
+                    if (hours > 0) {
+                        timeString = `${hours}h ${minutes}m ${seconds}s`;
+                    } else if (minutes > 0) {
+                        timeString = `${minutes}m ${seconds}s`;
+                    } else {
+                        timeString = `${seconds}s`;
+                    }
+                    
+                    timerElement.textContent = `Depuis: ${timeString}`;
+                } else {
+                    timerElement.textContent = 'Date invalide';
+                }
+            }
+        });
+    }
+    
+    // Fonction pour ouvrir le modal Heure Enzyme
+    function openHeureEnzymeModal(ofNumero, productionType) {
+        console.log('Ouverture du modal Heure Enzyme pour OF:', ofNumero);
+        
+        // Pour l'instant, on utilise une alerte simple
+        // Plus tard, on créera un vrai modal
+        alert('🕐 Modal Heure Enzyme pour OF ' + ofNumero + '\n\nFonctionnalité en cours de développement...\n\n- Enregistrement heure d\'incorporation\n- Association avec cuve hydrolyse\n- Suivi temps réel');
+    }
+    
+    // Fonction pour mettre à jour la cuve associée à l'heure enzyme
+    function updateHeureEnzymeCuve(ofNumero, cuveNumero) {
+        console.log('Mise à jour cuve pour OF:', ofNumero, 'Cuve:', cuveNumero);
+        
+        // Convertir le numéro d'OF en ID
+        let ofId = null;
+        if (ofNumero == '76931') {
+            ofId = 1;
+        } else if (ofNumero == '76932') {
+            ofId = 2;
+        } else {
+            ofId = parseInt(ofNumero);
+        }
+        
+        if (!cuveNumero) {
+            console.log('Aucune cuve sélectionnée');
+            return;
+        }
+        
+        // Trouver l'ID de la cuve céréales correspondante
+        fetch('/cuve-cereales/find-by-numero/' + cuveNumero + '/' + ofId)
+            .then(response => response.json())
+            .then(data => {
+                if (data.success && data.cuve_id) {
+                    // Créer ou mettre à jour l'heure enzyme avec l'heure actuelle
+                    const now = new Date();
+                    const heureActuelle = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
+                    
+                    const formData = new FormData();
+                    formData.append('of_id', ofNumero);
+                    formData.append('heure', heureActuelle);
+                    formData.append('cuve_cereales_id', data.cuve_id);
+                    
+                    fetch('/heure-enzyme/create', {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('✅ ' + data.message + '\n\nHeure: ' + heureActuelle + '\nCuve: #' + cuveNumero);
+                            // Recharger la page pour voir les modifications
+                            location.reload();
+                        } else {
+                            alert('❌ ' + data.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Erreur:', error);
+                        alert('❌ Erreur de communication avec le serveur');
+                    });
+                } else {
+                    alert('❌ Cuve non trouvée pour cet OF');
+                }
+            })
+            .catch(error => {
+                console.error('Erreur:', error);
+                alert('❌ Erreur lors de la recherche de la cuve');
+            });
+    }
+    
+    // Empêcher la propagation du click sur les sélecteurs
+    document.addEventListener('DOMContentLoaded', function() {
+        const selectors = document.querySelectorAll('[id^="cuve-selector-"]');
+        selectors.forEach(function(selector) {
+            selector.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+        });
+    });
+    
+    // Initialiser les timers et les mettre à jour chaque seconde
+    document.addEventListener('DOMContentLoaded', function() {
+        updateTimers(); // Mise à jour initiale
+        setInterval(updateTimers, 1000); // Mise à jour chaque seconde
+    });
     </script>
 </body>
 </html>

@@ -151,4 +151,35 @@ class CuveCerealesController extends AbstractController
         }
         return $this->redirectToRoute('cuve_cereales_index');
     }
+    
+    #[Route('/find-by-numero/{cuveNumero}/{ofId}', name: 'cuve_cereales_find_by_numero', methods: ['GET'])]
+    public function findByNumero(int $cuveNumero, int $ofId, EntityManagerInterface $em): JsonResponse
+    {
+        try {
+            // Chercher une cuve avec ce numéro pour cet OF
+            $cuve = $em->getRepository(CuveCereales::class)
+                ->findOneBy(['cuve' => $cuveNumero, 'ofId' => $ofId]);
+            
+            if (!$cuve) {
+                return $this->json([
+                    'success' => false,
+                    'message' => 'Aucune cuve #' . $cuveNumero . ' trouvée pour cet OF'
+                ]);
+            }
+            
+            return $this->json([
+                'success' => true,
+                'cuve_id' => $cuve->getId(),
+                'cuve_numero' => $cuve->getCuve(),
+                'of_id' => $cuve->getOfId(),
+                'created_at' => $cuve->getCreatedAt() ? $cuve->getCreatedAt()->format('Y-m-d H:i:s') : null
+            ]);
+            
+        } catch (\Exception $e) {
+            return $this->json([
+                'success' => false,
+                'message' => 'Erreur: ' . $e->getMessage()
+            ], 500);
+        }
+    }
 }
