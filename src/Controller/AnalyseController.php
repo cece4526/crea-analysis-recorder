@@ -6,6 +6,7 @@ use App\Repository\AnalyseRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 
 /**
@@ -121,13 +122,16 @@ class AnalyseController extends AbstractController
     }
 
     /**
-     * Recherche de productions
+     * Fonction de recherche globale
+     * 
+     * @param Request $request La requête HTTP
+     * @return Response La réponse avec les résultats de recherche
      * 
      * @Route("/recherche", name="analyse_recherche", methods={"GET", "POST"})
      */
-    public function recherche(): Response
+    public function recherche(Request $request): Response
     {
-        $searchTerm = $this->request->query->get('q', '');
+        $searchTerm = $request->query->get('q', '');
         $results = [];
 
         if (!empty($searchTerm)) {
